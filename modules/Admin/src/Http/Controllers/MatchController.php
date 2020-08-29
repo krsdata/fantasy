@@ -358,6 +358,19 @@ class MatchController extends Controller {
         $sub_page_title = 'View Match';
         $page_action = 'View Match';
         $match_start_date =null; 
+
+        if ($request->ajax()) {
+            $id = $request->get('id');
+            $status = $request->get('status');
+            $match = Match::find($id);
+            $ss = $match->is_cancelled;
+            $s = ($status == 1) ? ($status = 0) : ($status = 1);
+            $match->is_cancelled = $s;
+            $match->save();
+            echo $ss;
+            exit();
+        }
+
         if($request->match_start_date){
             $match_start_date = $request->match_start_date;    
         }

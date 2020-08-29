@@ -241,6 +241,9 @@ Route::group([
     Route::match(['post','get'],'getSquadByMatch/{match_id}', 'Api\ApiController@getSquadByMatch');
     Route::match(['post','get'],'createAutoTeam', 'Api\MegaController@createAutoTeam');
     
+    Route::match(['post','get'],'removePrizeAfterAbandon', 'Api\ApiController@removePrizeAfterAbandon');
+    
+    
    } 
 );
 

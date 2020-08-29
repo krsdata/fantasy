@@ -110,11 +110,15 @@
                                         @foreach($match as $key => $result)
                                             <tr>
                                               <td>
-                                               
-
                                                {{ (($match->currentpage()-1)*15)+(++$key) }}</td>
+
                                                 <td> {{$result->match_id}} </td>
-                                                 <td> {{$result->short_title}} </td>
+
+                                                 <td> {{$result->short_title}} 
+
+
+                                                 </td>
+
                                                  <td> <a class="btn btn-success" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">
                                                     update Squad
                                                  </a>
@@ -522,13 +526,19 @@
                                              NA
                                             @endif
                                             </td> 
-                                            <td> <a href="{{ route('match.edit',$result->id)}}">
-                            <button class="btn btn-success btn-xs">
-                            <i class="fa fa-fw fa-edit" title="edit"></i> 
-                            </button>
-                        </a>
- </td>
-                                    </tr>
+                        <td> 
+                            <a href="{{ route('match.edit',$result->id)}}">
+                              <button class="btn btn-success btn-xs">
+                                <i class="fa fa-fw fa-edit" title="edit"></i>
+                                Edit 
+                              </button>
+                            </a>
+                            <br>
+    <span style="margin-top: 5px; float: left" class="label label-{{ ($result->is_cancelled==0)?'success':'warning'}} status" id="{{$result->id}}"  data="{{$result->is_cancelled}}"  onclick="changeStatus({{$result->id}},'match')" >
+                                            {{ ($result->is_cancelled==0)?'Active':'Inactive'}}
+                                        </span>
+                        </td>
+                  </tr>
 
 
 

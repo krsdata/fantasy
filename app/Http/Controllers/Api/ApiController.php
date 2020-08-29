@@ -6347,4 +6347,21 @@ class ApiController extends BaseController
             echo "Already Affiliate amount distributed";
         }
     }
+
+    public function removePrizeAfterAbandon(Request $request)
+    {
+        try {
+            $contest = JoinContest::where('cancel_contest',1)
+                        ->where('winning_amount','>',0)
+                        ->get()
+                        ->transform(function($item,$key){
+                            $item->winning_amount = 0;
+                            $item->save();
+                            return $item;
+                        });
+
+        } catch (Exception $e) {
+                
+        }
+    }
 }
