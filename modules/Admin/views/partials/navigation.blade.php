@@ -49,12 +49,6 @@
                                     <i class="glyphicon glyphicon-th"></i> View Match </a> 
                     </div>
 
-
-                     <div class="btn-group"> 
-                             <a class="btn red-haze btn-sm dropdown-toggle"  href="{{ route('flashMatch')}}">
-                                    <i class="glyphicon glyphicon-th"></i> Flash Matches </a>
-                    </div>
-
                     <div class="btn-group"> 
                              <a class="btn red-haze btn-sm dropdown-toggle"  href="{{ route('updatePlayerPoints')}}">
                                     <i class="glyphicon glyphicon-th"></i> Player Points </a>

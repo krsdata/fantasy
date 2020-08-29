@@ -101,7 +101,11 @@ class AdminController extends Controller {
                 ->pluck('user_id')
                 ->count();
 
-        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal'));
+        $total_bonus = WalletTransaction::whereIn('payment_type',[1,8,2])->sum('amount');
+        $bonus = Wallet::where('payment_type',1)->sum('amount');
+        $total_bonus_used = $bonus;
+
+        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used'));
     }
 
    public function profile(Request $request,Admin $users)
