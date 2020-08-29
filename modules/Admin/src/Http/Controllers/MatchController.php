@@ -548,8 +548,8 @@ class MatchController extends Controller {
         } else { 
             $match = Match::with('teama','teamb')
                 ->where('status','1')
-                ->WhereMonth('date_start',date('m'))
-               // ->whereDate('date_start','>=',\Carbon\Carbon::yesterday())
+               // ->WhereMonth('date_start',date('m'))
+                ->whereDate('date_start','>=',\Carbon\Carbon::yesterday())
                 ->orderBy('date_start','ASC')
                 ->Paginate($this->record_per_page);
             $match->transform(function($item,$key){
