@@ -188,9 +188,9 @@ class PaymentController extends BaseController
                             'contest_id'        => $item->contest_id,
 
                             'team_name'        => $item->team_name,
-                            'user_name'        => $item->user->user_name,
-                            'name'             => $item->user->first_name??$item->user->name,
-                            'mobile'           => $item->user->phone,
+                            'user_name'        => $item->user->user_name??null,
+                            'name'             => $item->user->name??null,
+                            'mobile'           => $item->user->mobile_number,
                             'email'            => $item->user->email,
                             'device_id'        => $item->user->device_id,
                             'contest_name'     => $item->contest->contest_type??null,
