@@ -4593,11 +4593,11 @@ class ApiController extends BaseController
                             'contest_id'        => $item->contest_id,
 
                             'team_name'        => $item->team_name,
-                            'user_name'        => $item->user->user_name,
-                            'name'             => $item->user->first_name??$item->user->name,
-                            'mobile'           => $item->user->phone,
-                            'email'            => $item->user->email,
-                            'device_id'        => $item->user->device_id,
+                            'user_name'        => $item->user->user_name??null,
+                            'name'             => $item->user->name??null,
+                            'mobile'           => $item->user->mobile_number??null,
+                            'email'            => $item->user->email??null,
+                            'device_id'        => $item->user->device_id??null,
                             'contest_name'     => $item->contest->contest_type??null,
                             'entry_fees'       => $item->contest->entry_fees,
                             'total_spots'      => $item->contest->total_spots,
@@ -5467,7 +5467,7 @@ class ApiController extends BaseController
                    ->whereDate('date_start',\Carbon\Carbon::today())
                    ->where('is_cancelled',0)
                     ->get(['match_id','timestamp_start','status']);
-        
+                    
         $request_match = $request->match_id;
         
         if($request_match){
