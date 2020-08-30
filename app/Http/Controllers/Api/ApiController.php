@@ -4711,7 +4711,7 @@ class ApiController extends BaseController
         });
          $match_id = $request->match_id; 
         \DB::table('matches')->where('match_id',$match_id)->update(['current_status'=>1]);
-        
+
        // $this->affiliateProgram($request);
         return  Redirect::to(route('match','prize=true'));
     }
@@ -5465,6 +5465,7 @@ class ApiController extends BaseController
     {   
         $matches = Matches::whereIn('status',[1,3])
                    ->whereDate('date_start',\Carbon\Carbon::today())
+                   ->whereDate('cancel_contest',0)
                     ->get(['match_id','timestamp_start','status']);
         
         $request_match = $request->match_id;
