@@ -172,6 +172,9 @@ return [
          
         Modules\Admin\AdminServiceProvider::class ,
 
+        Barryvdh\DomPDF\ServiceProvider::class, 
+        Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -234,7 +237,9 @@ return [
 //        'Input' => Illuminate\Support\Facades\Input::class,
         'Input' => Illuminate\Support\Facades\Request::class,
         'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class
+        'Html' => Collective\Html\HtmlFacade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class
 
     ],
 
