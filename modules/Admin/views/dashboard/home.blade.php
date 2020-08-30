@@ -449,25 +449,41 @@
                                       <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
                                     </div>
+                                    <!-- Button trigger modal -->
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="UpcomingMatch" tabindex="-1" role="dialog" aria-labelledby="UpcomingMatch" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"> Match Status</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                Please wait..
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">
-                                                <a href="{{url('api/v2/getMatchDataFromApiAdmin')}}" target="_blank">All Match Status  </a>
-
+                                                <a class="btn btn-primary" data-toggle="modal" 
+                                                data-target="#UpcomingMatch" 
+                                                href="{{url('api/v2/updateMatchDataByStatus/1')}}" 
+                                                target="_blank">Update Upcoming Matches </a>
                                             </span>
                                         </h3>
-                                        <small> Update Match from Cron </small>
                                     </div>
                                   
                                 </div>
-                                <div class="progress-info">
-                                    <div class="progress">
-                                        <span style="width: {{$match_1}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$match_3}}% grow</span>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
+                                 
                             </div>
                     </div> 
 
@@ -480,11 +496,20 @@
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">
-                                                <a href="{{url('api/v2/updateMatchDataByStatusAdmin/3')}}">Live Match Status  </a>
+                                               
+                                               <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">
+                                                <a class="btn btn-primary" data-toggle="modal" 
+                                                data-target="#UpcomingMatch" 
+                                                href="{{url('api/v2/updateMatchDataByStatus/2')}}" 
+                                                target="_blank">Update Completed Matches </a>
+                                            </span>
+                                        </h3>
+                                    </div>
 
                                             </span>
                                         </h3>
-                                        <small> Update Match from Cron </small>
                                     </div>
                                    
                                 </div>
@@ -492,26 +517,7 @@
                             </div>
                     </div>
 
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="dashboard-stat2 bordered">
-                                <div class="display">
-                                      <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
-                                    <div class="number">
-                                        <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">
-                                                <a href="{{url('api/v2/updateMatchDataByStatusAdmin/2')}}">Completed Match   </a>
-
-                                            </span>
-                                        </h3>
-                                        <small> Update Match from Cron </small>
-                                    </div>
-                                  
-                                </div>
-                                 
-                            </div>
-                    </div>
+                       
 
                       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
@@ -522,13 +528,13 @@
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">
-                                                <a href="{{url('api/v2/updateMatchDataByStatusAdmin/1')}}" >Upcoming Match   </a>
+                                                <a class="btn btn-primary" data-toggle="modal" 
+                                                data-target="#UpcomingMatch" 
+                                                href="{{url('api/v2/updateMatchDataByStatus/3')}}" 
+                                                target="_blank">Update Live Matches </a>
 
                                             </span>
                                         </h3>
-
-
-                                        <small> Upcoming Match from Cron </small>
                                     </div>
                                      
                                 </div>
