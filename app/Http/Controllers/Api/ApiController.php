@@ -4711,9 +4711,8 @@ class ApiController extends BaseController
         });
          $match_id = $request->match_id; 
         \DB::table('matches')->where('match_id',$match_id)->update(['current_status'=>1]);
-
+        
        // $this->affiliateProgram($request);
-
         return  Redirect::to(route('match','prize=true'));
     }
     public function checkReaptedRank($rank, $match_id,$contest_id){
