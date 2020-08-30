@@ -3174,10 +3174,10 @@ class ApiController extends BaseController
     public function getSquadByMatch($match_id=null){
     
         # code... 
-        $token =  $this->token;
-        $path = $this->cric_url.'matches/'.$match_id.'/squads/?token='.$token;  
-        $data = $this->getJsonFromLocal($path);
-
+        $token  =   $this->token;
+        $path   =   $this->cric_url.'matches/'.$match_id.'/squads/?token='.$token;  
+        $data   =   $this->getJsonFromLocal($path);
+        
         $p11a = TeamASquad::where(
                     [
                         'match_id'=>$match_id
@@ -3190,8 +3190,9 @@ class ApiController extends BaseController
             ]
         )->where('playing11','true')->count();
 
+        $match = Matches::where('match_id',$match_id)->first();
 
-        if($p11a && $p11b){
+        if($p11a || $p11b){
             if($match->status==1){
                 $match_obj = Matches::firstOrNew(
                     [
@@ -3203,11 +3204,11 @@ class ApiController extends BaseController
                 }
                 $match_obj->status =  3;
                 $match_obj->save();
-                return true;
+                //return true;
             }
-            return;
+            return ['true'];
         }
-            
+        
            // update team a players
             $teama = $data->response->teama;
             foreach ($teama->squads as $key => $squads) {
@@ -5468,7 +5469,7 @@ class ApiController extends BaseController
                     ->get(['match_id','timestamp_start','status']);
         
         $request_match = $request->match_id;
-        //dd( $matches);
+        
         if($request_match){
             $this->recheckPlaying11($request);
         }
@@ -5480,7 +5481,9 @@ class ApiController extends BaseController
             $t2 = time();
             //time diff
             $td = round((($t1 - $t2)/60),2); 
-           
+            if($td>90){
+                continue;
+            }
             $p11a = TeamASquad::where(
                         [
                             'match_id'=>$match_id
@@ -5493,8 +5496,9 @@ class ApiController extends BaseController
                         ]
                     )->where('playing11','true')->count();
 
-            if($td>0 && $td<=60 || 1){ 
-                if($p11a && $p11b  && $td%5==0 ){
+            if($td>0 && $td<=60){ 
+                if($p11a && $p11b  && $td%5==0){
+                    $data_p = ['Playing 11 updated'];
                     $this->isLineUp($match_id);
                 }
             }else{ 
