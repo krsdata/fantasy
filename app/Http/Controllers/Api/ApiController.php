@@ -3647,11 +3647,10 @@ class ApiController extends BaseController
                         $final_paid_amount = $final_paid_amount;
                         //-$deduct_from_bonus;
                     }
-
                     if($contestT->bonus_contest && $bonus_amount){
                          
-                       if($bonus_amount->amount>=$final_paid_amount){
-                          $bonus_amount->amount = $bonus_amount->amount-$final_paid_amount;
+                        if($bonus_amount->amount>=$final_paid_amount){
+                            $bonus_amount->amount = $bonus_amount->amount-$final_paid_amount;
                             $bonus_amount->save();  
                        }else{ 
                             return [
@@ -3719,7 +3718,7 @@ class ApiController extends BaseController
                     if($final_paid_amount){
                         $wt =  new WalletTransaction;
                         $wt->user_id = $user_id;
-                        $wt->amount  =$final_paid_amount;
+                        $wt->amount  = $total_fee;
                         $wt->match_id  =$match_id??null;
                         $wt->contest_id  =$contest_id??null;
                         $wt->payment_type = 6;
@@ -5464,8 +5463,8 @@ class ApiController extends BaseController
     public  function getPlaying11(Request $request)
     {   
         $matches = Matches::whereIn('status',[1,3])
-                   ->whereDate('date_start',\Carbon\Carbon::today())
-                   ->where('is_cancelled',0)
+                    ->whereDate('date_start',\Carbon\Carbon::today())
+                    ->where('is_cancelled',0)
                     ->get(['match_id','timestamp_start','status']);
                     
         $request_match = $request->match_id;

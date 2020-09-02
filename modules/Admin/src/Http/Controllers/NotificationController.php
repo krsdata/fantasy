@@ -163,8 +163,8 @@ class NotificationController extends Controller {
 
     public function sendNotification($tokenList, $data){
      
-        $serverLKey = 'AIzaSyAFIO8uE_q7vdcmymsxwmXf-olotQmOCgE';
-        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+        $serverLKey = env('serverLKey'); //'AIzaSyAFIO8uE_q7vdcmymsxwmXf-olotQmOCgE';
+        $fcmUrl = env('fcmUrl'); //'https://fcm.googleapis.com/fcm/send';
 
        $extraNotificationData = $data;
 
