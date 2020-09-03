@@ -11,7 +11,9 @@
         <label class="control-label col-md-3">  {{$col_name}} <span class="required"> * </span></label>
         <div class="col-md-4"> 
             {!! Form::text($col_name,null, ['class' => 'form-control','data-required'=>1])  !!} 
-            
+            @if($col_name=='payment_type')
+                1=Bonus, 2=Refferal,3=Deposit,4=Withdraw  
+            @endif
             <span class="help-block" style="color:red">{{ $errors->first($col_name, ':message') }} @if(session('field_errors')) {{ 'The  Title name already been taken!' }} @endif</span>
         </div>
     </div>  

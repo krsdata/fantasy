@@ -111,11 +111,10 @@ class WalletsController extends Controller {
 
         $table_cname = \Schema::getColumnListing('wallets');
         
-        $except = ['validate_user','id','created_at','updated_at','usable_amount_validation','prize_distributed_id','payment_type','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','total_withdrawal_amount','user_id'];
+        $except = ['validate_user','id','created_at','updated_at','usable_amount_validation','prize_distributed_id','payment_type','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','total_withdrawal_amount'];
         $data = [];
         $tables[] = 'name';
         $tables[] = 'email';
-        $tables[] = 'phone';
         foreach ($table_cname as $key => $value) {
 
            if(in_array($value, $except )){
@@ -140,7 +139,7 @@ class WalletsController extends Controller {
         $page_title     = 'Wallets';
         $page_action    = 'Create Wallets';
         $table_cname = \Schema::getColumnListing('wallets');
-        $except = ['id','created_at','updated_at'];
+        $except = ['id','created_at','updated_at','validate_user','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','usable_amount_validation','total_withdrawal_amount','prize_distributed_id'];
         $data = [];
         foreach ($table_cname as $key => $value) {
 
