@@ -31,8 +31,8 @@ th, td {
                                     </div>
                                     <div class="col-md-3 pull-right">
                                             
-                                                <a href="{{ route('documents','status=2')}}">
-                                                    <button  class="btn btn-info">  Approved : {{$approved??0}} </button>
+        <a href="{{ route('documents','status=2')}}">
+                    <button  class="btn btn-info">  Approved : {{$approved??0}} </button>
                                                     </a>
                                                      <button  class="btn btn-success">  Pending : {{$pending??0}} </button> 
                                                 
@@ -256,7 +256,9 @@ th, td {
   </div>
 </div></td>
 
-<td><a href="{{$result->bankAccount->bank_passbook_url??'#'}}" data-toggle="modal" data-target="#Passbook_{{$result->id}}">Passbook Url </a>
+<td>
+	
+<img src="{{$result->bankAccount->bank_passbook_url??'#'}}" width="100px" height="50px;"  data-toggle="modal" data-target="#Passbook_{{$result->id}}"> 
 
 <!-- Modal -->
 <div class="modal fade" id="Passbook_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
