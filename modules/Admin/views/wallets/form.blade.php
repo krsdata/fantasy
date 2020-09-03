@@ -10,7 +10,7 @@
     <div class="form-group {{ $errors->first($col_name, ' has-error') }}  @if(session('field_errors')) {{ 'has-error' }} @endif">
         <label class="control-label col-md-3">  {{$col_name}} <span class="required"> * </span></label>
         <div class="col-md-4"> 
-            {!! Form::text($col_name,null, ['class' => 'form-control','data-required'=>1])  !!} 
+            {!! Form::text($col_name,null, ['class' => 'form-control','data-required'=>1,'required'=>true])  !!} 
             @if($col_name=='payment_type')
                 1=Bonus, 2=Refferal,3=Deposit,4=Withdraw  
             @endif
