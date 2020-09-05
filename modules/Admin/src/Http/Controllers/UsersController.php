@@ -74,20 +74,6 @@ class UsersController extends Controller {
             exit();
         }
 
-        $user_id = 285;
-        $user = User::find($user_id);
-        //dd($user);
-        $user_referral = User::where('reference_code',$user->referal_code)->pluck('id');        
-        $referral_user_id   = $user_referral;
-        $join_contests      = \DB::table('join_contests')
-                            ->whereIn('user_id',$referral_user_id)
-                            ->get()
-                            ->groupBy('user_id');
-
-        foreach ($join_contests as $key => $value) {
-           // dd($value);
-        }
-
         // Search by name ,email and group
         $search = Input::get('search');
         $status = Input::get('status');
