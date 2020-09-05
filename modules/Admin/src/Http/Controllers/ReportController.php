@@ -883,6 +883,13 @@ class ReportController extends Controller {
                             ->groupBy('user_id')
                             ->pluck('user_id')
                             ->count();
+
+                        $total_amt_rcv = array_sum(CreateContest::where('match_id',$item->match_id)
+                            ->selectRaw('SUM(entry_fees * filled_spot) as total')
+                            ->pluck('total')
+                            ->toArray());
+
+                        $item->total_amt_rcv = $total_amt_rcv;
                         
                         $item->total_user_played = $total_user_played;    
                         $item->total_prize_distributed = $total_prize_distributed;
