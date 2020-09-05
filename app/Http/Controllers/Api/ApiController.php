@@ -2880,12 +2880,19 @@ class ApiController extends BaseController
                                 ->where('playing11',"true")->count(); 
 
                     $t1 = $item->timestamp_start;
-
+                    //date('d-M-Y,h:i A',$t1)
                     $date_start = date('h:i A',$t1);
                     $item->date_start = $date_start;
 
                     $t2 = time();
                     $td = round((($t1 - $t2)/60),2);
+                    if($td>1440){
+                        $date_start = date('d-M-Y, h:i A',$t1);
+                        $item->date_start = $date_start; 
+                    }
+                  //  dd($item);
+                   // $date_start = date('h:i A',$t1);
+                  //  $item->date_start = $date_start;
                                         
                     $item->time_left = ($td>0)?$td.'Min':'time up';    
 

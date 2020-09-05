@@ -72,6 +72,11 @@
                              <a class="btn red-haze btn-sm dropdown-toggle"  href="{{ route('defaultContest')}}">
                                     <i class="glyphicon glyphicon-th"></i> Default Contest </a>
                     </div>
+
+                    <div class="btn-group"> 
+                             <a class="btn red-haze btn-sm dropdown-toggle"  href="{{ route('getMatchReport')}}">
+                                    <i class="glyphicon glyphicon-th"></i> Match Reports </a>
+                    </div>
  
 
                     <div class="btn-group"> 

@@ -53,6 +53,13 @@ if (App::environment('prod')) {
             ]
         );
 
+        Route::match(['get','post'],'admin/getMatchReport', 
+            [ 
+                'as' => 'getMatchReport', 
+                'uses' => 'Modules\Admin\Http\Controllers\ReportController@getMatchReport'
+            ]
+        );
+
         Route::match(['get','post'],'admin/bankAccount', 
             [ 
                 'as' => 'bankAccount', 
@@ -665,6 +672,26 @@ if (App::environment('prod')) {
                 'store' => 'flashMatch.store',
                 'index' => 'flashMatch',
                 'create' => 'flashMatch.create',
+            ]
+                ]
+        );
+
+        Route::bind('report', function ($value, $route) {
+            return Modules\Admin\Models\Report::find($value);
+        });
+
+        Route::resource(
+            'admin/report',
+            'Modules\Admin\Http\Controllers\ReportController',
+            [
+            'names' => [
+                'edit' => 'report.edit',
+                'show' => 'report.show',
+                'destroy' => 'report.destroy',
+                'update' => 'report.update',
+                'store' => 'report.store',
+                'index' => 'report',
+                'create' => 'report.create',
             ]
                 ]
         );
