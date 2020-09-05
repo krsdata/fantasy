@@ -120,13 +120,9 @@ class DocumentController extends Controller
         } else { 
             $documents = BankAccounts::whereHas('user')
                         ->orderBy('id','desc')
-                        ->Paginate($this->record_per_page)
-                        ->transform(function($item,$key){
-                            $user = User::find($item->user_id);
-                            //dd( $user);
-                        });
+                        ->Paginate($this->record_per_page);
+                        
         }
-        
         return view('packages::documents.bank', compact('documents', 'page_title', 'page_action', 'sub_page_title'));
     }
 

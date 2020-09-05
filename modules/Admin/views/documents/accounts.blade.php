@@ -77,7 +77,7 @@
                                         <tbody>
                                         @foreach($documents as $key => $result)
                                             <tr>
-                                                 <td>   {{ (($documents->currentpage()-1)*15)+(++$key) }} 
+                                                 <td>   {{ (++$key) }} 
                                                 </td>
                                                 <td>  
                                                    Name: {{$result->user->first_name??''}} </br>
