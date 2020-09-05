@@ -3748,7 +3748,7 @@ class ApiController extends BaseController
                 // join contest   
                 $data['user_name'] = $userVald->name;
                 $data['team_name'] = $userVald->team_name;
-
+                
                 $t =   JoinContest::updateOrCreate($data,$data);
 
                // }

@@ -30,14 +30,14 @@
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class="icon-settings font-red"></i>
-                                        <span class="caption-subject font-red sbold uppercase">Old Matches({{$total_match??0}}) </span>
+                                        <span class="caption-subject font-red sbold uppercase"> Matches Reports({{$total_match??0}}) </span>
                                     </div>
                                      <div class="col-md-12 pull-right">
                                          
 
                                        
 
-                                      <button type="button" class="btn pull-right btn-success" data-toggle="modal" data-target="#getMatchReport" data-whatever="@" style="margin-right: 10px">Get Old Match from Api</button>
+                                      <button type="button" class="btn pull-right btn-success" data-toggle="modal" data-target="#getMatchReport" data-whatever="@" style="margin-right: 10px">Download Report</button>
                                          
                                     </div>
                                      
@@ -97,8 +97,9 @@
                                                 <th> Match Name </th>  
                                                 <th> Total Contest</th>
                                                 <th> Total Contest Joined</th>
-                                                <th> Total User Played</th>
-                                                <th> Total Prize Given</th>
+                                                <th>  User Played</th>
+                                                <th>  Prize Given</th>
+                                                <th>Amount Recieved</th>
                                                 <th> Status</th> 
                                                 <th> Date </th>  
                                             </tr>
@@ -124,6 +125,7 @@
                                                   {{$result->
                                                 total_prize_distributed}}
                                                 </td>
+                                                <th>{{$result->total_amt_rcv}}</th>
                                                 
                                                
                                       <td> {{$result->status_str}} </td>
@@ -295,13 +297,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Get Old Matches</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Download Reports</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{url('admin/saveMatchFromApi')}}">
+        <form action="{{url('admin/downloadMatchReport')}}">
           <input type="hidden" name="change_date" value="change_date">
           <div class="form-group">
 
@@ -316,36 +318,25 @@
           </div> 
           
            <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Match Status:</label>
-             <select class="form-control" name="status" required="">
-                <option value="">Select Status</option>
-                <option value="1">Upcoming</option>
-                <option value="2">Completed</option>
-                <option value="3">Live</option>
+            <label for="recipient-name" class="col-form-label">Montly:</label>
+             <select class="form-control" name="month">
+                <option value="">Select Month</option>
+                <option value="1">JAN</option>
+                <option value="3">FEB</option>
+                <option value="3">MARCH</option>
+                <option value="4">APRIL</option>
+                <option value="5">MAY</option>
+                <option value="6">JUNE</option>
+                <option value="7">JULY</option>
+                <option value="8">AUG</option>
+                <option value="9">SEP</option>
+                <option value="10">OCT</option>
+                <option value="11">NOV</option>
+                <option value="12">DEC</option> 
+                
              </select> 
           </div>
 
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Match Format:</label>
-             <select class="form-control" name="format" required=""> 
-              <option value="1">ODI</option>
-                <option value="3">T20(International)</option> 
-                <option value="6">T20(Domestic)</option> 
-                <option value="7">Women ODI</option> 
-                <option value="8">Women T20</option> 
-                <option value="17">T10</option> 
-             </select> 
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label" >Record Per Page:</label>
-            <input type="text" class="form-control" id="record_per_page" value=""   name="record_per_page">
-          </div>
-
-
-           <div class="form-group">
-            <label for="recipient-name" class="col-form-label" >Page Number:</label>
-            <input type="number" class="form-control " id="paged"   name="paged">
-          </div>
             
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

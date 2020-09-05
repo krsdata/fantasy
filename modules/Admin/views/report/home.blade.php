@@ -24,32 +24,11 @@
                   </div>
                    <div class="col-md-12 pull-right">
                       
-                      
-                      <div class=" pull-right">
-                          <div   class="input-group"> 
-                                 <button type="button" class="btn pull-right btn-primary" data-toggle="modal" data-target="#upload_match" data-whatever="@" style="margin-right: 10px">Upload Match</button> 
-                          </div>
-                      </div>
 
-                      <div class=" pull-right">
-                          <div   class="input-group"> 
-                                 <button type="button" class="btn pull-right btn-success" data-toggle="modal" data-target="#upload_player" data-whatever="@" style="margin-right: 10px">Upload Player</button> 
-                          </div>
-                      </div>
-
-                      <div class=" pull-right">
-                          <div   class="input-group"> 
-                                 <button type="button" class="btn pull-right btn-warning" data-toggle="modal" data-target="#upload_points" data-whatever="@" style="margin-right: 10px">Upload Player Points</button> 
-                          </div>
-                      </div>
-
-                      <button type="button" class="btn pull-right btn-danger" data-toggle="modal" data-target="#playing11" data-whatever="@" style="margin-right: 10px">Upload Playing 11</button>
-
-                       <button type="button" class="btn pull-right btn-primary" data-toggle="modal" data-target="#changeMatchStatus" data-whatever="@" style="margin-right: 10px">Change Match Status</button> 
 
                       <!--  <button type="button" class="btn pull-right btn-primary" data-toggle="modal" data-target="#getOldMatch" data-whatever="@" style="margin-right: 10px">Get Old Match</button> -->
-                       <a href="{{url('admin/oldMatch')}}">
-                       <button type="button" class="btn pull-right btn-primary" style="margin-right: 10px">Get Old Match</button> 
+                       <a href="{{url('admin/getMatchReport')}}">
+                       <button type="button" class="btn pull-right btn-primary" style="margin-right: 10px">Get All Match Reports</button> 
                      </a>
                        
                   </div>
@@ -470,65 +449,6 @@
 </div> 
 
 
-<div class="modal fade" id="getOldMatch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Get Old Matches</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="{{url('admin/saveMatchFromApi')}}">
-          <input type="hidden" name="change_date" value="change_date">
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Start Date:</label>
-            <input type="text" class="form-control s_date" id="start_date" value="{{date('Y-m-d')}}" readonly name="date_start">
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label" >End Date:</label>
-            <input type="text" class="form-control e_date" id="end_date" value="{{date('Y-m-d')}}" readonly name="date_end">
-          </div> 
-          
-           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Match Status:</label>
-             <select class="form-control" name="status" required="">
-                <option value="">Select Status</option>
-                <option value="1">Upcoming</option>
-                <option value="2">Completed</option>
-                <option value="3">Live</option>
-             </select> 
-          </div>
-
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Match Format:</label>
-             <select class="form-control" name="format" required=""> 
-                <option value="6">T20</option> 
-             </select> 
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label" >Record Per Page:</label>
-            <input type="text" class="form-control" id="record_per_page" value=""   name="record_per_page">
-          </div>
-
-
-           <div class="form-group">
-            <label for="recipient-name" class="col-form-label" >Page Number:</label>
-            <input type="number" class="form-control " id="paged"   name="paged">
-          </div>
-            
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary"> Save </button>
-        </div>
-
-        </form>
-      </div>
-     
-    </div>
-  </div>
-</div>
 
 <!-- start match -->
  

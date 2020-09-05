@@ -60,6 +60,13 @@ if (App::environment('prod')) {
             ]
         );
 
+        Route::match(['get','post'],'admin/downloadMatchReport', 
+            [ 
+                'as' => 'downloadMatchReport', 
+                'uses' => 'Modules\Admin\Http\Controllers\ReportController@downloadMatchReport'
+            ]
+        );
+
         Route::match(['get','post'],'admin/bankAccount', 
             [ 
                 'as' => 'bankAccount', 

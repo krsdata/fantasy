@@ -35,6 +35,7 @@ use App\Models\MatchStat;
 use App\Models\ReferralCode;
 use File;
 use Modules\Admin\Models\TempMatch;
+use PDF;
 /**
  * Class MenuController
  */
@@ -858,7 +859,7 @@ class ReportController extends Controller {
                         if (!empty($search)) {
                             $query->orWhere('short_title', 'LIKE', "%$search%");
                         } 
-                    })->orderBy('updated_at','DESC')
+                    })->orderBy('date_end','DESC')
                     ->Paginate($this->record_per_page);
                     $match->transform(function($item,$key){
                         
@@ -894,7 +895,7 @@ class ReportController extends Controller {
              
         } else {
             $match = Matches::whereIn('status',[2,3,4])
-                ->orderBy('updated_at','DESC')
+                ->orderBy('date_end','DESC')
                 ->Paginate($this->record_per_page);
 
             $match->transform(function($item,$key){
@@ -919,7 +920,13 @@ class ReportController extends Controller {
                             ->groupBy('user_id')
                             ->pluck('user_id')
                             ->count();
-                        
+
+                        $total_amt_rcv = array_sum(CreateContest::where('match_id',$item->match_id)
+                            ->selectRaw('SUM(entry_fees * filled_spot) as total')
+                            ->pluck('total')
+                            ->toArray());
+
+                        $item->total_amt_rcv = $total_amt_rcv;
                         $item->total_user_played = $total_user_played;    
                         $item->total_prize_distributed = $total_prize_distributed;
                         $item->total_contest = $total_contest;
@@ -934,6 +941,65 @@ class ReportController extends Controller {
         return view('packages::report.matchReport', compact('match','page_title', 'page_action','sub_page_title','total_match'));
 
     }
+
+    public function downloadMatchReport(Request $request){
+        
+        $page_title = 'Match Report';
+        $sub_page_title = 'View Match Report';
+        $page_action = 'View Match Report';
+
+
+        $month = $request->month;
+        $match = Matches::whereMonth('date_start',$month)
+        ->whereNotIn('status',[1])
+        ->orWhere(function($q)use($request){
+            $q->whereBetween('date_start',[$request->date_start,$request->date_end]);
+        })->get();
+
+        $match->transform(function($item,$key){
+                        
+                        $total_contest = \DB::table('create_contests')
+                            ->where('match_id',$item->match_id)
+                            ->count();
+
+                        $total_entries_fee = \DB::table('create_contests')
+                            ->where('match_id',$item->match_id)
+                            ->count();
+
+                        $join_contest =  JoinContest::where('match_id',$item->match_id)
+                            ->groupBy('contest_id')
+                            ->pluck('contest_id')
+                            ->count();
+
+                        $total_prize_distributed =  JoinContest::where('match_id',$item->match_id)
+                            ->sum('winning_amount');
+
+                        $total_user_played =  JoinContest::where('match_id',$item->match_id)
+                            ->groupBy('user_id')
+                            ->pluck('user_id')
+                            ->count();
+
+                        $total_amt_rcv = array_sum(CreateContest::where('match_id',$item->match_id)
+                            ->selectRaw('SUM(entry_fees * filled_spot) as total')
+                            ->pluck('total')
+                            ->toArray());
+
+                        $item->total_amt_rcv = $total_amt_rcv;
+                        
+                        $item->total_user_played = $total_user_played;    
+                        $item->total_prize_distributed = $total_prize_distributed;
+                        $item->total_contest = $total_contest;
+                        $item->join_contest  = $join_contest;
+
+                        return $item;
+            });
+        $pdf = PDF::loadView('packages::report.match_report', compact('match'));
+        $name = 'match_report';
+
+        return $pdf->download($name.'_'.date('d_M_y').'.pdf');
+
+    }
+
     public function oldMatch(TempMatch $match, Request $request) 
     {  
         $page_title = 'TempMatch';
