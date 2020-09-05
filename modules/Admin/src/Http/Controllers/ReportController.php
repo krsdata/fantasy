@@ -893,8 +893,7 @@ class ReportController extends Controller {
                      
              
         } else {
-            $match = Matches::whereIn('status',[2])
-                ->where('current_status',1)
+            $match = Matches::whereIn('status',[2,3,4])
                 ->orderBy('updated_at','DESC')
                 ->Paginate($this->record_per_page);
 
