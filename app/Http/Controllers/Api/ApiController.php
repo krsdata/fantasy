@@ -6431,7 +6431,9 @@ class ApiController extends BaseController
                                 $wt->transaction_id     = $transaction_id;
                                 $wt->payment_mode       = env('company_name');   
                                 $wt->payment_status     = "success";
-                                $wt->debit_credit_status = "+";   
+                                $wt->debit_credit_status = "+"; 
+                                $wt->match_id  = $item->match_id;
+                                $wt->contest_id =  $item->contest_id;
                                 $wt->save();
 
                                 $wallet = Wallet::firstOrNew(
