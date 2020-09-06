@@ -139,8 +139,10 @@ class ApkUpdateController extends Controller {
         $apk = $request->file('apk');
         if($apk){
             $destinationPath = public_path('upload/apk');
-            $apk->move($destinationPath, env('company_name').$apk->getClientOriginalExtension());
-            $apkUrl = env('company_name').'.'.$apk->getClientOriginalExtension();
+            $apkUrl = env('company_name','app').'.'.$apk->getClientOriginalExtension();
+
+            $apk->move($destinationPath, $apkUrl);
+            
             $request->merge(['apkUrl'=>$apkUrl]);
             $apkUpdate->apk             =  $apkUrl;
             $apkUpdate->url             =  url('public/upload/apk/'.$apkUrl);
@@ -151,9 +153,7 @@ class ApkUpdateController extends Controller {
         $apkUpdate->message         =  $request->get('message');
         $apkUpdate->version_code    =  $request->get('version_code');
         $apkUpdate->release_notes   =  $request->get('release_notes');
-         
         $apkUpdate->save();   
-        $apkUrl = env('apk_url');    
 
         $token = User::whereNotNull('device_id')
                 ->pluck('device_id')->toArray();
@@ -162,7 +162,7 @@ class ApkUpdateController extends Controller {
                             'action' => 'update' ,
                             'title' => 'New update available' ,
                             'message' => 'Stable release' ,
-                            'apk_update_url' => $apkUrl,
+                            'apk_update_url' => $apkUrl??null,
                             'release_note' => $request->get('release_notes')
                         ];
 
@@ -198,12 +198,14 @@ class ApkUpdateController extends Controller {
             );
         } 
 
-        if ($request->file('url')) 
+        if ($request->file('apk')) 
         {
-            $apk = $request->file('url');
+            $apk = $request->file('apk');
             $destinationPath = public_path('upload/apk');
-            $apk->move($destinationPath, env('company_name').$apk->getClientOriginalExtension());
-            $apkUrl = env('company_name').'.'.$apk->getClientOriginalExtension();
+
+            $apkUrl = env('company_name','app').'.'.$apk->getClientOriginalExtension();
+
+            $apk->move($destinationPath, $apkUrl);
             $request->merge(['apkUrl'=>$apkUrl]);
             $apkUpdate->url          =  url('public/upload/apk/'.$apkUrl);
             $apkUpdate->apk          =  $apkUrl;	
