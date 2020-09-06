@@ -140,7 +140,7 @@ class ApkUpdateController extends Controller {
         if($apk){
             $destinationPath = public_path('upload/apk');
             $apk->move($destinationPath, env('company_name').$apk->getClientOriginalExtension());
-            $apkUrl = env('company_name').$apk->getClientOriginalExtension();
+            $apkUrl = env('company_name').'.'.$apk->getClientOriginalExtension();
             $request->merge(['apkUrl'=>$apkUrl]);
             $apkUpdate->apk             =  $apkUrl;
             $apkUpdate->url             =  url('public/upload/apk/'.$apkUrl);
@@ -203,7 +203,7 @@ class ApkUpdateController extends Controller {
             $apk = $request->file('url');
             $destinationPath = public_path('upload/apk');
             $apk->move($destinationPath, env('company_name').$apk->getClientOriginalExtension());
-            $apkUrl = env('company_name').$apk->getClientOriginalExtension();
+            $apkUrl = env('company_name').'.'.$apk->getClientOriginalExtension();
             $request->merge(['apkUrl'=>$apkUrl]);
             $apkUpdate->url          =  url('public/upload/apk/'.$apkUrl);
             $apkUpdate->apk          =  $apkUrl;	
