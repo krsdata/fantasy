@@ -5753,7 +5753,7 @@ class ApiController extends BaseController
 
                             if(isset($item->contest) && $item->contest->entry_fees){
                                 
-                                $transaction_id = $item->match_id.$item->contest_id.$item->created_team_id.'-'.$item->user_id;
+                                $transaction_id = $item->match_id.'S'.$item->contest_id.'F'.$item->created_team_id.'-'.$item->user_id;
 
                                 $wt =    WalletTransaction::firstOrNew(
                                         [
@@ -5769,6 +5769,8 @@ class ApiController extends BaseController
                                 $wt->payment_mode       = env('company_name');    
                                 $wt->payment_status     = "success";
                                 $wt->debit_credit_status = "+";   
+                                $wt->match_id  = $item->match_id;
+                                $wt->contest_id =  $item->contest_id;
                                 $wt->save();
 
                                 $wallet = Wallet::firstOrNew(
