@@ -6417,7 +6417,7 @@ class ApiController extends BaseController
                             $cancel_contest->save();
                             
                             if(isset($item->contest) && $item->contest->entry_fees){   
-                                $transaction_id = $item->match_id.$item->contest_id.$item->created_team_id.'-'.$item->user_id;
+                                $transaction_id = $item->match_id.'S'.$item->contest_id.'F'.$item->created_team_id.'-'.$item->user_id;
                                 $wt =    WalletTransaction::firstOrNew(
                                         [
                                            'user_id' => $item->user_id,
