@@ -178,7 +178,6 @@ class ApiController extends BaseController
         $create_teams = \DB::table('create_teams')
             ->where('match_id',$match_id)
             ->where('user_id',$request->user_id);
-        
 
         $create_teams_count = $create_teams->count();
 
@@ -2373,6 +2372,21 @@ class ApiController extends BaseController
                     $this->createContest($data_set['match_id']);   
                 }
 
+                if($matches->status==4){
+                    $cancelContest_id = JoinContest::where('match_id',$matches->match_id)
+                    ->where('cancel_contest',0)
+                    ->pluck('contest_id')
+                    ->toArray();
+
+                    if(count($cancelContest_id)){
+                        $request = new Request;
+                        $request->merge(['cancel_contest'=>$cancelContest_id]);
+                        $request->merge(['match_id'=>$matches->match_id]);
+                        
+                        $this->cancelMatchContest($request);
+                    }
+                }
+
             }
             if(count($mid)){ 
                 $this->getSquad($mid,$m_cid);
@@ -3748,7 +3762,7 @@ class ApiController extends BaseController
                 // join contest   
                 $data['user_name'] = $userVald->name;
                 $data['team_name'] = $userVald->team_name;
-                
+
                 $t =   JoinContest::updateOrCreate($data,$data);
 
                // }
@@ -6372,6 +6386,140 @@ class ApiController extends BaseController
 
         } catch (Exception $e) {
                 
+        }
+    }
+    /**
+     *
+     *Cencel Contest
+     **/
+    public function cancelMatchContest(Request $request){
+        $match_id = $request->match_id;
+        $contest_id = $request->cancel_contest;
+
+        if($request->cancel_contest){
+            $JoinContest = JoinContest::whereHas('user')->with('contest')
+                        ->where('match_id',$request->match_id)
+                        ->whereIn('contest_id',$request->cancel_contest)
+                        ->get()
+                        ->transform(function($item,$key){
+                        $cancel_contest = CreateContest::find($item->contest_id);
+                        if($cancel_contest->usable_bonus){
+                            $bonus_amount = $cancel_contest->entry_fees*($cancel_contest->usable_bonus/100);    
+                        }else{
+                            $bonus_amount = 0;
+                        }
+                        
+                        $amount = $cancel_contest->entry_fees-$bonus_amount;
+                        if($item->cancel_contest==0){
+
+                            \DB::beginTransaction();
+                            $cancel_contest->is_cancelled = 1;
+                            $cancel_contest->save();
+                            
+                            if(isset($item->contest) && $item->contest->entry_fees){   
+                                $transaction_id = $item->match_id.$item->contest_id.$item->created_team_id.'-'.$item->user_id;
+                                $wt =    WalletTransaction::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'transaction_id' => $transaction_id
+                                        ]
+                                    );
+                                $wt->user_id            = $item->user_id;   
+                                $wt->amount             = $item->contest->entry_fees;  
+                                $wt->payment_type       = 7;  
+                                $wt->payment_type_string = "Refunded";
+                                $wt->transaction_id     = $transaction_id;
+                                $wt->payment_mode       = env('company_name');   
+                                $wt->payment_status     = "success";
+                                $wt->debit_credit_status = "+";   
+                                $wt->save();
+
+                                $wallet = Wallet::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'payment_type' => 4
+                                        ]
+                                    );
+
+                                $wallet->user_id        =  $item->user_id;
+                                $wallet->amount = $wallet->amount+$amount;
+                                
+                                $wallet->save();
+
+                                $wallet2 = Wallet::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'payment_type' => 1
+                                        ]
+                                    );
+
+                                $wallet2->user_id        =  $item->user_id;
+                                $wallet2->amount = $wallet2->amount+$bonus_amount;
+                                $wallet2->save();
+
+                            }
+ 
+                            \DB::commit();
+
+                            $item->cancel_message = 'Contest Cancelled' ;
+                            return $item;
+                        }else{
+                            $item->cancel_message = 'Already Cancelled' ; 
+                            return $item; 
+                        }
+                    });               
+        
+        if($JoinContest->count()==0 and count($request->cancel_contest)){
+           
+            foreach ($request->cancel_contest as $key => $value) {
+                $cancel_contest = CreateContest::find($value);
+                $cancel_contest->is_cancelled = 1;
+                $cancel_contest->save();
+            }
+
+           return Redirect::to(route('match'))->with('flash_alert_notice', 'Selected contest is cancelled');
+
+        }
+
+        $match      = Match::where('match_id',$match_id)->first();
+
+        $contest_count    = CreateContest::whereIn('id',$contest_id)->count();
+        
+        $join_contest_user = JoinContest::where('match_id',$match_id)
+                            ->whereIn('contest_id',$contest_id)
+                            ->where('cancel_contest',0)
+                            ->pluck('user_id')
+                            ->toArray();
+       
+        $device_id  = User::whereIn('id',$join_contest_user)
+                        ->pluck('device_id')
+                        ->toArray();
+       // if contest was joined
+        $msg = "$match->title contest has been Cancelled";              
+        if(count($join_contest_user)){
+            $data = [
+                    'action' => 'notify' ,
+                    'title' => 'Contest Cancelled and amount refunded' ,
+                    'message' => $msg
+                ];
+               
+            $this->sendNotification($device_id, $data);
+        } 
+
+        $JoinContest = JoinContest::where('match_id',$request->match_id)
+                        ->whereIn('contest_id',$request->cancel_contest)
+                        ->get()
+                        ->transform(function($item,$key){
+
+                            $cancel_contest = JoinContest::find($item->id);
+                            $cancel_contest->cancel_contest=1;
+                            $cancel_contest->save(); 
+                        });
+
+
+        return Redirect::to(route('match'))->with('flash_alert_notice', 'Match Contest Cancelled successfully');
+        }else{
+            return Redirect::to(route('match'))->with('flash_alert_notice', 'No Contest selected for cancellation'); 
         }
     }
 }
