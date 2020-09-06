@@ -6476,9 +6476,7 @@ class ApiController extends BaseController
                 $cancel_contest->is_cancelled = 1;
                 $cancel_contest->save();
             }
-
-           return Redirect::to(route('match'))->with('flash_alert_notice', 'Selected contest is cancelled');
-
+           die('Match contest is cancelled');
         }
 
         $match      = Matches::where('match_id',$match_id)->first();
@@ -6515,11 +6513,9 @@ class ApiController extends BaseController
                             $cancel_contest->cancel_contest=1;
                             $cancel_contest->save(); 
                         });
-
-
-        return Redirect::to(route('match'))->with('flash_alert_notice', 'Match Contest Cancelled successfully');
+        return true;
         }else{
-            return Redirect::to(route('match'))->with('flash_alert_notice', 'No Contest selected for cancellation'); 
+            return true; 
         }
     }
 }
