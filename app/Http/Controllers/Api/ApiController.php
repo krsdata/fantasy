@@ -6481,7 +6481,7 @@ class ApiController extends BaseController
 
         }
 
-        $match      = Match::where('match_id',$match_id)->first();
+        $match      = Matches::where('match_id',$match_id)->first();
 
         $contest_count    = CreateContest::whereIn('id',$contest_id)->count();
         
