@@ -2342,7 +2342,7 @@ class ApiController extends BaseController
                     ]
                 );
                 
-                if(isset($matches->is_cancelled) && $matches->is_cancelled){
+                if(isset($matches->is_cancelled) && $matches->is_cancelled && $matches->status!=2){
                     continue;
                 }
 
@@ -2901,7 +2901,7 @@ class ApiController extends BaseController
                     $t2 = time();
                     $td = round((($t1 - $t2)/60),2);
                     if($td>1440){
-                        $date_start = date('d-M-Y, h:i A',$t1);
+                        $date_start = date('h:i A',$t1);
                         $item->date_start = $date_start; 
                     }
                   //  dd($item);
