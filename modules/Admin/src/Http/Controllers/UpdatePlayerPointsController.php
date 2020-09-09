@@ -91,8 +91,10 @@ class UpdatePlayerPointsController extends Controller {
                     })->Paginate($this->record_per_page);
             $updatePlayerPoints->transform(function($item,$key){
                 $match =  Match::where('match_id',$item->match_id)->first();
-
-                $item->match_title = $match->short_title??null;
+                if($match){
+                    $item->match_title = $match->short_title??null;    
+                }
+                
                 return $item; 
             });
         } else {
@@ -100,7 +102,9 @@ class UpdatePlayerPointsController extends Controller {
             $updatePlayerPoints->transform(function($item,$key){
                 $match =  Match::where('match_id',$item->match_id)->first();
 
-                $item->match_title = $match->short_title??null;
+                if($match){
+                    $item->match_title = $match->short_title??null;    
+                }
                 return $item; 
             });
         }
