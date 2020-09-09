@@ -93,7 +93,7 @@ class CompetitionController extends Controller {
             });
         } else {
             $competition = Competition::whereHas('match')
-                    ->whereDate('datestart', '>=', \Carbon\Carbon::now())
+                    ->whereMonth('datestart', '>=', date('m'))
                     ->Paginate($this->record_per_page);
                                                     
 
