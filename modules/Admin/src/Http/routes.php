@@ -133,6 +133,25 @@ if (App::environment('prod')) {
                 ]
             ]
         );
+
+        Route::bind('competition', function ($value, $route) {
+            return Modules\Admin\Models\Competition::find($value);
+        });
+        Route::resource(
+            'admin/competition',
+            'Modules\Admin\Http\Controllers\CompetitionController',
+            [
+                'names' => [
+                    'edit' => 'competition.edit',
+                    'show' => 'competition.show',
+                    'destroy' => 'competition.destroy',
+                    'update' => 'competition.update',
+                    'store' => 'competition.store',
+                    'index' => 'competition',
+                    'create' => 'competition.create',
+                ]
+            ]
+        );
         // Prize distribution
         Route::bind('prizeDistribution', function ($value, $route) {
             return Modules\Admin\Models\PrizeDistribution::find($value);
