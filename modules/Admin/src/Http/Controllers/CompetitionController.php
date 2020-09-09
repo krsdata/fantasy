@@ -94,6 +94,7 @@ class CompetitionController extends Controller {
         } else {
             $competition = Competition::whereHas('match')
                     ->whereMonth('datestart', '>=', date('m'))
+                    ->orderBy('datestart','asc')
                     ->Paginate($this->record_per_page);
                                                     
 
