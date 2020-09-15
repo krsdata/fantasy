@@ -37,6 +37,8 @@ use App\Models\ReferralCode;
 use App\Models\PrizeBreakup;
 use File;
 use Ixudra\Curl\Facades\Curl; 
+use Razorpay\Api\Api;
+
 
 class ApiController extends BaseController
 {
@@ -5517,7 +5519,7 @@ class ApiController extends BaseController
                     )->where('playing11','true')->count();
 
             if($td>0 && $td<=60){ 
-                if($p11a && $p11b  && $td%5==0){
+                if($p11a && $p11b  && $td%10==0){
                     $data_p = ['Playing 11 updated'];
                     $this->isLineUp($match_id);
                 }
@@ -6198,18 +6200,20 @@ class ApiController extends BaseController
         }
 
     }
-
     public function playerPoints(Request $request){
 
         $match_id = $request->match_id;
         $cid = Competition::where('match_id',$match_id)
                     ->pluck('cid')->first();
-                   
-        $match = Matches::where('match_id',$match_id)->first();
-        $competitions_match_id = Competition::where('cid',Competition::where('match_id',$match_id)
-                    ->pluck('cid')->first()
-                )->pluck('match_id');
 
+        $match = Matches::where('match_id',$match_id)->first();
+
+        $competitions_match_id = Matches::where('competition_id',Competition::where('match_id',$match_id)
+                    ->pluck('cid')->first()
+                )
+                ->where('format',$match->format)
+                ->pluck('match_id');
+        
         $match_pid = MatchPoint::where('match_id',$match_id)
                 ->pluck('pid');
        // return $match_pid;
@@ -6521,5 +6525,227 @@ class ApiController extends BaseController
         }else{
             return true; 
         }
+    }
+
+    public function getMatchFK(Request $request){
+        $user = $request->user_id;
+        $banner = \DB::table('banners')->select('title','url','actiontype','description')->get();
+        $join_cont =  \DB::table('join_contests')->where('user_id',$user);
+        $join_contests = $join_cont->get('match_id');
+            
+        $jm = [];
+        $created_team = CreateTeam::where('user_id',$user)
+            ->orderBy('updated_at','desc')
+            ->orderBy('match_id','ASC')
+            ->get()
+            ->groupBy('match_id')
+            ->slice(0,3);
+        //  dd($created_team);     
+        if($created_team->count()){
+            foreach ($created_team as $match_id => $join_contest) {
+                # code...
+                $jmatches = Matches::with('teama','teamb')->where('match_id',$match_id)->select('match_id','title','short_title','status','status_str','timestamp_start','timestamp_end','game_state','game_state_str','current_status','competition_id','timestamp_end','format_str','format')
+                    //->orderBy('status','DESC')
+                    ->first();
+                    
+                $winning_amount = $join_cont->where('cancel_contest',0)
+                        ->where('user_id',$request->user_id)
+                        ->where('match_id',$jmatches->match_id)
+                        ->where('winning_amount','>',0)
+                        ->sum('winning_amount');
+
+                $join_match = $jmatches;
+                $league_title = \DB::table('competitions')->where('cid',$jmatches->competition_id)
+                    ->first()->title??null;
+
+                $prize = 0; /*\DB::table('prize_distributions')
+                        ->where('match_id' ,$jmatches->match_id)
+                        ->where('user_id',$request->user_id)
+                        ->where('rank','>',0)
+                        ->sum('prize_amount');*/
+                        
+                $winning_amount = \DB::table('join_contests')
+                        ->where('match_id' ,$jmatches->match_id)
+                        ->where('user_id',$request->user_id)
+                        ->where('winning_amount','>',0)
+                        ->sum('winning_amount');
+                
+              //  $jmatches->prize_amount = $prize??$winning_amount;
+                $join_match->winning_amount = $winning_amount??0;
+                $join_match->prize_amount = $winning_amount??0;
+                $jmatches->league_title = $league_title;
+
+                if($jmatches->is_free==0){
+                    $jmatches->has_free_contest= false;
+                }else{
+                    $jmatches->has_free_contest= true;
+                }
+
+                $join_contests_count =  \DB::table('join_contests')
+                    ->where('user_id',$user)
+                    ->where('match_id',$match_id)
+                    ->selectRaw('distinct contest_id')
+                    ->get();
+
+                if($join_match->timestamp_end < time()){
+                    if($join_match->status==4){
+                       $join_match->status_str = 'Abandoned'; 
+                    }
+                    $t11 = $jmatches->timestamp_end;
+                    $t21 = time();
+                    $td11 = round((($t11 - $t21)/60),2);
+                       
+                    if($td11<0 && $join_match->status==3){
+                        $this->updatePoints($request);   
+                    }
+                }elseif($join_match->current_status==1){
+                    $join_match->status_str = "Completed";
+                }else{
+                    if($join_match->status==4){
+                       $join_match->status_str = 'Abandoned'; 
+                    }elseif($join_match->status==2){
+                       $join_match->status_str = "Completed" ;
+                    }
+                    elseif($join_match->status==1){
+                       $join_match->status_str = "Upcoming"; 
+                    }elseif($join_match->status==3){
+                       $join_match->status_str = "Live" ;
+                        
+                        $t11 = $jmatches->timestamp_end;
+                        $t21 = time();
+                        $td11 = round((($t11 - $t21)/60),2);
+                        
+                        $request->merge(['match_id'=>$jmatches->match_id]);
+                        $request->merge(['status'=>3]);
+                        if($td11<0){
+                            $this->updatePoints($request);     
+                        }
+                    }
+                }  
+
+
+                $lineup = \DB::table('team_a_squads')
+                                ->where('match_id',$join_match->match_id)
+                                ->where('playing11',"true")->count(); 
+
+                if($lineup>1){
+                    $join_match->is_lineup = true;
+                }else{
+                    $join_match->is_lineup = false;
+                }               
+
+                if($join_match->status==2 && $join_match->current_status==0){
+                    $join_match->status_str = "In Review" ;
+                }
+
+                if($lineup && $join_match->status==1){
+                  //  $join_match->status_str = "lined up";
+                }
+
+                $join_match_count   =   \DB::table('create_teams')
+                    ->where('user_id',$user)
+                    ->where('match_id',$match_id)
+                    ->get();
+
+                $join_match->total_joined_team   =  $join_match_count->count();
+                $join_match->total_join_contests =  $join_contests_count->count();
+                $jm[$match_id] = $join_match;
+            }
+
+            $data['matchdata'][] = [
+                'viewType'=>1,
+                'joinedmatches'=>array_values($jm)
+            ];
+        }
+        //dd(\Carbon\Carbon::now()->endOfWeek());
+        $match = Matches::whereHas('player')->with('teama','teamb')
+            ->whereIn('status',[1,3])
+            ->select('match_id','title','short_title','status','status_str','timestamp_start','timestamp_end','date_start','date_end','game_state','game_state_str','is_free','competition_id','format_str','format')
+            ->orderBy('is_free','DESC')
+            ->orderBy('timestamp_start','ASC')
+            //->whereMonth('date_start',date('m'))
+            //->WhereMonth('date_start',\Carbon\Carbon::today()->addDays(7))
+           // ->where('timestamp_start','>=' , time())
+            ->where('is_cancelled',0)
+            ->limit(15)
+            ->get()->transform(function($item,$key){
+                    $league_title = \DB::table('competitions')->where('cid',$item->competition_id)->first()->title??null;
+                    if($item->is_free==0){
+                        $item->has_free_contest= false;
+                    }else{
+                        $item->has_free_contest= true;
+                    }
+
+                    $lineup = \DB::table('team_a_squads')
+                                ->where('match_id',$item->match_id)
+                                ->where('playing11',"true")->count(); 
+
+                    $t1 = $item->timestamp_start;
+                    //date('d-M-Y,h:i A',$t1)
+                    $date_start = date('h:i A',$t1);
+                    $item->date_start = $date_start;
+
+                    $t2 = time();
+                    $td = round((($t1 - $t2)/60),2);
+                    if($td>1440){
+                        $date_start = date('h:i A',$t1);
+                        $item->date_start = $date_start; 
+                    }
+                  //  dd($item);
+                   // $date_start = date('h:i A',$t1);
+                  //  $item->date_start = $date_start;
+                                        
+                    $item->time_left = ($td>0)?$td.'Min':'time up';    
+
+                    if($td>(0.5)){
+                        $item->status=1;
+                        $item->status_str='Upcoming';
+                    }
+                    if($td>1 and $td<=30){
+                        $item->status=1;
+                        $item->status_str='Upcoming';
+        
+                    }else{
+                       //$item->is_lineup = 'true';
+                    } 
+
+                    if($lineup>1){
+                       // $item->status = "lined up";
+                        $item->is_lineup = true;
+                    }else{
+                        $item->is_lineup = false;
+                    }
+                    $item->league_title = $league_title;
+                    //$item->league_title = $league_title.' - '.$item->format_str;
+                    return $item;
+            });
+
+        $data['matchdata'][] = ['viewType'=>2,'banners'=>$banner];
+        $data['matchdata'][] = ['viewType'=>3,'upcomingmatches'=>$match];
+        
+        return [
+            'maintainance'=>env('DEVELOPMENT')??false,
+            'session_expired'=>$this->is_session_expire,
+            'total_result'=>count($match),
+            'status'=>true,
+            'code'=>200,
+            'message'=>'success',
+            'system_time'=>time(),
+            'response'=>$data
+        ];
+    }
+
+    public function razorpayOrderId(Request $request)
+    {
+        $api = new Api('rzp_live_2Lb1oerE9QNKcn', 'zyyqczHyHrt8vzo9t3LGy4oF');
+
+        // Orders
+        $receipt = time();
+        $order  = $api->order->create(array('receipt' => $receipt, 'amount' => 100, 'currency' => 'INR')); // Creates order
+        $orderId = $order['id']; // Get the created Order ID
+
+        return [
+            'orderId' => $orderId
+        ];
     }
 }

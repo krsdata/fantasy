@@ -84,9 +84,6 @@
                             <i class="fa fa-fw fa-edit" title="edit"></i> 
                             </button>
                         </a>
-
-                        
- 
                         
                          {!! Form::close() !!}
 
