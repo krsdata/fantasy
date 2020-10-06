@@ -13,7 +13,7 @@
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" >
-            <h1 class="mb-5" data-scrollax="properties: { translateY: '60%', opacity: 1.6 }" align="center" style="color: #FFC103">{{env('company_name')}} Fantasy League</h1>
+            <h1 class="mb-5" data-scrollax="properties: { translateY: '60%', opacity: 1.6 }" align="center" style="color: #FFC103"></h1>
             
             <p class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" align="center">Create Team | Join Contest | Win Cash</p>
                     <div class="row" align="center">
@@ -74,7 +74,7 @@
         <!--Grid column-->
         <div class="col-md-5 mb-4 mb-md-0">
 
-          <img src="{{url('webmedia/images/app.jpg')}}" class="img-fluid" alt="">
+          <img src="{{url('webmedia/images/app.jpeg')}}" class="img-fluid" alt="">
 
         </div>
         <!--Grid column-->
@@ -144,7 +144,7 @@ are getting rewarded based on their ranks.</p>
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6">
                         <div class="section-tittle text-center heading-section">
-                            <span class="subheading">Help with Sports Fight</span>
+                            <span class="subheading">Help with Winning11</span>
                             <h2>How Can We Help with</h2>
                         </div>
                     </div>
@@ -187,63 +187,7 @@ are getting rewarded based on their ranks.</p>
                 </div>
             </div>
         </section> 
-    <div class="jumbotron jumbotron-fluid">
-          <div class="container center">
-            <h1>App Screenshot</h1>
-            
-          </div>
-      </div>
-    <section class=" ftco-properties" id="properties-section" style="margin-bottom: 30px">
-         
-          <div class="applic-apps " style="margin-bottom: 0px !important">
-            <div class="container-fluid">
-                <div class="row" >
-                    <!-- slider Heading -->
-                    <div class="col-xl-4 col-lg-4 col-md-4">
-                        <div class="single-cases-info heading-section mb-30">
-                            <span class="subheading">Screenshots</span>
-                            <h3 style="color: #00bade;">Apps<br> Screenshot</h3>
-                            
-                        </div>
-                    </div>
-                    <style type="text/css">
-                      .cloned {
-                       width: 200px;margin-right: 10px;border: 3px solid #fff;border-radius: 7px; }
-                    </style>
-                   
-                    <div class="col-xl-8 col-lg-8 col-md-col-md-8" style="max-height: 435px">
-                        <div class="app-active owl-carousel owl-loaded owl-drag" style="width: 10000px !important"> 
-      
-                        <div class="owl-stage-outer">
-
-                           
-                          <div class="owl-item cloned" style="width: 200px;  margin-right: 10px">
-                            <div class="single-cases-img">
-                                <img src="{{url('webmedia/images/s1.jpeg')}}" alt="">
-                            </div>
-                          </div>
-
-                          <div class="owl-item cloned" style="width: 200px; margin-right: 10px">
-                            <div class="single-cases-img">
-                                <img src="{{url('webmedia/images/s2.jpeg')}}" alt="">
-                            </div>
-                          </div>
-
-                          <div class="owl-item cloned" style="width: 200px; margin-right: 10px">
-                            <div class="single-cases-img">
-                                <img src="{{url('webmedia/images/s3.jpeg')}}" alt="">
-                            </div>
-                          </div>
-                          <div class="owl-item cloned" style="width: 200px;  margin-right: 10px">
-                            <div class="single-cases-img">
-                                <img src="{{url('webmedia/images/s4.jpeg')}}" alt="">
-                            </div>
-                          </div>
-                          
-                    </div>
-                </div>
-            </div> 
-    </section>
+        
     <div class="jumbotron jumbotron-fluid" style="margin: 0px">
           <div class="container center">
             <h1>Reach us at {{env('company_email')}} </h1>

@@ -242,6 +242,7 @@ Route::group([
     Route::match(['post','get'],'createAutoTeam', 'Api\MegaController@createAutoTeam');
     
     Route::match(['post','get'],'removePrizeAfterAbandon', 'Api\ApiController@removePrizeAfterAbandon');
+    Route::match(['post','get'],'createRazorPayOrder', 'Api\ApiController@razorpayOrderId');
     
     
    } 

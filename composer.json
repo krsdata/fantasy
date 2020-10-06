@@ -21,9 +21,10 @@
         "laravel/ui": "^2.0",
         "laravelcollective/html": "^6.1",
         "league/color-extractor": "0.3.*",
+        "mobiledetect/mobiledetectlib": "^2.8",
         "phpmailer/phpmailer": "^6.1",
         "pusher/pusher-php-server": "~4.0",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "razorpay/razorpay": "2.*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -36,7 +36,8 @@ use App\Models\MatchStat;
 use App\Models\ReferralCode;
 use App\Models\PrizeBreakup;
 use File;
-use Ixudra\Curl\Facades\Curl; 
+use Ixudra\Curl\Facades\Curl;
+use Razorpay\Api\Api; 
 
 class ApiController extends BaseController
 {
@@ -377,8 +378,9 @@ class ApiController extends BaseController
         $dbname     =  env('DB_DATABASE','fantasy');
         // Create connection
         $conn = mysqli_connect($servername, $username, $password, $dbname);
-        $sql = 'SELECT id,match_id,user_id,contest_id,created_team_id,ranks,points, FIND_IN_SET( points, (SELECT GROUP_CONCAT( points ORDER BY points DESC ) FROM join_contests  where match_id='.$match_id.' and contest_id='.$contest_id.')) AS ranks FROM join_contests where match_id='.$match_id.' and contest_id='.$contest_id.' ORDER BY ranks ASC';
-        
+        //$sql = 'SELECT id,match_id,user_id,contest_id,created_team_id,ranks,points, FIND_IN_SET( points, (SELECT GROUP_CONCAT( points ORDER BY points DESC ) FROM join_contests  where match_id='.$match_id.' and contest_id='.$contest_id.')) AS ranks FROM join_contests where match_id='.$match_id.' and contest_id='.$contest_id.' ORDER BY ranks ASC';
+	$sql = "SELECT id, user_id, match_id, contest_id, points, (SELECT COUNT(*)+1 FROM join_contests B WHERE A.points<B.points and ( match_id=$match_id and contest_id=$contest_id)) AS Rank FROM join_contests A where match_id=$match_id and contest_id=$contest_id ORDER BY `Rank` DESC";        
+	
         $result = mysqli_query($conn, $sql);
 
         if ($result && mysqli_num_rows($result) > 0) {
@@ -408,7 +410,7 @@ class ApiController extends BaseController
 
                     $jc = JoinContest::find($row->id);
                     if($jc){
-                        $jc->ranks = $row->ranks;
+                        $jc->ranks = $row->Rank;
                         $jc->save();
                     }
                 }
@@ -462,7 +464,7 @@ class ApiController extends BaseController
         if(!$mpObject){
             $captain        =   $team_id->captain;
             $vice_captain   =   $team_id->vice_captain;
-            $trump          =   $team_id->trump;
+            //$trump          =   $team_id->trump;
 
             $players =$playerObject->get()
                         ->transform(function($item,$key){
@@ -512,7 +514,7 @@ class ApiController extends BaseController
                     'role'      => $result->playing_role,
                     'captain'   =>  ($captain==$result->pid)?true:false,
                     'vice_captain'   => ($vice_captain==$result->pid)?true:false,
-                    'trump'     => ($trump==$result->pid)?true:false,
+                    //'trump'     => ($trump==$result->pid)?true:false,
                     'playing11' => $result->playing11??false
                 ];
             }
@@ -522,7 +524,7 @@ class ApiController extends BaseController
             $teams_id = json_decode($team_id->team_id,true);
             $captain        =   $team_id->captain;
             $vice_captain   =   $team_id->vice_captain;
-            $trump          =   $team_id->trump;
+            //$trump          =   $team_id->trump;
 
             $player_id = json_decode($team_id->teams,true);
             
@@ -578,10 +580,10 @@ class ApiController extends BaseController
                     $point = (1.5)*$result->point;
                     $vcname =true;
                 }
-                elseif($trump==$result->pid){
-                    $point = 3*$result->point;
-                    $tname = true;
-                }
+               // elseif($trump==$result->pid){
+                 //   $point = 3*$result->point;
+                   // $tname = true;
+               // }
 
                 $array_sum[] = $point;
 
@@ -627,7 +629,7 @@ class ApiController extends BaseController
                     'role'      => ($result->role=='cap')?'bat':$result->role,
                     'captain'   =>  ($captain==$result->pid)?true:false,
                     'vice_captain'   => ($vice_captain==$result->pid)?true:false,
-                    'trump'     => ($trump==$result->pid)?true:false,
+                    //'trump'     => ($trump==$result->pid)?true:false,
                     'playing11' => $result->playing11??false
                 ];
             }
@@ -692,9 +694,9 @@ class ApiController extends BaseController
                                     if($ct->vice_captain==$result->pid){
                                         $pt = (1.5)*$result->point;
                                     }
-                                    if($ct->trump==$result->pid){
-                                        $pt = 3*$result->point;
-                                    }
+                                   // if($ct->trump==$result->pid){
+                                       // $pt = 3*$result->point;
+                                   // }
                                     $data['points'][] = $pt;
                                 }
                             }
@@ -1186,7 +1188,7 @@ class ApiController extends BaseController
             }
 
             $captain = $result->captain;
-            $trump = $result->trump;
+            //$trump = $result->trump;
             $vice_captain = $result->vice_captain;
             $team_count = $result->team_count;
             $user_id    = $result->user_id;
@@ -1239,13 +1241,13 @@ class ApiController extends BaseController
             }
             $team_role = [];
             $c = Player::WhereIn('team_id',$team_id)
-                ->whereIn('pid',[$captain,$vice_captain,$trump])
+                ->whereIn('pid',[$captain,$vice_captain])
                 ->where('match_id',$result->match_id)
                 ->pluck('short_name','pid');
                             
             $k['c']     = ['pid'=> (int)$captain,'name' => $c[$captain]];
             $k['vc']    = ['pid'=>(int)$vice_captain,'name' => $c[$vice_captain]];
-            $k['t']     = ['pid'=>(int)$trump,'name' => $c[$trump]];
+            //$k['t']     = ['pid'=>(int)$trump,'name' => $c[$trump]];
 
             $t_a = TeamA::WhereIn('team_id',$team_id)
                 ->where('match_id',$result->match_id)
@@ -1351,7 +1353,6 @@ class ApiController extends BaseController
                     'teams'          => json_encode($request->teams),
                     'captain'        => $request->captain,
                     'vice_captain'   => $request->vice_captain,
-                    'trump'          => $request->trump,
                     'user_id'        => $request->user_id
                 ]
             )->first();
@@ -1394,7 +1395,7 @@ class ApiController extends BaseController
             $ct->teams          = json_encode($request->teams);
             $ct->captain        = $request->captain;
             $ct->vice_captain   = $request->vice_captain;
-            $ct->trump          = $request->trump;
+            //$ct->trump          = $request->trump;
             $ct->user_id        = $request->user_id;
 
             if($request->create_team_id){
@@ -1628,7 +1629,7 @@ class ApiController extends BaseController
                 elseif($result->total_spots!=0 && $result->filled_spot==$result->total_spots)
                 {
                    // $this->automateCreateContest();
-                    //continue;
+                    continue;
                 }
                 $data2['contestId'] =    $result->id;
 
@@ -1776,7 +1777,7 @@ class ApiController extends BaseController
                 elseif($result->total_spots!=0 && $result->filled_spot==$result->total_spots)
                 {
                    // $this->automateCreateContest();
-                    //continue;
+                    continue;
                 }
                 $data2['contestId'] =    $result->id;
 
@@ -2259,7 +2260,20 @@ class ApiController extends BaseController
             $mid[] = $data_set['match_id'];
             $m_cid[$matches->match_id] = $competition_id;
             $this->createContest($data_set['match_id']);
-         
+            if($matches->status==4){
+                    $cancelContest_id = JoinContest::where('match_id',$matches->match_id)
+                    ->where('cancel_contest',0)
+                    ->pluck('contest_id')
+                    ->toArray();
+
+                    if(count($cancelContest_id)){
+                        $request = new Request;
+                        $request->merge(['cancel_contest'=>$cancelContest_id]);
+                        $request->merge(['match_id'=>$matches->match_id]);
+                        
+                        $this->cancelMatchContest($request);
+                    }
+                }
             if(count($mid)){
                // $this->getSquad($mid);   
                 $this->saveSquad($mid,$m_cid);
@@ -2276,6 +2290,12 @@ class ApiController extends BaseController
             $mid = [];
             foreach ($results as $key => $result_set) {
                 if($result_set->format==5 || $result_set->format==4){
+                    continue;
+                }
+		$ms = ['2','4','5','9','11','17'];
+                
+                if(in_array($result_set->format, $ms)){
+                   // dd($result_set->format);
                     continue;
                 }
                 foreach ($result_set as $key => $rs) {
@@ -2371,6 +2391,20 @@ class ApiController extends BaseController
 
                 if($matches->status==1){
                     $this->createContest($data_set['match_id']);   
+                }
+		if($matches->status==4){
+                    $cancelContest_id = JoinContest::where('match_id',$matches->match_id)
+                    ->where('cancel_contest',0)
+                    ->pluck('contest_id')
+                    ->toArray();
+
+                    if(count($cancelContest_id)){
+                        $request = new Request;
+                        $request->merge(['cancel_contest'=>$cancelContest_id]);
+                        $request->merge(['match_id'=>$matches->match_id]);
+                        
+                        $this->cancelMatchContest($request);
+                    }
                 }
 
             }
@@ -2962,7 +2996,7 @@ class ApiController extends BaseController
                         ->where('captain',$item->player_id)
                         ->groupBy('captain')
                         ->count();
-                $trump_per = ($trump/$ct)*100;
+                $trump_per = 0; // ($trump/$ct)*100;
                 $vc_per = ($vc/$ct)*100;
                 $captain_per = ($captain/$ct)*100;
                 
@@ -4616,7 +4650,7 @@ class ApiController extends BaseController
                             'contest_type_id'   => $item->contest->contest_type??null,
                             'captain'           => $item->createdTeam->captain,
                             'vice_captain'      => $item->createdTeam->vice_captain,
-                            'trump'             => $item->createdTeam->trump,
+                            //'trump'             => $item->createdTeam->trump,
                             'match_team_id'     => $item->createdTeam->team_id,
                             'user_teams'        => $item->createdTeam->teams
 
@@ -4872,7 +4906,7 @@ class ApiController extends BaseController
             $clone_team2->teams         =   $clone_team->teams;
             $clone_team2->captain       =   $clone_team->captain;
             $clone_team2->vice_captain  =   $clone_team->vice_captain;
-            $clone_team2->trump         =   $clone_team->trump;
+            //$clone_team2->trump         =   $clone_team->trump;
 
             $clone_team2->team_count    =   $total_team_count;
             $clone_team2->team_join_status =   $clone_team->team_join_status;
@@ -5233,7 +5267,7 @@ class ApiController extends BaseController
             $data['created_team_id'] = $request->created_team_id;
             $data['captain'] = $request->captain;
             $data['vice_captain'] = $request->vice_captain;
-            $data['trump'] = $request->trump;
+            //$data['trump'] = $request->trump;
             $data['user_id'] = $request->user_id;
             \DB::table('player_analytics')
                     ->where('created_team_id',$request->created_team_id)
@@ -6374,4 +6408,156 @@ class ApiController extends BaseController
                 
         }
     }
+   /**
+     *
+     *Cencel Contest
+     **/
+    public function cancelMatchContest(Request $request){
+        $match_id = $request->match_id;
+        $contest_id = $request->cancel_contest;
+
+        if($request->cancel_contest){
+            $JoinContest = JoinContest::whereHas('user')->with('contest')
+                        ->where('match_id',$request->match_id)
+                        ->whereIn('contest_id',$request->cancel_contest)
+                        ->get()
+                        ->transform(function($item,$key){
+                        $cancel_contest = CreateContest::find($item->contest_id);
+                        if($cancel_contest->usable_bonus){
+                            $bonus_amount = $cancel_contest->entry_fees*($cancel_contest->usable_bonus/100);    
+                        }else{
+                            $bonus_amount = 0;
+                        }
+                        
+                        $amount = $cancel_contest->entry_fees-$bonus_amount;
+                        if($item->cancel_contest==0){
+
+                            \DB::beginTransaction();
+                            $cancel_contest->is_cancelled = 1;
+                            $cancel_contest->save();
+                            
+                            if(isset($item->contest) && $item->contest->entry_fees){   
+                                $transaction_id = $item->match_id.$item->contest_id.$item->created_team_id.'-'.$item->user_id;
+                                $wt =    WalletTransaction::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'transaction_id' => $transaction_id
+                                        ]
+                                    );
+                                $wt->user_id            = $item->user_id;   
+                                $wt->amount             = $item->contest->entry_fees;  
+                                $wt->payment_type       = 7;  
+                                $wt->payment_type_string = "Refunded";
+                                $wt->transaction_id     = $transaction_id;
+                                $wt->payment_mode       = env('company_name');   
+                                $wt->payment_status     = "success";
+                                $wt->debit_credit_status = "+";   
+                                $wt->save();
+
+                                $wallet = Wallet::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'payment_type' => 4
+                                        ]
+                                    );
+
+                                $wallet->user_id        =  $item->user_id;
+                                $wallet->amount = $wallet->amount+$amount;
+                                
+                                $wallet->save();
+
+                                $wallet2 = Wallet::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'payment_type' => 1
+                                        ]
+                                    );
+
+                                $wallet2->user_id        =  $item->user_id;
+                                $wallet2->amount = $wallet2->amount+$bonus_amount;
+                                $wallet2->save();
+
+                            }
+ 
+                            \DB::commit();
+
+                            $item->cancel_message = 'Contest Cancelled' ;
+                            return $item;
+                        }else{
+                            $item->cancel_message = 'Already Cancelled' ; 
+                            return $item; 
+                        }
+                    });               
+        
+        if($JoinContest->count()==0 and count($request->cancel_contest)){
+           
+            foreach ($request->cancel_contest as $key => $value) {
+                $cancel_contest = CreateContest::find($value);
+                $cancel_contest->is_cancelled = 1;
+                $cancel_contest->save();
+            }
+
+           return Redirect::to(route('match'))->with('flash_alert_notice', 'Selected contest is cancelled');
+
+        }
+
+        $match      = Matches::where('match_id',$match_id)->first();
+
+        $contest_count    = CreateContest::whereIn('id',$contest_id)->count();
+        
+        $join_contest_user = JoinContest::where('match_id',$match_id)
+                            ->whereIn('contest_id',$contest_id)
+                            ->where('cancel_contest',0)
+                            ->pluck('user_id')
+                            ->toArray();
+       
+        $device_id  = User::whereIn('id',$join_contest_user)
+                        ->pluck('device_id')
+                        ->toArray();
+       // if contest was joined
+        $msg = "$match->title contest has been Cancelled";              
+        if(count($join_contest_user)){
+            $data = [
+                    'action' => 'notify' ,
+                    'title' => 'Contest Cancelled and amount refunded' ,
+                    'message' => $msg
+                ];
+               
+            $this->sendNotification($device_id, $data);
+        } 
+
+        $JoinContest = JoinContest::where('match_id',$request->match_id)
+                        ->whereIn('contest_id',$request->cancel_contest)
+                        ->get()
+                        ->transform(function($item,$key){
+
+                            $cancel_contest = JoinContest::find($item->id);
+                            $cancel_contest->cancel_contest=1;
+                            $cancel_contest->save(); 
+                        });
+
+
+        return Redirect::to(route('match'))->with('flash_alert_notice', 'Match Contest Cancelled successfully');
+        }else{
+            return Redirect::to(route('match'))->with('flash_alert_notice', 'No Contest selected for cancellation'); 
+        }
+    }
+
+   public function razorpayOrderId(Request $request)     {         
+            $api = new Api('rzp_live_2Lb1oerE9QNKcn', 'zyyqczHyHrt8vzo9t3LGy4oF');         
+ // Orders         
+            $receipt = "sf".time();  
+            $order  = $api->order->create(array('receipt' => $receipt, 'amount' => $request->amount, 'currency' => 'INR')); // Creates order        
+            $orderId = $order['id']; // Get the created Order ID  and save this orderid in table for this payment request
+
+        return [
+            'status'=>true,
+            'code'=>200,
+            'message'=>'success',
+            'system_time'=>time(),
+            'order_id'=>$orderId
+        ];
+	   
+   }
+
 }
