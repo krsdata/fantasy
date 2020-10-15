@@ -61,6 +61,7 @@
                                                 <th>Bank details</th>
                                                 <th>Transaction</th>
                                                 <th> Available Balance</th> 
+                                                <th> Withdrawal Mode</th>
                                                 <th> Request Amount </th> 
                                                 <th> Status</th>  
                                                 <th> </th> 
@@ -100,6 +101,7 @@
 
                                                 <td>INR {{$result->total_balance-$result->paid_balance}} </td>
                                                  <td>INR {{$result->amount}} </td>
+                                                 <td>INR {{$result->payment_taken_in}} </td>
                                                  <td>{{$result->withdraw_status}}
                                                  </td>                     
                                                 <td>  

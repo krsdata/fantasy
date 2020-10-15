@@ -2836,8 +2836,7 @@ class ApiController extends BaseController
                             $this->updatePoints($request);     
                         }
                     }
-                }  
-
+                } 
 
                 $lineup = \DB::table('team_a_squads')
                                 ->where('match_id',$join_match->match_id)
@@ -2853,8 +2852,13 @@ class ApiController extends BaseController
                     $join_match->status_str = "In Review" ;
                 }
 
-                if($lineup && $join_match->status==1){
-                  //  $join_match->status_str = "lined up";
+                $t1 = $join_match->timestamp_start;
+                $date_start = date('h:i A',$t1);
+                $t2 = time();
+                $td = round((($t1 - $t2)/60),2);
+                if($td>0 && $join_match->status==3){
+                    $join_match->status_str = "Upcoming" ;
+                    $join_match->status = 1 ;  
                 }
 
                 $join_match_count   =   \DB::table('create_teams')

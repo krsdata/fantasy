@@ -197,20 +197,24 @@ class MatchContestController extends Controller {
                     $item->prize_amount = 0;   
                 }
 
+
                 $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                 $item->status = $match->status_str??null;
                 $item->match_name = $match->short_title??null;
 
                 $cc = MatchTeams::where('match_id',$item->match_id)
                     ->where('id',$item->created_team_id)->first();
-
+                
+                $item->clone_team = $cc->is_cloned??'no';
+                    
                 $teams = json_decode($cc->teams);
                 $teams = Player::where('match_id',$item->match_id)
                         ->whereIn('pid',$teams)
                         ->get(['pid','team_id','match_id','title','short_name','playing_role','fantasy_player_rating']);
 
                 $user = User::find($item->user_id);
-                $item->user_name = $user->name??null;
+                $item->team_name = $user->team_name??null;
+                $item->user_id = $user->id??null;
                 $item->referral_code = $user->reference_code??null;
                 $item->teams = $teams;
                 $item->join_status =  ($cc->team_join_status==1)?'<span class="btn btn-success btn-xs">Joined</span>':'<span class="btn btn-danger btn-xs">Not Joined</span>';
@@ -230,10 +234,13 @@ class MatchContestController extends Controller {
                     $teams = Player::where('match_id',$item->match_id)->whereIn('pid',$teams)
                         ->get(['pid','team_id','match_id','title','short_name','playing_role','fantasy_player_rating']);
                     $item->teams = $teams; 
-
+                    $item->clone_team = $cc->is_cloned??'no';
+                
                     $user = User::find($item->user_id);
-                    $item->user_name = $user->name??null; 
+                    $item->team_name = $user->team_name??null;
+                    $item->user_id = $user->id??null;
                     $item->referral_code = $user->reference_code??null;
+
             $joinContest = JoinContest::where('match_id',$item->match_id)
                 ->where('team_count',$item->team_count)
                 ->where('user_id',$item->user_id)
@@ -257,17 +264,18 @@ class MatchContestController extends Controller {
         } 
         $table_cname = \Schema::getColumnListing('create_teams');
         
-        $except = ['id','created_at','updated_at','contest_id','user_id','isWinning','edit_team_count','team_id','captain','vice_captain','trump','teams','team_join_status','points','rank','prize_amount'];
+        $except = ['id','created_at','updated_at','contest_id','user_id','isWinning','edit_team_count','team_id','captain','vice_captain','trump','teams','team_join_status','points','rank','prize_amount','is_cloned'];
         $data = [];
 
         $tables[] = 'match_name';
         $tables[] = 'status';
-        $tables[] = 'user_name';
+        $tables[] = 'team_name';
+        $tables[] = 'user_id'; 
         $tables[] = 'referral_code';
         $tables[] = 'rank';
         $tables[] = 'point';
         $tables[] = 'prize_amount';
-
+        $tables[] = 'clone_team';
         $tables[] = 'join_status';
 
         foreach ($table_cname as $key => $value) {

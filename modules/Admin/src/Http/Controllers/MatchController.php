@@ -103,7 +103,7 @@ class MatchController extends Controller {
                                 $wallet = Wallet::firstOrNew(
                                         [
                                            'user_id' => $item->user_id,
-                                           'payment_type' => 4
+                                           'payment_type' => 3
                                         ]
                                     );
 

@@ -360,8 +360,7 @@
         <a class="dropdown-item btn btn-primary" href="{{ route('match.show',$result->id)}}">View Details <i class="fa fa-eye" title="details"></i> </a>
         @if($result->status==2)
 
-
-         <a class="dropdown-item btn btn-success" target="_blank" href="{{env('api_base_url')}}/prizeDistribution?allowme=true&match_id={{$result->match_id}}">
+         <a class="dropdown-item btn btn-success" target="_blank" href="https://api.sportsfight.in/api/v2/distributePrize?match_id={{$result->match_id}}">
            Generate Prize
               </a> 
           @else
@@ -516,7 +515,7 @@
                                          <td> 
                                           {{
                                             date('D d, M Y h:i A',$result->timestamp_start)
-                                          }}
+                                          }} 
                                             
                                         </td>
                                          <td> 
