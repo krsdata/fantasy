@@ -99,7 +99,12 @@
                                                  </td>
 
                                                 <td>INR {{$result->total_balance-$result->paid_balance}} </td>
-                                                 <td>INR {{$result->amount}} </td>
+                                                 <td>INR {{$result->amount}} 
+                                                  <br>
+                                                  <b>
+                                                    {{$result->payment_taken_in}}
+                                                 </b>
+                                                 </td>
                                                  <td>{{$result->withdraw_status}}
                                                  </td>                     
                                                 <td>  

@@ -55,7 +55,9 @@ class MatchController extends Controller {
     }
 
     
-    /*cancelMatch*/
+ 
+
+   /*cancelMatch*/
     public function cancelContest(Request $request){
         $match_id = $request->match_id;
         $contest_id = $request->cancel_contest;
@@ -74,6 +76,7 @@ class MatchController extends Controller {
                         }
                         
                         $amount = $cancel_contest->entry_fees-$bonus_amount;
+                        
                         if($item->cancel_contest==0){
 
                             \DB::beginTransaction();
@@ -81,7 +84,7 @@ class MatchController extends Controller {
                             $cancel_contest->save();
                             
                             if(isset($item->contest) && $item->contest->entry_fees){   
-                                $transaction_id = $item->match_id.'S'.$item->contest_id.'F'.$item->created_team_id.'R'.$item->user_id;
+                                $transaction_id = $item->match_id.'N'.$item->contest_id.'N'.$item->created_team_id.'N'.$item->user_id;
                                 $wt =    WalletTransaction::firstOrNew(
                                         [
                                            'user_id' => $item->user_id,
@@ -103,7 +106,7 @@ class MatchController extends Controller {
                                 $wallet = Wallet::firstOrNew(
                                         [
                                            'user_id' => $item->user_id,
-                                           'payment_type' => 4
+                                           'payment_type' => 3
                                         ]
                                     );
 
@@ -189,9 +192,9 @@ class MatchController extends Controller {
         }
     }
 
-     public function sendNotification($token, $data){
+    public function sendNotification($token, $data){
      
-        $serverLKey = 'AIzaSyAFIO8uE_q7vdcmymsxwmXf-olotQmOCgE';
+        $serverLKey = env('serverLKey');
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
        $extraNotificationData = $data;
@@ -288,7 +291,7 @@ class MatchController extends Controller {
                             $wt->payment_type       = 7;  
                             $wt->payment_type_string = "Refunded";
                             $wt->transaction_id     = $transaction_id;
-                            $wt->payment_mode       = env('company_name');    
+                            $wt->payment_mode       = 'Sportsfight';    
                             $wt->payment_status     = "success";
                             $wt->debit_credit_status = "+";   
                             $wt->save();
@@ -335,8 +338,8 @@ class MatchController extends Controller {
 
                     $email_content = [ //
                         'receipent_email'=> $item->email,
-                        'subject'=> env('company_name').' | Prize',
-                        'greeting'=> env('company_name'),
+                        'subject'=> 'Sportsfight | Prize',
+                        'greeting'=> 'SportsFight',
                         'first_name'=> ucfirst($item->name),
                         'content' => 'You have won the prize of Rs.<b>'.$item->prize_amount.'</b> for the <b>'.$match->title.'</b> match.',
                         'rank' => $item->rank
@@ -345,7 +348,7 @@ class MatchController extends Controller {
                     $helper = new Helper;
                     $m = $helper->sendNotificationMail($email_content,'prize'); 
                 }
-                    
+                 
                 \DB::table('prize_distributions')->where('id',$item->id)->update(['email_trigger'=>1]);  
                 }); 
         return  Redirect::to(route('match','search='.$match_id.'&email=true'));
@@ -553,6 +556,7 @@ class MatchController extends Controller {
                // ->WhereMonth('date_start',date('m'))
                 ->whereDate('date_start','>=',\Carbon\Carbon::yesterday())
                 ->orderBy('date_start','ASC')
+                ->where('is_cancelled',0)
                 ->Paginate($this->record_per_page);
             $match->transform(function($item,$key){
 

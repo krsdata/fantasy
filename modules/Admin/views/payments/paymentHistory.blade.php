@@ -99,7 +99,15 @@
                                             <tr>
                                                  <td>   {{ (($transaction->currentpage()-1)*15)+(++$key) }} 
                                                 </td>
-                                                <td>{{$result->transaction_id}} </td>
+                                                <td>{{$result->transaction_id}} 
+                                                  <br>
+                                                  {{$result->match_name}}
+                                                  <br> 
+                                                  {{$result->contest_name}} 
+
+                                                </td>
+
+
                                                 <td>
                                                   <a href="{{url('admin/user?search='.$result->email)}}"> 
                                                    ID: {{$result->user_id}},<br>
@@ -126,7 +134,7 @@
                                                  </td>                         
                                                 
                                                 <td>
-                                                        {!! Carbon\Carbon::parse($result->updated_at)->format('d-m-Y h:i:s'); !!}
+                                                        {!! Carbon\Carbon::parse($result->updated_at)->format('d-m-Y h:i:s A'); !!}
                                                 </td>
                                                 
                                                

@@ -1139,6 +1139,172 @@ class ApiController extends BaseController
         return $final_playing11;
     }
 
+    public function getMyTeamNinja11()
+    {
+        dd(1);
+    }
+    /*
+    @method : createTeam
+   */
+    public function getMyTeamNinja(Request $request){
+
+        $match_id =  $request->match_id;
+        $user_id  = $request->user_id;
+         
+        $userVald = User::find($user_id);
+        $matchVald = Matches::where('match_id',$request->match_id)->count();
+
+        if(!$userVald || !$matchVald){
+            return [
+                'status'=>false,
+                'code' => 201,
+                'message' => 'user id or match id is invalid'
+    
+            ];
+        }
+
+        if($request->type=="close"){
+            $myTeam   =  CreateTeam::where('match_id',$match_id)
+                        ->whereIn('id',$request->close_team_id)   
+                        ->where('user_id',$user_id )
+                        ->get();
+        }elseif($request->type=="open"){
+            $myTeam   =  CreateTeam::where('match_id',$match_id)
+                        ->whereIn('id',$request->open_team_id)
+                        ->where('user_id',$user_id)
+                        ->get(); 
+            
+        }else{
+            $myTeam   =  CreateTeam::where('match_id',$match_id)
+            ->where('user_id',$user_id )
+            ->where('id',$request->team_id)
+            ->get();
+        }
+
+        $user_name = User::find($user_id);
+        $data = [];
+        foreach ($myTeam as $key => $result) {
+            $player_ids = [];
+            $team_id =  json_decode($result->team_id,true);
+            $teams = json_decode($result->teams,true);
+            if($team_id==null or $teams==null){
+                continue;
+            }
+
+            $captain = $result->captain;
+            $trump = $result->trump;
+            $vice_captain = $result->vice_captain;
+            $team_count = $result->team_count;
+            $user_id    = $result->user_id;
+            $match_id   = $result->match_id;
+            $points     = $result->points;
+            $rank       = $result->rank;
+
+            $k['created_team'] = ['team_id' => $result->id];
+
+            $playing11 = $this->getPlaying11Team($result->match_id);
+            if(count($playing11)){
+                $playing11 = $playing11;
+            }else{
+                $playing11 = false;
+            }
+
+            $player = Player::WhereIn('team_id',$team_id)
+                ->whereIn('pid',$teams)
+                ->where('match_id',$result->match_id)
+                ->groupBy('pid','id')
+                ->pluck('id','pid')->toArray();  
+            
+            foreach ($player as $key => $rs) {
+                $player_ids[] = $rs;
+            }   
+            $player = Player::whereIn('id',$player_ids)->get();
+
+            foreach ($player as $key => $value) {
+                if(is_array($playing11) && count($playing11) && isset($playing11[$value->pid])){
+                  //  if($value->playing_role=="wk" || $value->playing_role=="all"){
+                 //   }else{
+                     //   $value->playing_role = $playing11[$value->pid]??$value->playing_role;
+                 //   }
+                }
+                                
+                if($value->playing_role=="cap"){
+                    $team_role["bat"][] = $value->pid;
+                }
+                elseif($value->playing_role=="wkcap"){
+                    $team_role["wk"][] = $value->pid;
+                }
+                elseif($value->playing_role=="wkbat"){
+                    $team_role["wk"][] = $value->pid;
+                }else{   
+                    $team_role[$value->playing_role][] = $value->pid;
+                }
+            }
+            foreach ($team_role as $key => $value) {
+                $k[$key] = $value;
+            }
+            $team_role = [];
+            $c = Player::WhereIn('team_id',$team_id)
+                ->whereIn('pid',[$captain,$vice_captain,$trump])
+                ->where('match_id',$result->match_id)
+                ->pluck('short_name','pid');
+                            
+            $k['c']     = ['pid'=> (int)$captain,'name' => $c[$captain]];
+            $k['vc']    = ['pid'=>(int)$vice_captain,'name' => $c[$vice_captain]];
+            $k['t']     = ['pid'=>(int)$trump,'name' => $c[$trump]];
+
+            $t_a = TeamA::WhereIn('team_id',$team_id)
+                ->where('match_id',$result->match_id)
+                ->first();
+
+            $t_b = TeamB::WhereIn('team_id',$team_id)
+                ->where('match_id',$result->match_id)
+                ->first();
+
+            $tac = Player::Where('team_id',$t_a->team_id)
+                    ->whereIn('pid',$teams)
+                    ->where('match_id',$result->match_id)
+                    ->whereIn('id',$player_ids)
+                    ->get();
+
+            $tbc = Player::Where('team_id',$t_b->team_id)
+                    ->whereIn('pid',$teams)
+                    ->where('match_id',$result->match_id)
+                    ->whereIn('id',$player_ids)
+                    ->get();
+
+            // team count with name
+            $t[]   = ['name' => $t_a->short_name, 'count' => $tac->count()];
+            $t[]   = ['name' => $t_b->short_name, 'count' => $tbc->count()];
+
+            $k['match']   = [$t_a->short_name.'-'.$t_b->short_name];
+            $k['team']    = $t;
+            $k['c_img']   = "";
+            $k['vc_img']  = "";
+            $k['t_img']   = "";
+            // username
+            $tname = $user_name->team_name??$user_name->name;
+            $k['team_name'] =  $tname. '('.$result->team_count.')';
+            $k['points']    = $points;
+            $k['rank']      = $rank;
+            $data[] = $k;
+            $t      = [];
+        }
+
+        $match_info = $this->setMatchStatusTime($match_id);
+            return response()->json(
+                [
+                'system_time'=>time(),
+                'match_status' => null,
+                'match_time' => null,
+                "status"=>true,
+                "code"=>200,
+                "teamCount" => $myTeam->count(),
+                "message"=>"success",
+                "response"=>["myteam"=>$data]
+            ]
+        );
+    }
     /*
     @method : createTeam
    */

@@ -100,10 +100,12 @@ class Handler extends ExceptionHandler
                 $exception = ($exception=="")?"Page not found!":$exception;
                 return redirect('admin/error?message='.Str::slug($exception))->with('flash_alert_notice', $exception);
             }
-        }
-        $helper = new Helper;
-        $send_status = $helper->notifyErrorToAdmin('⚠️ Alert ⛔⚠️😱',
+
+            $helper = new Helper;
+            $send_status = $helper->notifyErrorToAdmin('⚠️ Alert ⛔⚠️😱',
           $exception->getMessage().'.'.$exception->getfile().'. Line number :'.url($request->getrequestUri()));
+        }
+       
         
         $headers = getallheaders(); 
         $path_info_url = $request->getpathInfo();

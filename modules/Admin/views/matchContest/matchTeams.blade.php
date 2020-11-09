@@ -80,16 +80,36 @@
                    <td>  {!!$result->$col_name!!} </td>
             @endforeach
                 
-            <td> 
+            <td>  
+              
                 
-
-                <a href="#"  data-toggle="modal" data-target="#viewTeams_{{$result->id}}">
+                <a href="https://app.ninja11.in/api/v2/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
                     <button class="btn btn-success btn-xs">
+                       Rail Logic
+                    <i class="fa fa-fw fa-eye" title="edit"></i> 
+                    </button>
+                </a> <br><br>
+
+                 <a href="https://app.ninja11.in/api/v2/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}&with_edit=1"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
+                    <button class="btn btn-success btn-xs" >
+                       Rail Logic With Edit
+                    <i class="fa fa-fw fa-eye" title="edit"></i> 
+                    </button>
+                </a> <br><br>
+
+
+                <a href="#"  data-toggle="modal" data-target="#viewTeams_{{$result->id}}" >
+                    <button class="btn btn-success btn-xs" >
                        View Teams
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
                     </button>
-                </a>
-
+                </a> <br><br>
+                 <a href="https://api.ninja11.in/api/v2/joinContestfromRB?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&limit=1" target="_blank">
+                            <button class="btn btn-success btn-sm">
+                               Join Contest
+                            <i class="fa fa-fw fa-eye" title="edit"></i> 
+                            </button>
+                        </a> <br><br>
 
 <div class="modal fade" id="viewTeams_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg  " role="document">
@@ -141,6 +161,40 @@
             @endforeach
  
           </tbody>
+      </table>  
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><!-- 
+            <button type="submit" class="btn btn-success"> Cancel Selected Contest </button> -->
+        </div>
+      </div>
+    </form>
+</div>
+</div>
+</div>
+
+
+
+<div class="modal fade" id="railLogic_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg  " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">railLogic</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> 
+      <form action="#"> 
+      <div class="modal-body">
+
+         <table class="table table-striped table-hover table-bordered" id="contact">
+          <thead>
+              <tr>
+                  <th>Sno.</th> 
+              </tr>
+
+          </thead>
+          
       </table>  
 
         <div class="modal-footer">

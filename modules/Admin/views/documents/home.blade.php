@@ -34,8 +34,10 @@ th, td {
         <a href="{{ route('documents','status=2')}}">
                     <button  class="btn btn-info">  Approved : {{$approved??0}} </button>
                                                     </a>
+
+        <a href="{{ route('documents','status=1')}}">
                                                      <button  class="btn btn-success">  Pending : {{$pending??0}} </button> 
-                                                
+                                            </a>    
                                         </div> 
                                      
                                 </div>
@@ -74,7 +76,7 @@ th, td {
                                                 <th> Bank details </th>
                                                 <th>Passbook</th>
                                                 <th> Doc Type </th> 
-                                                <th> Doc Numebr</th> 
+                                                <th> Doc Number</th> 
                                                 <th> Doc Proof </th> 
                                                 <th> Balance </th>
                                                 <th>Status</th>
@@ -96,7 +98,7 @@ th, td {
 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#UserDetails_{{$result->id}}">
   User Details
 </button>
-
+<br></br>
 
 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#BankDetails_{{$result->id}}">
   Bank Details
@@ -393,9 +395,18 @@ Front Adhar<br>
                                                     <ion-icon name="close-circle-outline"></ion-icon>
                                                   </td>
                                                 <td>
-                                                        {!! Carbon\Carbon::parse($result->created_at)->format('d-m-Y'); !!}
+ 
+ <?php 
+$date  = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $result->updated_at, 'UTC');
+
+echo $date->setTimezone('Asia/Kolkata');
+?>
+
                                                 </td>
                                                     
+
+
+
                                                 <!-- 
 
                                                 {!! Carbon\Carbon::parse($result->created_at)->format('h:i:s A'); !!} -->
@@ -418,7 +429,15 @@ Front Adhar<br>
   of  {{$documents->total()}} entries 
 </span>
 
-                                     <div class="center" align="center">  {!! $documents->appends(['search' => isset($_GET['search'])?$_GET['search']:''])->render() !!}</div>
+<div class="center" align="center">  
+  {!! 
+    $documents->appends([
+      'search' => isset($_GET['search'])?$_GET['search']:'',
+      'status'=> isset($_GET['status'])?$_GET['status']:''
+      ]
+      )->render()
+  !!}
+</div>
                                 </div>
                             </div>
                             <!-- END EXAMPLE TABLE PORTLET-->
@@ -449,11 +468,9 @@ Front Adhar<br>
           <input type="hidden" name="bank_doc_id" id="bank_doc_id">
             <label for="sel1">Select Status:</label>
         <select class="form-control" id="document_status" name="document_status">
-          <option value="0">Select Status</option>
-          <option value="1">Pending</option>
+          <option value="0">Select Status</option> 
           <option value="2">Approved</option>
-          <option value="3">Rejected</option>
-          <option value="4">Re Upload</option> 
+          <option value="4">Rejected/Reupload</option>
         </select>
       </div>
       <div class="form-group">

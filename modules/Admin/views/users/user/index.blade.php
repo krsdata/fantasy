@@ -103,7 +103,7 @@
                                  <th>Team Name</th>
                                 <th> Full Name </th>
                                 <th> Email </th>
-                                 <th> Account Balance </th>
+                                 <th> Account Details </th>
                                 <th> Phone </th>
                                 <th> {{($heading=='Admin Users')?'User Type':''}} </th>
                                 <th>Signup Date</th>
@@ -158,10 +158,56 @@
                                 <td> {{$result->email}} </td>
                                  <td>  
 
-                                    <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#account_{{$result->id}}">
+
+<table class="table table-striped table-hover table-bordered">
+  <tr>
+    <td>
+      <button type="button" class="btn btn-success"> Total Balance : 
  {{round($result->balance,2)}} INR
 </button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      
+
+<a href="{{url('admin/wallets?search='.$result->email)}}" target="_blank">
+<button type="button" class="btn btn-success">
+ View Wallets
+</button>
+</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+<a href="{{url('admin/documents?search='.$result->email)}}" target="_blank">
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#account_{{$result->id}}">
+ View documents
+</button>
+</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Last Match Played: <br><br>
+      @foreach($result->mat_id as $key => $val)
+       <p>
+          <a  style="padding: 3px; width: 100%" class="btn-success" href="{{url('admin/matchContest?match_id='.$val->match_id.'&email='.$result->email)}}">
+            {{ $val->short_title }} - {{ $val->status_str}} </a>  
+          </p>
+      @endforeach
+
+    </td>
+  </tr>
+
+  <tr>
+    <td></td>
+  </tr>
+</table>
+                                    <!-- Button trigger modal -->
 
 <!-- Modal -->
 <div class="modal fade" id="account_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

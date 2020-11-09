@@ -78,12 +78,15 @@ class DefaultContestController extends Controller {
                             $query->orWhere('total_spots',$search);
                         }
                         
-                    })->Paginate(20);
+                    })->Paginate(50);
         } else {
-            $defaultContest = DefaultContest::orderBy('id','DESC')->Paginate(20);
+            $defaultContest = DefaultContest::orderBy('id','DESC')->Paginate(50);
         }
-        
+
         $contest_type   = ContestType::pluck('contest_type','id')->toArray();
+
+        array_unshift($contest_type,"Select Contest from Drop down");
+
         
         return view('packages::defaultContest.index', compact('defaultContest','page_title', 'page_action','sub_page_title','contest_type'));
     }

@@ -144,7 +144,19 @@ class UsersController extends Controller {
                             ->sum('amount');
                     $item->reference_deposit = $reference_deposit;    
                 }
-                
+
+                 $match = \DB::table('join_contests')
+                            ->where('user_id',$item->id)
+                            ->groupBy('match_id')
+                            ->pluck('match_id')
+                            ->toArray();
+
+               $m = \DB::table('matches')->whereIn('match_id',$match)
+                                ->orderBy('status','asc')
+                                ->limit(5)
+                                ->get();
+
+                $item->mat_id = $m;
 
                 $item->amount = $amount; 
                 return $item;
@@ -196,6 +208,18 @@ class UsersController extends Controller {
                     $item->reference_deposit = $reference_deposit;    
                 }
 
+                $match = \DB::table('join_contests')
+                            ->where('user_id',$item->id)
+                            ->groupBy('match_id')
+                            ->pluck('match_id')
+                            ->toArray();
+
+                $m = \DB::table('matches')->whereIn('match_id',$match)
+                                ->orderBy('status','asc')
+                                ->limit(5)
+                                ->get();
+
+                $item->mat_id = $m;
                 return $item;
             });
             
@@ -223,7 +247,7 @@ class UsersController extends Controller {
 
     public function sendNotification($token, $data){
      
-        $serverLKey = 'AIzaSyAFIO8uE_q7vdcmymsxwmXf-olotQmOCgE';
+        $serverLKey = env('serverLKey');
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
        $extraNotificationData = $data;
@@ -281,6 +305,7 @@ class UsersController extends Controller {
                     'title' => $title ,
                     'message' => $message
                 ]; 
+
             $this->sendNotification($device_id, $data);
             return Redirect::to(route('user'));
         }

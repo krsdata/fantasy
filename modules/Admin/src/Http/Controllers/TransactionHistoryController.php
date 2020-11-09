@@ -11,6 +11,8 @@ use Modules\Admin\Models\PrizeDistribution;
 use Modules\Admin\Models\Wallets;
 use Modules\Admin\Models\Transaction;
 use Modules\Admin\Models\WalletsTrasaction;
+use App\Models\Matches;
+use App\Models\CreateContest;
 use Input;
 use Validator;
 use Auth;
@@ -65,7 +67,7 @@ class TransactionHistoryController extends Controller {
         $page_title = 'Payment';
         $page_action = 'Payment History'; 
         $msg = null;
-        
+            
         if ($request->status && $request->txt_id) {
             
             $txt = WalletsTrasaction::find($request->txt_id);
@@ -130,11 +132,23 @@ class TransactionHistoryController extends Controller {
             ->orderBy('id','desc')->Paginate($this->record_per_page);
             
              $transaction->transform(function($item, $Key){
+
+                $match =  Matches::where('match_id',$item->match_id)->first();
+
+                $item->match_name = $match->short_title??null;
+                 $item->contest_name = null;
+                $contest = CreateContest::find($item->contest_id);
+                if($contest){
+                    $ctype = \DB::table('contest_types')->where('id',$contest->contest_type)->first(); 
+                    $item->contest_name = $ctype->contest_type??null;  
+                }
+
                             $user = User::find($item->user_id);
                             $item->user_id = $user->id??null; 
                             $item->name = $user->name??null;
                             $item->email = $user->email??null;
                             $item->phone = $user->mobile_number??null;
+
                             return $item;
                         });
 

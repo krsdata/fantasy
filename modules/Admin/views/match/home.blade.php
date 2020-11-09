@@ -54,7 +54,7 @@
                        {{ Session::get('flash_alert_notice') }} 
                        </div>
                   @endif
-              <div class="portlet-body table-responsive" style="min-height: 480px">
+              <div class="portlet-body table-responsive" style="min-height: 1000px">
                   <div class="table-toolbar">
                       <div class="row">
                           <form action="{{route('match')}}" method="get" id="filter_data">
@@ -384,7 +384,7 @@
       </div>
     </div>
 
-<div class="modal fade" id="cancelContest_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade table-responsive" id="cancelContest_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg  " role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -394,7 +394,7 @@
         </button>
       </div> 
       <form action="{{route('cancelContest','match_id='.$result->match_id)}}"> 
-      <div class="modal-body">
+      <div class="modal-body table-responsive">
 
          <table class="table table-striped table-hover table-bordered" id="contact">
           <thead>

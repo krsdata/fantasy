@@ -38,16 +38,16 @@
                                          {{ Session::get('flash_alert_notice') }} 
                                          </div>
                                     @endif
-                                <div class="portlet-body">
+                                <div class="portlet-body table-responsive">
                                     <div class="table-toolbar">
                                         <div class="row">
                                             <form action="{{route('defaultContest')}}" method="get" id="filter_data">
 
 
-        <div class="col-md-3">
-                    
-                 {{ Form::select('contest_type',$contest_type, $_GET['contest_type']??0, ['class' => 'form-control','onchange'=>"this.form.submit()"]) }}
-        </div> 
+                                            <div class="col-md-3">
+                                                        
+                                                     {{ Form::select('contest_type',$contest_type, $_GET['contest_type']??0, ['class' => 'form-control','onchange'=>"this.form.submit()"]) }}
+                                            </div> 
 
                                              
                                             <div class="col-md-3">
@@ -106,9 +106,16 @@
                                                 </td>
                                                     
                                                 <td> 
+                                                    
+
                                                     <a href="{{ route('defaultContest.edit',$result->id)}}">
-                                                        <i class="fa fa-edit" title="edit"></i> 
-                                                    </a>
+<button class="btn btn-success btn-xs">
+<i class="fa fa-fw fa-edit" title="edit"></i>
+Edit
+</button>
+</a>
+
+
 
                                                     {!! Form::open(array('class' => 'form-inline pull-left deletion-form', 'method' => 'DELETE',  'id'=>'deleteForm_'.$result->id, 'route' => array('defaultContest.destroy', $result->id))) !!}
                                                     <button class='delbtn btn btn-danger btn-xs' type="submit" name="remove_levels" value="delete" id="{{$result->id}}"><i class="fa fa-fw fa-trash" title="Delete"></i></button>

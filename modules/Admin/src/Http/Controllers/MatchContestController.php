@@ -47,7 +47,7 @@ class MatchContestController extends Controller {
         View::share('heading','Match Contest');
         View::share('route_url',route('matchContest'));
 
-        $this->record_per_page = Config::get('app.record_per_page');
+        $this->record_per_page = 30; //??Config::get('app.record_per_page');
     }
 
     public function contestReports(MatchTeams $matchTeams, Request $request)
@@ -148,10 +148,12 @@ class MatchContestController extends Controller {
         // Search by name ,email and group
         $search = Input::get('search');
         $status = Input::get('status');
-        $user = User::where('email','LIKE',"%$search%")
+       /* $user =  User::where('email','LIKE',"%$search%")
                             ->orWhere('first_name','LIKE',"%$search%")
                             ->orWhere('phone','LIKE',"%$search%")
-                            ->get('id')->pluck('id');
+                            ->get('id')->pluck('id');*/
+        $user = User::where('id',285)->pluck('id');
+
         $contest_id = $request->contest_id; 
 
         $created_team_id = JoinContest::where('match_id',$search)->where('contest_id',$contest_id)->orderBy('ranks','asc')
@@ -162,7 +164,7 @@ class MatchContestController extends Controller {
                         if (!empty($search)) {
                             $query->where('match_id', $search);
                          }
-                         if ($user->count()) {
+                         if ($user) {
                              $query->whereIn('user_id', $user);
                          }
                          if($created_team_id){
@@ -176,16 +178,25 @@ class MatchContestController extends Controller {
                     $q->where('contest_id',$contest_id);    
                 }
             })
-            ->orderBy('ranks','asc')->Paginate(15);
+            ->orderBy('ranks','asc')->Paginate(30);
             
             $matchTeams->transform(function($item,$key)use($contest_id){ 
                 $joinContest = $item;
 
                 $matchTeams = CreateTeam::find($item->created_team_id);
                 
+                $clone = CreateTeam::where('is_cloned',$item->created_team_id)
+                            ->count();
+
+                if($clone){
+                    $is_cloned = 'Yes';
+                }else{
+                    $is_cloned = 'No';
+                }
+                $item->is_cloned = $is_cloned;
+
                 $item->captain      = $matchTeams->captain;
                 $item->vice_captain = $matchTeams->vice_captain;
-                $item->trump        = $matchTeams->trump;
 
                 if($joinContest){
                     $item->point = $joinContest->points;
@@ -213,13 +224,28 @@ class MatchContestController extends Controller {
                 $item->user_name = $user->name??null;
                 $item->referral_code = $user->reference_code??null;
                 $item->teams = $teams;
-                $item->join_status =  ($cc->team_join_status==1)?'<span class="btn btn-success btn-xs">Joined</span>':'<span class="btn btn-danger btn-xs">Not Joined</span>';
+
+                $rl  = '<span class="btn btn-danger btn-xs">Run Rail Logic</span>';
+
+                $join_status =  ($cc->team_join_status==1)?'<span class="btn btn-success btn-xs">Joined</span>':'<span class="btn btn-danger btn-xs">Not Joined</span>';
+
+                $item->join_status = $join_status.$rl;
+
+
                 return $item; 
             });
         } else {
             $matchTeams = MatchTeams::orderBy('created_at','desc')->orderBy('id','desc')->Paginate($this->record_per_page);
                                                   
             $matchTeams->transform(function($item,$key){ 
+
+                    if($item->is_cloned){
+                        $is_cloned = 'Yes';
+                    }else{
+                        $is_cloned = 'No';
+                    }
+
+                    $item->is_cloned = $is_cloned; 
 
                     $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                     $item->status = $match->status_str??null;
@@ -250,7 +276,7 @@ class MatchContestController extends Controller {
                     $item->prize_amount = 0;   
                 }
                     $item->join_status =  ($item->team_join_status==1)?'<span class="btn btn-success btn-xs">Joined</span>':'<span class="btn btn-danger btn-xs">Not Joined</span>';
-                    
+                        
                     return $item; 
             });
 
@@ -292,24 +318,46 @@ class MatchContestController extends Controller {
         $page_title = 'Match Contest';
         $sub_page_title = 'Match Contest';
         $page_action = 'View Match Contest'; 
-         
+        
+
+        $match_id = $request->match_id ;//= 45626;  
         // Search by name ,email and group
         $search = Input::get('search');
         $status = Input::get('status');
-        $user = User::where('email','LIKE',"%$search%")
-                            ->orWhere('first_name','LIKE',"%$search%")
-                            ->orWhere('phone','LIKE',"%$search%")
-                            ->get('id')->pluck('id');
-
-        if ((isset($search) && !empty($search))) { 
-
-            $matchContest = MatchContest::where(function($query) use($search,$status,$user) {
-                        if (!empty($search)) {
+        $user = User::where(function($q) use($request,$search){
+            if($request->email){
+                $q->orWhere('email','LIKE',$request->email);
+            }
+            if($search){
+                $q->orWhere('name','LIKE',"%$search%");
+                $q->orWhere('team_name','LIKE',"%$search%");
+                $q->orWhere('phone','LIKE',"%$search%");
+            }
+                
+        })->pluck('id')->toArray();    
+        $joinContest = [];          
+        if($user){
+                $joinContest = JoinContest::where('match_id',$match_id)
+                                ->whereIn('user_id',$user)
+                                ->pluck('contest_id')
+                                ->toArray();
+            }
+                        
+        if ((isset($search) && !empty($search)) || $joinContest) { 
+            //dd($joinContest);
+            $matchContest = MatchContest::where(function($query) use($search,$status,$user,$joinContest) {
+                        if (!empty($search) && !$user) {
                              $query->where('match_id', $search);
                              $query->where('filled_spot','>',0);
                          }
-                    })->orderBy('id','desc')->Paginate($this->record_per_page);
-            
+                         //dd($joinContest);
+                         if($joinContest){
+                            $query->whereIn('id',$joinContest);
+                         }
+                    })->orderBy('total_winning_prize','desc')->Paginate(50);
+                
+                //dd( $matchContest);
+
             $matchContest->transform(function($item,$key){ 
                
                 $contest_name = \DB::table('contest_types')->where('id',$item->contest_type)->first();
@@ -321,10 +369,16 @@ class MatchContestController extends Controller {
                  $item->cancel_status = 'No';    
                 if($joinContest){
                     $user = User::find($joinContest->user_id);
+                    
+                    $link1 = '<a target="_blank" href="'.url('admin/matchContest?match_id='.$item->match_id.'&email='.$user->email??null).'">'.$user->email??null.')</a>';
+
+                    $link2 = '<a target="_blank" href="'.url('admin/user?search='.$user->email??null).'">'.$user->id??null.'</a>';
+
                     $first_ranker = $joinContest->winning_amount??0;
-                    $item->first_ranker = $user->name.' won <br><b>'.$first_ranker.' INR </b><br>';
+                    $item->first_ranker = $user->name.'</br>('.$user->team_name.')<br>'.$link1.'<br><b>'.$first_ranker.' INR </b><br>';
                     $status = $joinContest->cancel_contest;
                     $item->cancel_status = $status?'Yes':'No';
+                    $item->user_id = $link2;
                 }
                 return $item; 
             });
@@ -343,12 +397,13 @@ class MatchContestController extends Controller {
         } 
         
         $table_cname = \Schema::getColumnListing('create_contests');
-        $except = ['created_at','updated_at','winner_percentage','prize_percentage','is_cancelled','contest_type','default_contest_id','cancellation','is_free','is_cloned','is_full','sort_by','deleted_at','is_cancelable','id'];
+        $except = ['created_at','updated_at','winner_percentage','prize_percentage','is_cancelled','contest_type','default_contest_id','cancellation','is_free','is_cloned','is_full','sort_by','deleted_at','is_cancelable','id','usable_bonus','bonus_contest'];
         $data = [];
 
         $tables[] = 'contest_name';
         if(isset($is_match)){
             $tables[] = 'first_ranker';
+            $tables[] = 'user_id';
             $tables[] = 'cancel_status';    
         }
         

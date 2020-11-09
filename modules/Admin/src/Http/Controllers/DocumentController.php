@@ -47,7 +47,7 @@ class DocumentController extends Controller
 
     public function sendNotification($token, $data){
      
-        $serverLKey = 'AIzaSyAFIO8uE_q7vdcmymsxwmXf-olotQmOCgE';
+        $serverLKey = env('serverLKey');
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
        $extraNotificationData = $data;
@@ -139,17 +139,22 @@ class DocumentController extends Controller
                             ->orWhere('team_name','LIKE',"%$search%")
                             ->get('id')->pluck('id');
         $approved = Document::where('status',2)->count();
-        $pending  =  Document::where('status','!=',2)->count();
+        $pending  =  Document::where('status',1)->count();
 
-        if ((isset($search) && !empty($search))) {
+        $status = $request->status;
 
-            $documents = Document::with('user')->where(function ($query) use ($search,$user) {
+        if ((isset($search) && !empty($search)) || $status) {
+
+            $documents = Document::with('user')->where(function ($query) use ($search,$user,$status) {
                 if (!empty($search) && !empty($user)) {
                    $query->whereIn('user_id', $user);
                 }
+                if($status){
+                    $query->where('status', $status);
+                }
             })
-            ->orderBy('status','asc')
-           // ->orderBy('id','desc')
+           // ->orderBy('status','asc')
+            ->orderBy('user_id','desc')
             ->Paginate($this->record_per_page);
            // dd($documents);
             $documents->transform(function($item,$key){
@@ -165,9 +170,9 @@ class DocumentController extends Controller
             });
         } else {
             $documents = Document::with('user')
-                        ->orderBy('status','asc')
-                       // ->groupBy('user_id')
-                        ->Paginate($this->record_per_page);
+                        ->orderBy('user_id','desc')
+                        //->orde('user_id','desc')
+                        ->Paginate(30);
 
             $documents->transform(function($item,$key){
                 $bankAccount = \DB::table('bank_accounts')
@@ -273,7 +278,9 @@ class DocumentController extends Controller
                 
            }
 
-        return Redirect::to('admin/documents')
+           $url =  URL::previous();
+
+        return Redirect::to($url)   
                             ->with('flash_alert_notice', $msg);
     }
     /*

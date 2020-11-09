@@ -37,7 +37,7 @@
                                         <h3 class="font-purple-soft">
                                             <span data-counter="counterup" data-value="276">{{$users_count}}</span>
                                         </h3>
-                                        <small>Manage USERS</small>
+                                        <small>Total User</small>
                                     </div>
                                     <div class="icon">
                                         <i class="icon-user"></i>
@@ -80,54 +80,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="dashboard-stat2 bordered">
-                                <div class="display">
-                                    <div class="number">
-                                        <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$create_count}}</span>
-                                        </h3>
-                                        <small> Total Team Created  </small>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
-                                </div>
-                                <div class="progress-info">
-                                    <div class="progress">
-                                        <span style="width: {{$create_count}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$create_count}}% grow</span>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="dashboard-stat2 bordered">
-                                <div class="display">
-                                    <div class="number">
-                                        <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$joinContest_count }}</span>
-                                        </h3>
-                                        <small> Total Join Contest </small>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
-                                </div> 
-                                <div class="progress-info">
-                                    <div class="progress">
-                                        <span style="width: {{
-                                            $joinContest_count
-                                        }}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$joinContest_count}}% grow</span>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                      
 
 
                       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -202,7 +155,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                       <!--  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
                                     <div class="number">
@@ -224,34 +177,7 @@
                                     
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="dashboard-stat2 bordered">
-                                <div class="display">
-                                    <div class="number">
-                                        <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$prize}} INR  </span>
-                                        </h3>
-                                        <small> Total Prize Distributed</small>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
-                                </div>
-                                <div class="progress-info">
-                                    <div class="progress">
-                                        <span style="width: {{$prize}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$prize}}% grow</span>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-
-
+                        </div> -->
 
 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
@@ -374,7 +300,7 @@
                         </div>
 
 
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                     <!--    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
                                     <div class="number">
@@ -396,7 +322,7 @@
                                     
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
