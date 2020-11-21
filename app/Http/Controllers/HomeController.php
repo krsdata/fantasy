@@ -52,6 +52,37 @@ class HomeController extends BaseController
 
         return view('aboutus');
     }
+
+    public function topReferralUser(Request $request){
+       // dd($request->all());
+        $user = \DB::table('referral_codes')->get()->groupBy('refer_by');
+        
+        foreach ($user as $key => $value) {
+            $refer[$key] = $value->count();
+        }
+        arsort($refer);
+        $html = '<table border="1" cellpadding="5" cellspacing="0" bgcolor="#FCFCFC"><tr><td>Sno.</td><td>Top 50 Referral user</td><td>Total</td></tr>';
+        
+        try{
+
+            $i=1;
+        foreach ($refer as $key => $value) {
+            if($i==51){
+                break;
+            }
+            $topRef = \DB::table('users')->where('id',$key)->first();
+           if(!empty($topRef)){
+                
+                $html .= "<tr><td>".$i++."</td><td>".$topRef->name."</td><td>".$value."</td></tr>";
+           }
+        }
+        echo $html.'</table>';
+        }catch(\Excecption $e){
+            dd($e);
+        }
+    }
+    
+
     public function contactus(Request $request){
 
         if($request->method()=="POST"){

@@ -354,7 +354,7 @@ class MatchContestController extends Controller {
                          if($joinContest){
                             $query->whereIn('id',$joinContest);
                          }
-                    })->orderBy('total_winning_prize','desc')->Paginate(50);
+                    })->orderBy('total_spots','DESC')->Paginate(50);
                 
                 //dd( $matchContest);
 
@@ -385,7 +385,7 @@ class MatchContestController extends Controller {
 
             $is_match =true;
         } else {
-            $matchContest = MatchContest::orderBy('id','desc')->Paginate(15);
+            $matchContest = MatchContest::orderBy('total_winning_prize','desc')->Paginate(15);
                                                     
             $matchContest->transform(function($item,$key){ 
                     $contest_name = \DB::table('contest_types')->where('id',$item->contest_type)->first();

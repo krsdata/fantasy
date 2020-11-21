@@ -1,3 +1,4 @@
+
 @extends('packages::layouts.master')
   @section('title', 'Dashboard')
     @section('header')

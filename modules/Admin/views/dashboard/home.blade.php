@@ -33,12 +33,40 @@
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
+                                   <a href="https://ninja11.in/admin/user">
                                     <div class="number">
                                         <h3 class="font-purple-soft">
                                             <span data-counter="counterup" data-value="276">{{$users_count}}</span>
                                         </h3>
                                         <small>Total User</small>
                                     </div>
+                                </a>
+                                    <div class="icon">
+                                        <i class="icon-user"></i>
+                                    </div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress">
+                                        <span style="width: 57%;" class="progress-bar progress-bar-success purple-soft">
+                                            <span class="sr-only">56% change</span>
+                                        </span>
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                   <a href="https://ninja11.in/admin/user">
+                                    <div class="number">
+                                        <h3 class="font-purple-soft">
+                                            <span data-counter="counterup" data-value="276">{{$total_reg}}</span>
+                                        </h3>
+                                        <small>Today Registration</small>
+                                    </div>
+                                </a>
                                     <div class="icon">
                                         <i class="icon-user"></i>
                                     </div>
@@ -59,12 +87,14 @@
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
+                                    <a href="https://ninja11.in/admin/match">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{$match}}</span>
                                         </h3>
                                         <small> Total Matches </small>
                                     </div>
+                                    </a>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
                                     </div>
@@ -86,12 +116,14 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
+                                   <a href="https://ninja11.in/admin/match?status=3">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{$match_3}}</span>
                                         </h3>
                                         <small> Live Matches </small>
                                     </div>
+                                    </a>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
                                     </div>
@@ -155,15 +187,17 @@
                             </div>
                         </div>
 
-                       <!--  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
+                                    <a href="https://ninja11.in/admin/paymentsHistory">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{round($deposit,2)}} INR  </span>
                                         </h3>
                                         <small> Total Deposit </small>
                                     </div>
+                                </a>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
                                     </div>
@@ -177,31 +211,9 @@
                                     
                                 </div>
                             </div>
-                        </div> -->
-
-<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="dashboard-stat2 bordered">
-                                <div class="display">
-                                    <div class="number">
-                                        <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{round($join_contest_amt,2)}} INR  </span>
-                                        </h3>
-                                        <small> Total Contest Amount </small>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
-                                </div>
-                                <div class="progress-info">
-                                    <div class="progress">
-                                        <span style="width: {{$join_contest_amt}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$join_contest_amt}}% grow</span>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
                         </div>
+
+ 
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
@@ -254,12 +266,14 @@
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
+                                    <a href="https://ninja11.in/admin/paymentsHistory">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{$today_deposit}} INR  </span>
                                         </h3>
                                         <small> Total Today Deposit </small>
                                     </div>
+                                    </a>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
                                     </div>
@@ -327,12 +341,14 @@
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
+                                   <a href="https://ninja11.in/admin/payments">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{$today_withdrawal}}   </span>
                                         </h3>
-                                        <small> Total Withdrawal </small>
+                                        <small> Total Withdrawal INR </small>
                                     </div>
+                                </a>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
                                     </div>

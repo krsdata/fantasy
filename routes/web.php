@@ -15,8 +15,8 @@ Route::get('apkDownload',function(){
    return redirect(env('apk_url'));
 });
 Route::get('apk',function(){
-   //return \Response::download('public/upload/apk/sportsfight.apk'); 
-    return redirect(env('apk_url'));
+   return \Response::download('public/upload/apk/Ninja11.apk'); 
+   // return redirect(env('apk_url'));
 });
 
 
@@ -35,6 +35,8 @@ Route::match(['post','get'], 'changePassword', 'UserController@changePassword');
 Route::match(['post','get'], 'changePasswordToken', 'UserController@changePasswordToken');
 
 Route::match(['post','get'], '/', 'HomeController@home');
+
+
 Route::match(['post','get'], '404', 'HomeController@page404');
 
 
@@ -57,6 +59,18 @@ Route::match(
         'uses' => 'HomeController@aboutus',
     ]
 );
+
+Route::match(
+    ['post','get'],
+    '/topReferralUser',
+    [
+        'as'   => 'topReferralUser',
+        'uses' => 'HomeController@topReferralUser',
+    ]
+);
+
+
+
 
 Route::match(
     ['post','get'],

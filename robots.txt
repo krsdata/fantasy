@@ -13,4 +13,4 @@ Disallow:
 User-agent: *
 Disallow: 
 Disallow: /cgi-bin/
-Sitemap: https://www.sportsfight.in/sitemap.xml
+Sitemap: https://www.ninja11.in/sitemap.xml

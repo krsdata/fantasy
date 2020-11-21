@@ -74,7 +74,12 @@
                                         @foreach($notification as $key => $result)
                                             <tr>
                                              <th>  {{++$key}} </th>
-                                                <td> {{$result->title}} </td>
+                                                <td> {{$result->title}} 
+                                                    <br>
+    <a href="https://api.ninja11.in/api/v2/customMessage?title={{urlencode($result->title)}}&message=Get ready with your Squad" class="btn-success" target="_blank">
+                                                            Resend
+                                                    </a>
+                                                </td>
                                                  <td> {{$result->message}} </td>
                                                  <td> {{$result->message_type}} </td>
                                                     <!-- <td>  <a href="{{ route('notification.show',$result->id)}}">

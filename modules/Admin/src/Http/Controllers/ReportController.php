@@ -884,10 +884,46 @@ class ReportController extends Controller {
                             ->pluck('user_id')
                             ->count();
 
+
+                        $total_user_play =  JoinContest::where('match_id',$item->match_id)
+                            ->groupBy('user_id')
+                            ->pluck('user_id')->toArray();
+                        
+                        $total_system_user = \DB::table('users')
+                        ->whereIn('id',$total_user_play)
+                            ->where('customer_type',3); 
+
+                        $system_user_prize = JoinContest::where('match_id',$item->match_id)
+                            ->whereIn('user_id',$total_system_user->pluck('id')->toArray())
+                            ->sum('winning_amount');
+
+                        $user_contest =  JoinContest::where('match_id',$item->match_id)
+                            ->whereNotIn('user_id',$total_system_user->pluck('id')->toArray())
+                                ->pluck('contest_id')->toArray();
+                        $sum = [];
+                        foreach ($user_contest as $key => $value) {
+                             $ct = CreateContest::find($value);
+
+                             $sum[] = $ct->entry_fees; 
+                        }
+                        $total_amount_collection = array_sum($sum);
+
+                        $item->total_amount_collection = $total_amount_collection;
+
+                        $item->system_user_prize = $system_user_prize;
+
+                        $user_prize = $total_prize_distributed -$system_user_prize;
+                        $item->user_prize = $user_prize;
+                        $total_main_user =  $total_user_played-$total_system_user->count();   
+
                         $total_amt_rcv = array_sum(CreateContest::where('match_id',$item->match_id)
                             ->selectRaw('SUM(entry_fees * filled_spot) as total')
                             ->pluck('total')
                             ->toArray());
+
+                        $item->total_system_user = $total_system_user->count();
+                       
+                        $item->total_main_user = $total_main_user;    
 
                         $item->total_amt_rcv = $total_amt_rcv;
                         

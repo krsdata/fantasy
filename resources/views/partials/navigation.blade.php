@@ -8,7 +8,7 @@
    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark
    ftco-navbar-light site-navbar-target" id="ftco-navbar" style="padding:
    0px"> <div class="container"> <a class="navbar-brand" href="{{URL::asset('/')}}"
-   style="padding: 0px"> <img src="{{URL::asset('assets/img/logo7.png')}}"
+   style="padding: 0px"> <img src="{{URL::asset('assets/img/logo.png')}}"
    width="200px" height="90px">
 
           </a>

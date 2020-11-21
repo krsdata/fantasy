@@ -78,7 +78,7 @@
                                           @endif
                                         @foreach($transaction as $key => $result)
                                             <tr>
-                                                 <td>{{ (($transaction->currentpage()-1)*15)+(++$key) }} 
+                                                 <td>{{ (($transaction->currentpage()-1)*10)+(++$key) }} 
                                                 </td>
                                                 <td> 
                                                   <a href="{{url('admin/user?search='.$result->email)}}" target="_blank"> 
@@ -105,7 +105,10 @@
                                                     {{$result->payment_taken_in}}
                                                  </b>
                                                  </td>
-                                                 <td>{{$result->withdraw_status}}
+                                                 <td>
+                                                  <p class="btn @if($result->payment_type==5) btn-success @else btn-danger @endif"> 
+                                                  {{$result->withdraw_status}}
+                                                 </p>
                                                  </td>                     
                                                 <td>  
                                                    

@@ -1,3 +1,5 @@
+@if(!isset($remove_header))
+
 <footer class="ftco-footer">
           <div class="footer-top">
             <div class="container">
@@ -64,8 +66,7 @@ fan base by keeping a watch over shared posts in the feed. <a href="{{url('about
                 </div>
             </div>
           </div></footer>
-    
-  
+      
 
 <div class="container-fluid">
           <div class="copyrights">
@@ -75,6 +76,7 @@ fan base by keeping a watch over shared posts in the feed. <a href="{{url('about
             </div>
         </div>
 
+@endif
   <script src="{{ URL::asset('webmedia/js/jquery.min.js')}}"></script>
   <script src="{{ URL::asset('webmedia/js/jquery-migrate-3.0.1.min.js')}}"></script>
   <script src="{{ URL::asset('webmedia/js/popper.min.js')}}"></script>

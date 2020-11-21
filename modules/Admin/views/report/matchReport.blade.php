@@ -95,9 +95,12 @@
                                                 <th> Sno.</th>
                                                 <th> Match Id</th>
                                                 <th> Match Name </th>  
-                                                <th> Total Contest</th>
-                                                <th> Total Contest Joined</th>
-                                                <th>  User Played</th>
+                                                <th> Contest Joined</th>
+                                                <th>  Main User</th>
+                                                <th>  System User</th>
+                                                <th>
+                                                  System Prize
+                                                </th>
                                                 <th>  Prize Given</th>
                                                 <th>Amount Recieved</th>
                                                 <th> Status</th> 
@@ -112,20 +115,38 @@
                                             </td>
                                                 <td> {{$result->match_id}} </td>
                                                  <td> {{$result->short_title}} </td>
-                                                 <td> 
-                                                  {{$result->total_contest}}
-                                                </td>
+                                                 
                                                  <td> 
                                                   {{$result->join_contest}}
                                                 </td>
                                                 <td> 
-                                                  {{$result->total_user_played}}
+                                                  {{$result->total_main_user}}
                                                 </td>
+                                               
                                                 <td> 
-                                                  {{$result->
-                                                total_prize_distributed}}
+                                                  {{$result->total_system_user}}
                                                 </td>
-                                                <th>{{$result->total_amt_rcv}}</th>
+
+                                                 <td>
+                                                  Sys : {{
+                                                    round($result->system_user_prize)
+                                                  }} INR
+                                                  <br>
+                                                  User :
+                                                  {{
+                                                    round($result->user_prize)
+                                                  }} INR
+                                                  <br>
+                                                  Collection : {{
+                                                  $result->total_amount_collection
+                                                }} INR
+                                                </td>
+                                                
+                                                <td> 
+                                                  {{round($result->
+                                                total_prize_distributed)}}
+                                                </td>
+                                                <th>{{round($result->total_amt_rcv)}}</th>
                                                 
                                                
                                       <td> {{$result->status_str}} </td>

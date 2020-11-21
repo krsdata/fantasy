@@ -59,7 +59,7 @@
             </div>
         </div> 
  
-        <div class="form-group {{ $errors->first('total_spots', ' has-error') }} col-md-6 pull-left">
+        <div class="form-group {{ $errors->first('total_spots', ' has-error') }} col-md-6">
             <label class="control-label col-md-4">  </label>
             <div class="col-md-12"> 
              

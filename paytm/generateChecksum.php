@@ -12,8 +12,8 @@ include("./env.php");
 //echo PAYTM_MERCHANT_KEY;
 header("Content-Type: application/json");
 
-$mid = 'LoPyaL46096848169204'; //key = tpJmKe81092739039978
-$mkey = 'NB%nQa#Dwj7r8Dox';    //mid =  1PRscwi&opK94P!5
+$mid = 'SDBEXq82035234210571'; //'LoPyaL46096848169204'; //key = tpJmKe81092739039978
+$mkey = 't3fX4Ses32j_m5ZF';    //mid =  1PRscwi&opK94P!5
 
 //define('PAYTM_MERCHANT_KEY', $mkey);
 $_POST = json_decode(file_get_contents('php://input'), true);
