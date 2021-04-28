@@ -138,9 +138,16 @@ class TransactionHistoryController extends Controller {
                 $item->match_name = $match->short_title??null;
                  $item->contest_name = null;
                 $contest = CreateContest::find($item->contest_id);
+                //dd($contest);
+                $item->total_spots = $contest->total_spots??null;
+                $item->filled_spot = $contest->filled_spot??null;
+                $item->entry_fees = $contest->entry_fees??null;
+                $item->total_winning_prize = $contest->total_winning_prize??null;
+               
                 if($contest){
                     $ctype = \DB::table('contest_types')->where('id',$contest->contest_type)->first(); 
-                    $item->contest_name = $ctype->contest_type??null;  
+                    $item->contest_name = $ctype->contest_type??null;
+
                 }
 
                             $user = User::find($item->user_id);
@@ -148,6 +155,7 @@ class TransactionHistoryController extends Controller {
                             $item->name = $user->name??null;
                             $item->email = $user->email??null;
                             $item->phone = $user->mobile_number??null;
+                            $item->team_name = $user->team_name??null;
 
                             return $item;
                         });
@@ -165,6 +173,7 @@ class TransactionHistoryController extends Controller {
                             $item->name = $user->name??null;
                             $item->email = $user->email??null;
                             $item->phone = $user->mobile_number??null;
+                            $item->team_name = $user->team_name??null;
                             return $item;  
                         }); 
         }

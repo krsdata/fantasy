@@ -21,7 +21,7 @@ table, th, td {
     <div>Total Spot : {{$contest->total_spots}}</div>
     <div>Filled Spot : {{$contest->filled_spot}}</div> -->
 
-    <table class="" style="width: 100%">
+    <table class="" style="width: 100%" cellpadding="2" cellspacing="2">
         <thead>
         <tr>
             <td>Contest Name</td>
@@ -29,7 +29,7 @@ table, th, td {
         </tr>
         <tr>
             <td>Entry fees</td>
-            <td>INR {{ $contest->entry_fees}}</td>
+            <td> {{ $contest->entry_fees}} INR</td>
         </tr>
         <tr>
             <td>First Prize</td>
@@ -43,10 +43,28 @@ table, th, td {
             <td>Filled Spot</td>
             <td> {{ $contest->filled_spot}}</td>
         </tr>
+        <tr>
+            <td>Match ID</td>
+            <td> {{ $contest->match_id}}</td>
+        </tr>
+        <tr>
+            <td>Total Collection</td>
+            <td> {{ ($contest->filled_spot*$contest->entry_fees)}} INR </td>
+        </tr>
+         <tr>
+            <td>Total Bonus Used</td>
+            <td> {{ ($contest->filled_spot*$contest->entry_fees)*($contest->usable_bonus/100)}} INR </td>
+        </tr>
+        <tr>
+            <td>Total Winning Prize</td>
+            <td> {{ $contest->total_winning_prize}} INR </td>
+        </tr>
+
+        
         </thead>
     </table>  
-    {{$contest_name}}                                               
-    <table class="table table-striped table-hover table-bordered" border="1">
+    <p> <b> {{strip_tags($contest_name)}} </b> </p>
+    <table class="table table-striped table-hover table-bordered" border="1" cellspacing="2" cellpadding="2">
         <thead>
         <tr>
             <td>Sno.</td>

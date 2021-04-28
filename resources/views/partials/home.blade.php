@@ -1,4 +1,6 @@
-     <?php $bgUrl = env('main_slider_image','https://ninja11.in/webmedia/images/main.jpg'); ?>
+     <?php $bgUrl =  'https://ninja11.in/bg1.jpg';
+
+     //env('main_slider_image','https://ninja11.in/webmedia/images/main.jpg'); ?>
       <section class="hero-wrap js-fullheight" style="background-image: url('<?php echo $bgUrl; ?>')" data-section="home" data-stellar-background-ratio="0.5" id="home-section">
       	<div style="position: absolute;
 	  	        text-align: center;

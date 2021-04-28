@@ -16,6 +16,7 @@ use App\Helpers\Helper;
 use Modules\Admin\Models\Roles;
 use Modules\Admin\Models\Menu; 
 use Modules\Admin\Models\Wallets;
+use App\Models\WalletTransaction;
 
 /**
  * Class MenuController
@@ -106,7 +107,6 @@ class WalletsController extends Controller {
                    
                     return $item; 
             });
-
         } 
 
         $table_cname = \Schema::getColumnListing('wallets');
@@ -120,8 +120,6 @@ class WalletsController extends Controller {
            if(in_array($value, $except )){
                 continue;
            }
-             
-          
               
             $tables[] = $value;
         }
@@ -135,11 +133,10 @@ class WalletsController extends Controller {
 
     public function create(Wallets $wallets)
     {
-
         $page_title     = 'Wallets';
         $page_action    = 'Create Wallets';
         $table_cname = \Schema::getColumnListing('wallets');
-        $except = ['id','created_at','updated_at','validate_user','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','usable_amount_validation','total_withdrawal_amount','prize_distributed_id'];
+        $except = ['id','created_at','updated_at','validate_user','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','usable_amount_validation','total_withdrawal_amount','prize_distributed_id','payment_type_string','payment_type'];
         $data = [];
         foreach ($table_cname as $key => $value) {
 
@@ -167,12 +164,34 @@ class WalletsController extends Controller {
            if(in_array($value, $except )){
                 continue;
            }
-            if($request->$value!=null){
+           if($request->$value!=null){
                 $wallets->$value = $request->$value;
            }
+           if($request->payment_type==3){
+            $request->payment_type_string = "Deposit";
+           }
+           if($request->payment_type==4){
+                $request->payment_type_string = "Prize";
+           }
+            if($request->payment_type==5){
+                $request->payment_type_string = "Withdrawal";
+           }
+
         }
         
-        $wallets->save();
+        $wallets->save(); 
+
+        $wt =  new WalletTransaction;
+        $wt->user_id    = $request->user_id;
+        $wt->amount     = $request->amount; 
+        $wt->payment_type = $request->payment_type;
+        $wt->payment_type_string = $request->payment_type_string;
+        $wt->transaction_id = time();
+        $wt->payment_mode =  'system';
+        $wt->payment_status =  'Success';
+        $wt->debit_credit_status = "+"; 
+        $wt->save(); 
+
         return Redirect::to(route('wallets'))
                             ->with('flash_alert_notice', 'Wallets successfully created !');
         }
@@ -189,7 +208,7 @@ class WalletsController extends Controller {
         $page_action = 'Wallets';
 
         $table_cname = \Schema::getColumnListing('wallets');
-        $except = ['id','created_at','updated_at','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','usable_amount_validation','total_withdrawal_amount','prize_distributed_id'];
+        $except = ['id','created_at','updated_at','validate_user','bonus_amount','referal_amount','prize_amount','deposit_amount','usable_amount','usable_amount_validation','total_withdrawal_amount','prize_distributed_id','payment_type_string','payment_type'];
         $data = [];
         foreach ($table_cname as $key => $value) {
 

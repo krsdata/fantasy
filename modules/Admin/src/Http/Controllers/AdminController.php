@@ -68,23 +68,31 @@ class AdminController extends Controller {
         $category_count     =  Category::where('parent_id','!=',0)->count();
         
 
-        $match_1 = Matches::where('status',1)->count();
+        $match_1 = Matches::where('status',1)
+                    ->whereDate('date_start',\Carbon\Carbon::today())
+                    ->count();
         $match_2 = Matches::where('status',2)->count();
         $match_3 = Matches::where('status',3)->count();
 
-        $deposit = WalletTransaction::where('payment_type_string','Deposit')->sum('amount');
-        $prize = WalletTransaction::where('payment_type_string','prize')->sum('amount');
+        $deposit = WalletTransaction::where('payment_type',3)->sum('amount');
+
+        $prize = WalletTransaction::where('payment_type','4')->sum('amount');
 
         $refunded = WalletTransaction::where('payment_type_string','Refunded')->sum('amount');
+
         $referral = WalletTransaction::where('payment_type_string','referral')->sum('amount');
 
-        $today_deposit = WalletTransaction::where('payment_type_string','Deposit')
+        $today_deposit = round(WalletTransaction::where('payment_type_string','Deposit')
             ->whereDate('created_at',\Carbon\Carbon::today())
-            ->sum('amount');
+            ->sum('amount'),2);
 
         $join_contest_amt = WalletTransaction::where('payment_type',6)->sum('amount');
 
         $today_withdrawal = WalletTransaction::where('payment_type',5)->sum('amount');
+
+        $today_withdrawal2 = WalletTransaction::where('payment_type',5)->whereDate('created_at',\Carbon\Carbon::today())->sum('amount');
+
+        $revenue = (int)($deposit - $today_withdrawal);
 
         $create_count = CreateTeam::count();
 
@@ -110,7 +118,24 @@ class AdminController extends Controller {
         $bonus = Wallet::where('payment_type',1)->sum('amount');
         $total_bonus_used = $bonus;
 
-        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg'));
+
+        $today_deposit_paytm = round(WalletTransaction::where('payment_type_string','Deposit')
+            ->where('payment_mode','paytm')
+            ->whereDate('created_at',\Carbon\Carbon::today())
+            ->sum('amount'),2);
+
+        $today_deposit_razorpay = round(WalletTransaction::where('payment_type_string','Deposit')
+            ->where('payment_mode','razorpay')
+            ->whereDate('created_at',\Carbon\Carbon::today())
+            ->sum('amount'),2);
+
+         $affiliate = \DB::table('affiliate_programs')->sum('amount'); 
+
+         $pending_doc = \DB::table('verify_documents')
+                            ->where('status',1)
+                            ->count();
+
+        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg','today_deposit_paytm','today_deposit_razorpay','revenue','affiliate','today_withdrawal2','pending_doc')); 
     }
 
    public function profile(Request $request,Admin $users)

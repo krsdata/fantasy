@@ -119,9 +119,13 @@
 
                                                  </td>
 
-                                                 <td> <a class="btn btn-success" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">
+                                                 <td> <!-- <a class="btn btn-success" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">
                                                     update Squad
-                                                 </a>
+                                                 </a> -->
+
+                                                 <a class="btn btn-success" data-toggle="modal" data-target="#updatesqd_{{$result->id}}" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">update Squad</a>
+
+
                                                   </td>
                                                  <td> <a class="btn btn-success" href="{{route('defaultContest.create')}}?match_id={{$result->match_id}}">
                                                     Add Contest
@@ -134,9 +138,40 @@
 
                                                  </a> -->
 
-<a class="dropdown-item btn btn-success" data-toggle="modal" data-target="#Players_{{$result->id}}" href="#">View Players</a>
+<a class=" btn btn-success" data-toggle="modal" data-target="#Players_{{$result->id}}" href="https://rest.fancode11.com/api/v3/addMegaExtraCash?match_id={{$result->match_id}}">Add Extra Cash</a>
 
 <div class="modal fade" id="Players_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-sm" role="document" style="width: 50%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="Players">Extra Cash Added</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> 
+      <div class="modal-body portlet-body table-responsive">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updatesqd_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-sm" role="document" style="width: 50%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="Players">Update Squad</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> 
+      <div class="modal-body portlet-body table-responsive">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="Players1_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document" style="width: 100%">
     <div class="modal-content">
       <div class="modal-header">
@@ -371,7 +406,7 @@
         <a class="dropdown-item btn btn-danger" data-toggle="modal" data-target="#playing11_{{$result->id}}" href="#">Playing 11 Squad</a>
 
         <a class="dropdown-item btn btn-info" href="{{route('triggerEmail','match_id='.$result->match_id)}}">Prize Email Trigger</a>
-        <a class="dropdown-item btn btn-success" href="{{env('api_base_url')}}/v2/affiliateProgram?match_id={{$result->match_id}}&allowme=1">Add Affiliate Commission</a>
+        <a class="dropdown-item btn btn-success" href="{{env('api_base_url')}}/affiliateProgram?match_id={{$result->match_id}}&allowme=1" target="_blank">Add Affiliate Commission</a>
            
           <a class="dropdown-item btn btn-danger" data-toggle="modal" data-target="#cancelContest_{{$result->id}}" href="#">Cancel Match Contest</a>
 
@@ -521,9 +556,12 @@
                                         </td>
                                          <td> 
                                             @if($result->current_status==1) 
-                                             Prize Distributed 
+                                           <p class="btn btn-xs btn-success">  Prize Distributed  </p>
                                             @else
                                              NA
+                                            @endif
+                                             @if($result->affiliate_winning==1) 
+                                            <p class="btn btn-xs btn-success">  Affiliate Distributed  </p>
                                             @endif
                                             </td> 
                         <td> 

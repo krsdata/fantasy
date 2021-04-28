@@ -21,7 +21,22 @@
             <span class="help-block" style="color:red">{{ $errors->first($col_name, ':message') }} @if(session('field_errors')) {{ 'The  Title name already been taken!' }} @endif</span>
         </div>
     </div>  
+
+
+
 @endforeach
+<div class="form-group">
+             <label class="control-label col-md-3"> Payment Type  <span class="required"> * </span></label>
+        <div class="col-md-4"> 
+            <select class="form-control" name="payment_type" required="">
+                <option>Select Type</option>
+                <option value="1" @if(isset($_REQUEST['payment_type']) && $_REQUEST['payment_type']==1) selected="" @endif>Bonus</option>
+                <option value="3" @if(isset($_REQUEST['payment_type']) && $_REQUEST['payment_type']==3) selected="" @endif>Deposit</option>
+                <option value="4" @if(isset($_REQUEST['payment_type']) && $_REQUEST['payment_type']==4) selected="" @endif>Prize</option>
+                <option value="5">Withdrawal</option>
+            </select>
+       </div>
+   </div>
 <div class="form-actions">
 <div class="row">
     <div class="col-md-offset-3 col-md-9">

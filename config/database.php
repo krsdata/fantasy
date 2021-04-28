@@ -43,6 +43,15 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('DB_HOST2', '127.0.0.1'),
+            'port' => env('DB_PORT2', 27017),
+            'database' => env('DB_DATABASE2', 'mongodb'),
+            'username' => env('DB_USERNAME2', ''),
+            'password' => env('DB_PASSWORD2', '')
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

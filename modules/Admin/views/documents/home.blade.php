@@ -173,6 +173,15 @@ th, td {
                       }}
                     </td>
                   </tr>
+
+                  <tr>
+                    <td>UPI ID</td>
+                    <td>
+                      {{
+                        $result->upi_id
+                      }}
+                    </td>
+                  </tr>
     </table>
     @else
     Bank Details is not available!
@@ -282,9 +291,13 @@ th, td {
   </div>
 </div>
 </td> 
-                                                <td>  {{$result->doc_type}} </td> 
-                                                 <td>  {{$result->doc_number}} </td> 
-                                                <td>
+                                    <td>  {{$result->doc_type}} </td> 
+                                         <td>  {{$result->doc_number}}
+                                          <hr>
+                                          {{$result->upi_id}}
+
+                                          </td> 
+                                  <td>
 @if($result->doc_type=='adharcard')
 Front Adhar<br>
 <img src="{{ $result->doc_url_front }}" width="100px" height="50px;"  data-toggle="modal" data-target="#doc_url_front_{{$result->id}}">  

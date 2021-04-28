@@ -8,7 +8,7 @@
                   <h3 style="border-bottom: 2px solid #fff;">About us</h3>
                   <span style="width: 200px;display: block;border-bottom: 2px solid #fff;margin-top: -4px;"></span>
                   <p class="mt-20">
-                    We drive one of the biggest virtual yet fancy sports platform. Also, we help you set-up your
+                    We drive one of the biggest virtual yet fantasy  sports platform. Also, we help you set-up your
 fan base by keeping a watch over shared posts in the feed. <a href="{{url('about-us')}}" class="btn"> Read More...</a>
                   </p>  
                       </div>

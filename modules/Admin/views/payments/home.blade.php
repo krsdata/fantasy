@@ -130,7 +130,11 @@
                                                      
                                                  </td>
                                                 <td>
-                                                        {!! Carbon\Carbon::parse($result->updated_at)->format('d M Y'); !!}
+                                                         
+
+                                                        {!! Carbon\Carbon::parse($result->updated_at)->format('d-m-Y h:i:s A'); !!}
+
+
                                                 </td>
                                                 
                                                

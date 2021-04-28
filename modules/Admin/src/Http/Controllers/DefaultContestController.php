@@ -58,9 +58,9 @@ class DefaultContestController extends Controller {
 
     public function index(DefaultContest $defaultContest, Request $request) 
     { 
-        $page_title = 'Default Contest';
+        $page_title     = 'Default Contest';
         $sub_page_title = 'View Default Contest';
-        $page_action = 'View Default Contest'; 
+        $page_action    = 'View Default Contest'; 
  
         // Search by name ,email and group
         $search = Input::get('search');
@@ -84,6 +84,7 @@ class DefaultContestController extends Controller {
         }
 
         $contest_type   = ContestType::pluck('contest_type','id')->toArray();
+        //dd($contest_type);
 
         array_unshift($contest_type,"Select Contest from Drop down");
 
@@ -124,6 +125,9 @@ class DefaultContestController extends Controller {
         $defaultContest->cancellation = $request->cancellation?true:false;
         $defaultContest->bonus_contest = $request->bonus_contest?true:false;
         $defaultContest->usable_bonus = $request->usable_bonus;
+        $defaultContest->discounted_price = $request->discounted_price;
+        $defaultContest->offer_end_at = $request->offer_end_at;
+        $defaultContest->extra_cash_usable = $request->extra_cash_usable;
         $defaultContest->save(); 
 
         $default_contest_id = $defaultContest->id;
@@ -137,7 +141,8 @@ class DefaultContestController extends Controller {
         }
         $sort_by = \DB::table('contest_types')->where('id',$request->contest_type)->first()->sort_by??0;
         $request->merge(['sort_by'=>$sort_by]);
-        $request->merge(['filled_spot' => 0]);
+        $request->merge(['filled_spot' => 0]); 
+        
         foreach ($match as $key => $result) {
 
             $request->merge(['match_id' => $result->match_id]);
@@ -250,6 +255,10 @@ class DefaultContestController extends Controller {
         $defaultContest->bonus_contest = $request->bonus_contest?true:false;
         $defaultContest->usable_bonus = $request->usable_bonus;
         $defaultContest->cancellation = $request->cancellation?true:false;
+        $defaultContest->discounted_price = $request->discounted_price;
+        $defaultContest->offer_end_at   = $request->offer_end_at;
+        $defaultContest->extra_cash_usable = $request->extra_cash_usable;
+
         $defaultContest->save(); 
         $default_contest_id = $id;
 
@@ -274,13 +283,21 @@ class DefaultContestController extends Controller {
            $cont =  \DB::table('create_contests')
                     ->where('default_contest_id',$default_contest_id)
                     ->where('match_id',$result->match_id)->count();
+
             $request_data = $request->except(['_token','_method']);
+             
 
             if($cont){
               \DB::table('create_contests')
                     ->where('default_contest_id',$default_contest_id)
                     ->where('match_id',$result->match_id)
                     ->update($request_data);
+
+               /* $c = \DB::table('create_contests')
+                    ->where('default_contest_id',$default_contest_id)
+                    ->where('match_id',$result->match_id)->get();
+                    dd($c);*/
+                    
             } else{
                 \DB::table('create_contests')->insert($request->except('_token','_method'));  
             }

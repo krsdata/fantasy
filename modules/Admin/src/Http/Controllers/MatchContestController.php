@@ -107,7 +107,7 @@ class MatchContestController extends Controller {
         //dd($matchTeams);    
         $table_cname = \Schema::getColumnListing('create_teams');
         
-        $except = ['id','created_at','updated_at','contest_id','user_id','isWinning','edit_team_count','team_id','captain','vice_captain','trump','teams','team_join_status','points','rank','prize_amount'];
+        $except = ['id','created_at','updated_at','contest_id','user_id','isWinning','edit_team_count','team_id','captain','vice_captain','trump','teams','team_join_status','points','rank','prize_amount','is_cloned','rail_id','editable','match_id'];
         $data = [];
 
         $tables[] = 'match_name';
@@ -185,16 +185,7 @@ class MatchContestController extends Controller {
 
                 $matchTeams = CreateTeam::find($item->created_team_id);
                 
-                $clone = CreateTeam::where('is_cloned',$item->created_team_id)
-                            ->count();
-
-                if($clone){
-                    $is_cloned = 'Yes';
-                }else{
-                    $is_cloned = 'No';
-                }
-                $item->is_cloned = $is_cloned;
-
+                
                 $item->captain      = $matchTeams->captain;
                 $item->vice_captain = $matchTeams->vice_captain;
 
@@ -221,17 +212,15 @@ class MatchContestController extends Controller {
                         ->get(['pid','team_id','match_id','title','short_name','playing_role','fantasy_player_rating']);
 
                 $user = User::find($item->user_id);
-                $item->user_name = $user->name??null;
+                $item->user_name = $user->team_name??$user->name;
+                $item->user_id = '<a href="user?search='.$user->email.'">'.$user->id.'</a>';
                 $item->referral_code = $user->reference_code??null;
                 $item->teams = $teams;
-
-                $rl  = '<span class="btn btn-danger btn-xs">Run Rail Logic</span>';
+                
 
                 $join_status =  ($cc->team_join_status==1)?'<span class="btn btn-success btn-xs">Joined</span>':'<span class="btn btn-danger btn-xs">Not Joined</span>';
 
-                $item->join_status = $join_status.$rl;
-
-
+                $item->join_status = $join_status;
                 return $item; 
             });
         } else {
@@ -239,13 +228,7 @@ class MatchContestController extends Controller {
                                                   
             $matchTeams->transform(function($item,$key){ 
 
-                    if($item->is_cloned){
-                        $is_cloned = 'Yes';
-                    }else{
-                        $is_cloned = 'No';
-                    }
-
-                    $item->is_cloned = $is_cloned; 
+                    
 
                     $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                     $item->status = $match->status_str??null;
@@ -258,8 +241,11 @@ class MatchContestController extends Controller {
                     $item->teams = $teams; 
 
                     $user = User::find($item->user_id);
-                    $item->user_name = $user->name??null; 
+                    $item->user_name = $user->team_name??$user->name; 
                     $item->referral_code = $user->reference_code??null;
+
+                    $item->user_id = '<a href="user?search='.$user->email.'">'.$user->id.'</a>';
+
             $joinContest = JoinContest::where('match_id',$item->match_id)
                 ->where('team_count',$item->team_count)
                 ->where('user_id',$item->user_id)
@@ -283,12 +269,13 @@ class MatchContestController extends Controller {
         } 
         $table_cname = \Schema::getColumnListing('create_teams');
         
-        $except = ['id','created_at','updated_at','contest_id','user_id','isWinning','edit_team_count','team_id','captain','vice_captain','trump','teams','team_join_status','points','rank','prize_amount'];
+        $except = ['id','created_at','updated_at','contest_id','user_id','isWinning','edit_team_count','team_id','captain','vice_captain','trump','teams','team_join_status','points','rank','prize_amount','rail_id','is_cloned','editable','extra_cash_usable'];
         $data = [];
 
         $tables[] = 'match_name';
         $tables[] = 'status';
         $tables[] = 'user_name';
+        $tables[] = 'user_id';
         $tables[] = 'referral_code';
         $tables[] = 'rank';
         $tables[] = 'point';
@@ -335,7 +322,8 @@ class MatchContestController extends Controller {
             }
                 
         })->pluck('id')->toArray();    
-        $joinContest = [];          
+        $joinContest = [];  
+
         if($user){
                 $joinContest = JoinContest::where('match_id',$match_id)
                                 ->whereIn('user_id',$user)
@@ -356,7 +344,7 @@ class MatchContestController extends Controller {
                          }
                     })->orderBy('total_spots','DESC')->Paginate(50);
                 
-                //dd( $matchContest);
+            
 
             $matchContest->transform(function($item,$key){ 
                
@@ -366,20 +354,23 @@ class MatchContestController extends Controller {
                 $joinContest = JoinContest::where('match_id',$item->match_id)
                     ->where('contest_id',$item->id)
                     ->orderBy('winning_amount','desc')->limit(1)->first();
-                 $item->cancel_status = 'No';    
-                if($joinContest){
-                    $user = User::find($joinContest->user_id);
+                 $item->cancel_status = 'No';  
+                 $user = User::find($joinContest->user_id);
+                      
+                if($joinContest && $user){
                     
-                    $link1 = '<a target="_blank" href="'.url('admin/matchContest?match_id='.$item->match_id.'&email='.$user->email??null).'">'.$user->email??null.')</a>';
 
+                    $link1 = '<a target="_blank" href="'.url('admin/matchContest?match_id='.$item->match_id.'&email='.$user->email??null).'">'.$user->team_name??$user->name.'</a>';
+                 
                     $link2 = '<a target="_blank" href="'.url('admin/user?search='.$user->email??null).'">'.$user->id??null.'</a>';
-
+                     //  dd( $link1);
                     $first_ranker = $joinContest->winning_amount??0;
-                    $item->first_ranker = $user->name.'</br>('.$user->team_name.')<br>'.$link1.'<br><b>'.$first_ranker.' INR </b><br>';
+                    $item->first_ranker = $user->name.'<br>'.$link1.'<br><b>'.$first_ranker.' INR </b><br>';
                     $status = $joinContest->cancel_contest;
                     $item->cancel_status = $status?'Yes':'No';
                     $item->user_id = $link2;
                 }
+
                 return $item; 
             });
 
@@ -397,7 +388,9 @@ class MatchContestController extends Controller {
         } 
         
         $table_cname = \Schema::getColumnListing('create_contests');
-        $except = ['created_at','updated_at','winner_percentage','prize_percentage','is_cancelled','contest_type','default_contest_id','cancellation','is_free','is_cloned','is_full','sort_by','deleted_at','is_cancelable','id','usable_bonus','bonus_contest'];
+        $except = ['created_at','updated_at','winner_percentage','prize_percentage','is_cancelled','contest_type','default_contest_id','cancellation','is_free','is_cloned','is_full','sort_by','deleted_at','is_cancelable','id','usable_bonus','bonus_contest','discounted_price','extra_cash_usable',
+            'offer_end_at','mega_rewards','match_id','auto_create',
+            'contest_category_type','gift_url'];
         $data = [];
 
         $tables[] = 'contest_name';

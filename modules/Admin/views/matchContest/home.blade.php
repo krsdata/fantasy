@@ -90,12 +90,12 @@
                             <i class="fa fa-fw fa-eye" title="edit"></i> 
                             </button>
                         </a> <br><br>
-                        <a href="https://api.ninja11.in/api/v2/createTeamFromAnother?match_id={{$result->match_id}}&limit=1" target="_blank">
+                       <!--  <a href="https://api.ninja11.in/api/v2/createTeamFromAnother?match_id={{$result->match_id}}&limit=1" target="_blank">
                             <button class="btn btn-success btn-sm">
                                Create Ninja Teams
                             <i class="fa fa-fw fa-eye" title="edit"></i> 
                             </button>
-                        </a> <br><br>
+                        </a> <br><br> -->
 
                         <a href="{{ route('contestReports','match_id='.$result->match_id.'&contest_id='.$result->id)}}">
                             <button class="btn btn-info btn-sm">

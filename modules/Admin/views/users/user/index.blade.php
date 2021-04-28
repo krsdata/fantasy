@@ -162,9 +162,13 @@
 <table class="table table-striped table-hover table-bordered">
   <tr>
     <td>
-      <button type="button" class="btn btn-success"> Total Balance : 
+      
+
+ <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#account_{{$result->id}}">
+         Total Balance : 
  {{round($result->balance,2)}} INR
-</button>
+        </button>
+
     </td>
   </tr>
   <tr>
@@ -179,16 +183,27 @@
     </td>
   </tr>
 
+    <tr>
+      <td>
+        <a href="{{url('admin/wallets/create?user_id='.$result->id)}}" target="_blank">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#11account_{{$result->id}}">
+         Add Money
+        </button>
+        </a>
+    </td>
+  </tr>
+
   <tr>
     <td>
 
 <a href="{{url('admin/documents?search='.$result->email)}}" target="_blank">
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#account_{{$result->id}}">
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#1account_{{$result->id}}">
  View documents
 </button>
 </a>
     </td>
   </tr>
+
 
   <tr>
     <td>

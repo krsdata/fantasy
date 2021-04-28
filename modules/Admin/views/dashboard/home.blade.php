@@ -144,9 +144,9 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$match_2}}</span>
+                                            <span data-counter="counterup" data-value="567">{{$revenue}} INR</span>
                                         </h3>
-                                        <small> Completed Matches </small>
+                                        <small> Revenue </small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
@@ -155,7 +155,7 @@
                                 <div class="progress-info">
                                     <div class="progress">
                                         <span style="width: {{$match_2}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$match_2}}% grow</span>
+                                            <span class="sr-only">{{$revenue}}% grow</span>
                                         </span>
                                     </div>
                                     
@@ -167,10 +167,12 @@
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
                                     <div class="number">
+                                        <a href="{{url('admin/match?match_start_date='.date('Y-m-d'))}}" target="_blank">
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{$match_1}}</span>
                                         </h3>
-                                        <small> Upcoming Matches </small>
+                                        <small> Today Matches </small>
+                                    </a>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
@@ -244,9 +246,9 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$referral}} INR  </span>
+                                            <span data-counter="counterup" data-value="567">{{round($affiliate,2)}} INR  </span>
                                         </h3>
-                                        <small> Total Referral </small>
+                                        <small> Affiliate Amount </small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
@@ -254,8 +256,8 @@
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
-                                        <span style="width: {{$referral}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$referral}}% grow</span>
+                                        <span style="width: {{$affiliate}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$affiliate}}% grow</span>
                                         </span>
                                     </div>
                                     
@@ -289,7 +291,61 @@
                             </div>
                         </div>
 
+
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                    <a href="https://ninja11.in/admin/paymentsHistory">
+                                    <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">{{$today_deposit_paytm}} INR  </span>
+                                        </h3>
+                                        <small> Today Paytm Deposit </small>
+                                    </div>
+                                    </a>
+                                    <div class="icon">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress">
+                                        <span style="width: {{$today_deposit_paytm}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$today_deposit_paytm}}% grow</span>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                    <a href="https://ninja11.in/admin/paymentsHistory">
+                                    <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">{{$today_deposit_razorpay}} INR  </span>
+                                        </h3>
+                                        <small> Today RazorPay Deposit </small>
+                                    </div>
+                                    </a>
+                                    <div class="icon">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress">
+                                        <span style="width: {{$today_deposit_razorpay}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$today_deposit_razorpay}}% grow</span>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="dashboard-stat2 bordered">
                                 <div class="display">
                                     <div class="number">
@@ -311,7 +367,7 @@
                                     
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
 
                      <!--    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -344,9 +400,9 @@
                                    <a href="https://ninja11.in/admin/payments">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$today_withdrawal}}   </span>
+                                            <span data-counter="counterup" data-value="567">{{$today_withdrawal}} INR  </span>
                                         </h3>
-                                        <small> Total Withdrawal INR </small>
+                                        <small> Total Withdrawal  </small>
                                     </div>
                                 </a>
                                     <div class="icon">
@@ -364,6 +420,83 @@
                             </div>
                         </div>
 
+                        <div class=" pending_doc col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                   <a href="{{url('admin')}}/payments">
+                                    <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">{{$today_withdrawal2}} INR  </span>
+                                        </h3>
+                                        <small> Today Withdrawal  </small>
+                                    </div>
+                                </a>
+                                    <div class="icon">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress">
+                                        <span style="width: {{$today_withdrawal2}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$today_withdrawal2}}% grow</span>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" pending_doc col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                   <a href="{{url('admin')}}/payments">
+                                    <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">{{round($prize,2)}} INR  </span>
+                                        </h3>
+                                        <small>  Prize Given  </small>
+                                    </div>
+                                </a>
+                                    <div class="icon">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress">
+                                        <span style="width: {{$prize}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$prize}}% grow</span>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" pending_doc col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                   <a href="{{url('admin/documents')}}">
+                                    <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">{{$pending_doc}}    </span>
+                                        </h3>
+                                        <small> Pending Documents  </small>
+                                    </div>
+                                </a>
+                                    <div class="icon">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress">
+                                        <span style="width: {{$pending_doc}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$pending_doc}}% grow</span>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
 
 
                    

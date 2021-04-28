@@ -41,6 +41,10 @@ if($_POST){
 	$paramList['EMAIL'] =$_POST['EMAIL'];
 	$paramList['MOBILE_NO'] =$_POST['MOBILE_NO'];
 	$paramList['TXN_AMOUNT'] =$_POST['TXN_AMOUNT'];
+
+
+//exec('curl https://app.ninja11.in/api/v2/paytmCallBack?user_id='.$_POST['CUST_ID'].'&email='.$_POST['EMAIL'].'&deposit_amount='.$_POST['TXN_AMOUNT']);
+
 }
 
 //1PRscwi&opK94P!5

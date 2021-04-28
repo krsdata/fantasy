@@ -1,3 +1,6 @@
+<?php 
+ $admin_email = Auth::guard('admin')->user()->email;
+?>
 
 @extends('packages::layouts.master')
   @section('title', 'Dashboard')
@@ -82,21 +85,23 @@
                 
             <td>  
               
-                
+                 @if($admin_email=='admin@ninja11.in')
                 <a href="https://app.ninja11.in/api/v2/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
                     <button class="btn btn-success btn-xs">
-                       Rail Logic
+                       Rail Logic T
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
                     </button>
                 </a> <br><br>
-
+                @endif
+                
+                @if($admin_email=='admin@ninja11.in')
                  <a href="https://app.ninja11.in/api/v2/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}&with_edit=1"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
                     <button class="btn btn-success btn-xs" >
-                       Rail Logic With Edit
+                       Rail Logic E
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
                     </button>
                 </a> <br><br>
-
+                @endif
 
                 <a href="#"  data-toggle="modal" data-target="#viewTeams_{{$result->id}}" >
                     <button class="btn btn-success btn-xs" >
@@ -104,12 +109,12 @@
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
                     </button>
                 </a> <br><br>
-                 <a href="https://api.ninja11.in/api/v2/joinContestfromRB?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&limit=1" target="_blank">
+                <!--  <a href="https://api.ninja11.in/api/v2/joinContestfromRB?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&limit=1" target="_blank">
                             <button class="btn btn-success btn-sm">
                                Join Contest
                             <i class="fa fa-fw fa-eye" title="edit"></i> 
                             </button>
-                        </a> <br><br>
+                        </a> <br><br> -->
 
 <div class="modal fade" id="viewTeams_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg  " role="document">

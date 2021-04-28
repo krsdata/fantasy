@@ -43,7 +43,7 @@ app.controller('paymentController', function($scope, $http,$location) {
 		var pathArray = window.location.pathname.split( '/' );
         $scope.currDomain=pathArray[1]=='uat'?window.location.origin+'/uat':window.location.origin;
 		$scope.loading = true;
-		$http.get('http://api.sportsfight.in/api/v1/getPostTask?releasedFund=0&taskStatus=completed').
+		$http.get('http://api.ninja11.in/api/v1/getPostTask?releasedFund=0&taskStatus=completed').
 		success(function(data, status, headers, config) {
 			$scope.list = data.data;
 			$scope.showReleaseFundList=$scope.list.length>0?true:false;
@@ -55,7 +55,7 @@ app.controller('paymentController', function($scope, $http,$location) {
 	}
 	// get withrawal list
 	$scope.getWithrawalList = function() {
-		$http.get('http://api.sportsfight.in/api/v1/withdrawalsRequest').
+		$http.get('http://api.ninja11.in/api/v1/withdrawalsRequest').
 		success(function(data, status, headers, config) {
 			if(data.status==1&&data.message=='Withdrawals List found.')
 			$scope.withdrawallist = data.data;
@@ -70,7 +70,7 @@ app.controller('paymentController', function($scope, $http,$location) {
 		if(response!=null&&response!='') {
 			alert(response)
 		} else {
-			$http.get('http://api.sportsfight.in/api/v1/user/withdrawal/approve?withdrawalId='+id).
+			$http.get('http://api.ninja11.in/api/v1/user/withdrawal/approve?withdrawalId='+id).
 			success(function(data, status, headers, config) {
 				console.log('id',data.status,data.message);
 				if(data.status==1&&data.message=='Withdrawal request initialize successfully.') {

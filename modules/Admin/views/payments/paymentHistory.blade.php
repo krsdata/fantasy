@@ -95,32 +95,46 @@
                                             No Payment request found
                                          </div>
                                           
-                                          @endif
+                                          @endif 
+
                                         @foreach($transaction as $key => $result)
                                             <tr>
-                                                 <td>   {{ (($transaction->currentpage()-1)*15)+(++$key) }} 
+                                                 <td>   {{ (($transaction->currentpage()-1)*10)+(++$key) }} 
                                                 </td>
-                                                <td>{{$result->transaction_id}} 
-                                                  <br>
-                                                  {{$result->match_name}}
-                                                  <br> 
-                                                  {{$result->contest_name}} 
-
-                                                </td>
-
-
                                                 <td>
-                                                  <a href="{{url('admin/user?search='.$result->email)}}"> 
-                                                   ID: {{$result->user_id}},<br>
-                                                   
+                                                	
+                                                	<a href="{{url('admin/matchTeams')}}?search={{$result->match_id}}&contest_id={{$result->contest_id}}&entry_fees={{$result->entry_fees}}" target="_blank"> 
+                                                	{{$result->transaction_id}} 
+                                                </a> 
+                                                  <br>
+                                                  {{$result->match_name}} 
+                                                  {{$result->contest_name}} 
+                                                  @if($result->total_spots) 
+                                                  <hr>
+                                                   Entry Fees : {{$result->entry_fees}}
+                                                  <br>
+                                                  Total Spot : {{$result->total_spots??null}} 
+                                                   <br> 
+                                                  Filled Spot : {{$result->filled_spot}}
+                                                  <br> 
+                                                  
+                                                  Total Winning : {{$result->total_winning_prize}}
+                                                @endif
+                                                </td> 
+                                                <td>
+                                                   ID: {{$result->user_id}},
+                                                   <br>
+                                                   Team Name : {{$result->team_name??null}}
+                                                   <br>
+            <a href="{{url('admin/user?search='.$result->email)}}">
                                                    Name: {{$result->name}},<br>
                                                    Email : {{$result->email}}
                                                    <br>
                                                    Phone : {{$result->phone}}
                                                  </a>
-                                                    </td>
+                                                </td>
                                                 
-                                                 <td>{{$result->payment_type_string}} </td>
+                                                <td>{{$result->payment_type_string}} </td>
                                                  <td>
                                                   @if($result->debit_credit_status=="+")
                                                   <div class=" alert-success"> {{' '.$result->debit_credit_status.' '.$result->amount}} INR</div>
@@ -135,8 +149,8 @@
                                                  </td>                         
                                                 
                                                 <td>
-                                                        {!! Carbon\Carbon::parse($result->updated_at)->format('d-m-Y h:i:s A'); !!}
-                                                </td>
+                                                        {!! Carbon\Carbon::parse($result->created_at)->format('d-m-Y h:i:s A'); !!}
+                                                </td> 
                                                 
                                                
                                             </tr>

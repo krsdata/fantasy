@@ -80,15 +80,21 @@
                         
                     <td> 
                         <a href="{{ route('wallets.edit',$result->id)}}">
-                            <button class="btn btn-success btn-xs">
+                            <button class="btn btn-success btn-sm">
                             <i class="fa fa-fw fa-edit" title="edit"></i> 
                             </button>
                         </a>
 
                         <a href="{{ route('paymentsHistory','search='.$result->user_id.'&payment_type='.$result->payment_type)}}">
-                            <button class="btn btn-success btn-xs">
+                            <button class="btn btn-success btn-sm">
                                 Payments History
                             <i class="fa fa-fw fa-eye" title="edit"></i> 
+                            </button>
+                        </a>
+ 
+                        <a href="{{ route('wallets.edit',$result->id)}}?payment_type={{$result->payment_type}}">
+                            <button class="btn btn-success btn-sm">
+                            <i class="fa fa-fw fa-plus-circle" title="edit"></i> Add Money
                             </button>
                         </a>
  

@@ -4,7 +4,7 @@
     <title>{{env('company_name')}} | The Fantasy World</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" type="image/png" href="{{env('fevicon_url')}}" /> 
+    <link rel="shortcut icon" type="image/png" href="https://ninja11.in/banners/fevicon.png" /> 
 
     <link rel="stylesheet" href="{{ URL::asset('webmedia/css/open-iconic-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('webmedia/css/animate.css')}}">

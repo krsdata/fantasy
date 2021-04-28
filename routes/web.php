@@ -20,6 +20,15 @@ Route::get('apk',function(){
 });
 
 
+Route::get('liveScore',function(){
+    echo "Coming Soon!!";
+});
+
+Route::get('liveScore','HomeController@liveScore');
+
+//liveScore.blade.php
+
+
 Route::get('liveChat','HomeController@liveChat');
 
 Route::get('chart-line', 'ChartController@chartLine');
@@ -38,6 +47,9 @@ Route::match(['post','get'], '/', 'HomeController@home');
 
 
 Route::match(['post','get'], '404', 'HomeController@page404');
+
+
+Route::match(['post','get'], 'myAffiliate', 'HomeController@myAffiliate');
 
 
 Route::match(

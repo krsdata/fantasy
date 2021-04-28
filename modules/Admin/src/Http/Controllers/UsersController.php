@@ -125,10 +125,12 @@ class UsersController extends Controller {
                                         $item->$payment_type_string = array_sum($sum);
                                         return $item;
                                     });
+               
                 $amount['Bonus'] = 0;                    
                 foreach ($account_details as $key => $value) {
                     $amount[$key] = $value->$key;
                 }
+                 
                 $ref_deposit = \DB::table('wallet_transactions')
                             ->where('payment_type',3)
                             ->where('user_id',$item->id)
@@ -152,13 +154,15 @@ class UsersController extends Controller {
                             ->toArray();
 
                $m = \DB::table('matches')->whereIn('match_id',$match)
-                                ->orderBy('status','asc')
+                                ->whereIn('status',[1,2])
+                                ->orderBy('match_id','desc')
                                 ->limit(5)
                                 ->get();
 
                 $item->mat_id = $m;
 
                 $item->amount = $amount; 
+
                 return $item;
             });
         } else {
@@ -184,7 +188,7 @@ class UsersController extends Controller {
                                     ->get()
                                     ->groupBy('payment_type_string')
                                     ->transform(function($item,$key){
-                                        
+                                       
                                         foreach ($item as $key => $value) {
                                             $sum[] = $value->amount;
                                             $payment_type_string = $value->payment_type_string;
@@ -192,7 +196,8 @@ class UsersController extends Controller {
                                         $item->$payment_type_string = array_sum($sum);
                                         return $item;
                                     });
-                $amount['Bonus'] = 0;                    
+                                    
+                $amount['Bonus'] = 0;                     
                 foreach ($account_details as $key => $value) {
                     $amount[$key] = $value->$key;
                 }   
@@ -215,7 +220,8 @@ class UsersController extends Controller {
                             ->toArray();
 
                 $m = \DB::table('matches')->whereIn('match_id',$match)
-                                ->orderBy('status','asc')
+                                ->whereIn('status',[1,2])
+                                ->orderBy('match_id','desc')
                                 ->limit(5)
                                 ->get();
 

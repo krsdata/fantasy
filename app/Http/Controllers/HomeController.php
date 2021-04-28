@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\BaseController as BaseController;
-use App\User;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\Notification;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -20,6 +19,8 @@ use App\Models\Venue;
 use App\Models\Matches;
 use App\Models\ReferralCode;
 use Session;
+use App\User;
+use App\Models\WalletTransaction;
 
 
 class HomeController extends BaseController
@@ -36,6 +37,44 @@ class HomeController extends BaseController
         View::share('settings',(object)$settings);
 
     }  
+
+
+    public function myAffiliate(Request $request){
+
+        $referral = $request->user_id??'MAAHI11';
+        $user = User::where('user_name',$referral)->first();
+
+        $myAffiliate = User::select('id','name','team_name')
+            ->where('reference_code',$user->referal_code)
+            ->get();
+
+        $total_user = $myAffiliate->count();
+
+        $myAffiliate->transform(function ($item, $key)   {  
+                $wt = WalletTransaction::where('user_id',$item->id)
+                    ->where('payment_type',3)
+                    ->sum('amount');
+                 $item->deposit = round($wt,2);   
+
+                 $winning = WalletTransaction::where('user_id',$item->id)
+                    ->where('payment_type',4)
+                    ->sum('amount');
+                 $item->winning = round($winning,2);
+
+
+
+                 return $item;
+        });  
+        $commission = \DB::table('affiliate_programs')
+                                ->where('user_id',$user->id)
+                                ->sum('amount');
+       
+
+        $total_deposit =  $myAffiliate->sum('deposit');
+        $total_winning =  $myAffiliate->sum('winning'); 
+            
+         return view('myAffiliate',compact('myAffiliate','total_deposit','total_winning','total_user','user','commission'));
+    }
 
     public function page404(Request $request){
          return view('404');
@@ -130,5 +169,75 @@ class HomeController extends BaseController
 
 
         return view('page',compact('content','remove_header'));
+    }
+
+    public function liveScore(Request $request)
+    {
+        
+        $match_id = $request->match_id;
+        
+        if($match_id){
+            $url = "https://rest.entitysport.com/v2/matches/".$match_id."/scorecard?token=927192a7efcfb0e8d321a41412012af9";
+        
+        $mt = \DB::table('live_scores')->where('match_id',$match_id)->first();
+        
+       /* if($mt){
+           // return  json_decode($mt->response,true);    
+        }
+        $r = json_decode($mt->response);    
+        foreach ($r->innings as $key => $value) {
+            
+           foreach ($value->batsmen as $key => $value) {
+              dd($value);
+           }
+        } */
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "GET",
+          CURLOPT_HTTPHEADER => array(
+            "cache-control: no-cache",
+            "content-type: application/json"
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+        $rs = [];
+        if ($err) {
+            $rs = [];
+        } else {
+            $data = json_decode($response);
+            $rs = $data->response;
+             
+            \DB::table('live_scores')->updateOrInsert(
+                ['match_id'=>$match_id],
+                [
+                    'match_id' => $match_id,
+                    'response' => json_encode($rs)
+                ]
+            );
+            
+            //return  (array)$rs; 
+        }
+        }
+        $rs = $rs??[];
+        $liveMatch = \DB::table('matches')->where('status',3)->get();
+         
+
+        $remove_header = false;
+        if($request->get('request')=='mobile'){
+
+            $remove_header = true;
+        }
+        return view('liveScore',compact('remove_header','rs','liveMatch'));
     }
 }

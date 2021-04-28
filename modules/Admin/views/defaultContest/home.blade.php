@@ -84,6 +84,14 @@
                                         </thead>
                                         <tbody>
                                         @foreach($defaultContest as $key => $result)
+                                        <?php
+
+                                        if(!isset($contest_type[$result->contest_type]))
+                                        {
+                                            continue;
+                                        }
+                                        ?>
+
                                             <tr>
                                                 <th>  {{++$key}} </th>
                                                 <td> {{$contest_type[$result->contest_type]}}

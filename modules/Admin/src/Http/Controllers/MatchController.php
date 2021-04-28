@@ -417,7 +417,8 @@ class MatchController extends Controller {
                                 'timestamp_start' => $timestamp_start,
                                 'timestamp_end' => $timestamp_end,
                                 'date_start'  => $date_start,
-                                'date_end'  => $date_end 
+                                'date_end'  => $date_end ,
+                                'manual_date' => $timestamp_start
                           ];  
             }
 

@@ -38,7 +38,7 @@ use App\Models\PrizeBreakup;
 use File;
 use Ixudra\Curl\Facades\Curl; 
 use Razorpay\Api\Api;
-
+use MongoDB\Driver\Manager;
 
 class ApiController extends BaseController
 {
@@ -70,6 +70,7 @@ class ApiController extends BaseController
             $this->is_session_expire = true;
             $request->merge(['user_id'=>null]);
         }
+ 
     }
     /*
     Contest Filling Fast
@@ -2909,6 +2910,10 @@ class ApiController extends BaseController
 
     // get Match by status and all
     public function getMatch(Request $request){
+
+      //  $mongodb = \DB::connection('mongodb')->collection('getmatch')->get();
+         
+
         $user = $request->user_id;
         $banner = \DB::table('banners')->select('title','url','actiontype','description')->get();
         $join_cont =  \DB::table('join_contests')->where('user_id',$user);
@@ -3100,6 +3105,7 @@ class ApiController extends BaseController
                     //$item->league_title = $league_title.' - '.$item->format_str;
                     return $item;
             });
+    
 
         $data['matchdata'][] = ['viewType'=>2,'banners'=>$banner];
         $data['matchdata'][] = ['viewType'=>3,'upcomingmatches'=>$match];
