@@ -75,6 +75,16 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {   
      //  dd($exception);
+       if ($exception instanceof \BadMethodCallException) {
+ 
+          echo  json_encode(
+                    [
+                        'message'       => 'Bad request'
+                    ]
+                );
+           exit();
+        
+      }
       if ($exception instanceof ThrottleRequestsException) {
 
           $data['url']        = url($request->getrequestUri());

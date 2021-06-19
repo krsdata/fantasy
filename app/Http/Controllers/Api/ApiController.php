@@ -2190,8 +2190,10 @@ class ApiController extends BaseController
         return [' Live match  updated successfully'];
     }
 
-    public function updateMatchDataByStatus($status=1)
+    public function updateMatchDataByStatus2($status=1)
     {   
+        echo "bad request"; die;
+
         if($status==1){
             $fileName="upcoming";
         }

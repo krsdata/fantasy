@@ -161,6 +161,17 @@
             </div>
         </div>
 
+        <div class="form-group {{ $errors->first('usable_extra_cash', ' has-error') }}">
+            <label class="control-label col-md-3">Usable Extra Cash %</label>
+            <div class="col-md-4"> 
+                {!! Form::text('usable_extra_cash',$defaultContest->usable_extra_cash??5, ['class' => 'form-control','placeholder'=>'10'])  !!} 
+                <span class="help-block">{{ $errors->first('usable_extra_cash', ':message') }}</span>
+            </div>
+        </div>
+
+
+        
+
         <div class="form-group {{ $errors->first('bonus_contest', ' has-error') }}">
             <label class="control-label col-md-3">Bonus Contest</label>
             <div class="col-md-4"> 

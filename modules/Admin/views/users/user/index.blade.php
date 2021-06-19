@@ -271,7 +271,9 @@
 
                                     </a>
                                     @else
-                                      {{ ($result->role_type==1)?'admin':($result->role_type==2)?'Sales':($result->role_type==4)?'Support':'Admin'}}
+                                      {{ (($result->role_type==1)?'admin':($result->role_type==2))
+
+                                      ?'Sales':(($result->role_type==4)?'Support':'Admin')}}
                                     @endif
                                 </td>
                                 <td>

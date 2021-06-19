@@ -24,7 +24,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Dispatcher; 
 use App\Helpers\Helper;
 use Modules\Admin\Models\Users;
-use App\Models\Matches as Match;
+use App\Models\Matches;
+use App\Models\Match;
 use App\Models\Wallet;
 use App\Models\JoinContest;
 use App\Models\WalletTransaction;
@@ -44,7 +45,7 @@ class MatchController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function __construct(Match $match) { 
+    public function __construct(Matches $match) {
         $this->middleware('admin');
         View::share('viewPage', 'Match');
         View::share('sub_page_title', 'Match');
@@ -75,6 +76,18 @@ class MatchController extends Controller {
                             $bonus_amount = 0;
                         }
                         
+                        $amont_deduction = \DB::table('contest_amount_deductions')
+                                    ->where('contest_id',$item->contest_id)
+                                    ->where('match_id',$item->match_id)
+                                    ->first();
+
+
+                        $ec = $amont_deduction->extra_cash??0;
+                        $da = $amont_deduction->deposit_amount??0;
+                        $wa = $amont_deduction->winning_amount??0;
+                        $ba = $amont_deduction->bonus_amount??0;
+                       
+                        $aa = $ec + $da +  $wa + $ba;
                         $amount = $cancel_contest->entry_fees-$bonus_amount;
                         
                         if($item->cancel_contest==0){
@@ -92,7 +105,7 @@ class MatchController extends Controller {
                                         ]
                                     );
                                 $wt->user_id            = $item->user_id;   
-                                $wt->amount             = $item->contest->entry_fees;  
+                                $wt->amount             = $aa; //$item->contest->entry_fees;  
                                 $wt->payment_type       = 7;  
                                 $wt->payment_type_string = "Refunded";
                                 $wt->transaction_id     = $transaction_id;
@@ -101,8 +114,11 @@ class MatchController extends Controller {
                                 $wt->debit_credit_status = "+"; 
                                 $wt->match_id  = $item->match_id;
                                 $wt->contest_id =  $item->contest_id;  
+                                //dd($wt);
+
                                 $wt->save();
 
+                                // deposit
                                 $wallet = Wallet::firstOrNew(
                                         [
                                            'user_id' => $item->user_id,
@@ -110,11 +126,24 @@ class MatchController extends Controller {
                                         ]
                                     );
 
-                                $wallet->user_id        =  $item->user_id;
-                                $wallet->amount = $wallet->amount+$amount;
-                                
+                                $wallet->user_id    =  $item->user_id;
+                                $wallet->amount     =  $wallet->amount+$da;
+                                $wallet->extra_cash =  $wallet->extra_cash+$ec;
                                 $wallet->save();
 
+                                // Winning Amount 
+                                $wallet3 = Wallet::firstOrNew(
+                                        [
+                                           'user_id' => $item->user_id,
+                                           'payment_type' => 4
+                                        ]
+                                    );
+
+                                $wallet3->user_id        =  $item->user_id;
+                                $wallet3->amount = $wallet3->amount+$wa;
+                                $wallet3->save();
+
+                                // Bonus
                                 $wallet2 = Wallet::firstOrNew(
                                         [
                                            'user_id' => $item->user_id,
@@ -123,11 +152,18 @@ class MatchController extends Controller {
                                     );
 
                                 $wallet2->user_id        =  $item->user_id;
-                                $wallet2->amount = $wallet2->amount+$bonus_amount;
+                                $wallet2->amount = $wallet2->amount+$ba;
                                 $wallet2->save();
 
+
+                                $wt->in_deposit = $wallet->amount;
+                                $wt->remaining_amount = $wallet->amount+$wallet3->amount;
+                                $wt->in_winning = $wallet3->amount;
+                                $wt->total_amount = $wallet->amount+$wallet3->amount;
+                                $wt->save();
+
                             }
- 
+    
                             \DB::commit();
 
                             $item->cancel_message = 'Contest Cancelled' ;
@@ -150,7 +186,7 @@ class MatchController extends Controller {
 
         }
 
-        $match      = Match::where('match_id',$match_id)->first();
+        $match      = Matches::where('match_id',$match_id)->first();
 
         $contest_count    = CreateContest::whereIn('id',$contest_id)->count();
         
@@ -244,7 +280,7 @@ class MatchController extends Controller {
             $data['status_str']     = 'Cancelled';
             $data['is_cancelled']   = 1;
            
-            $match = Match::firstOrNew([
+            $match = Matches::firstOrNew([
                 'match_id' => $request->match_id
             ]);
 
@@ -327,7 +363,7 @@ class MatchController extends Controller {
                 ->where('email_trigger',0)  
                 ->get()  
                 ->transform(function($item,$key)use($match_id){
-                    $match = Match::where('match_id',$match_id)
+                    $match = Matches::where('match_id',$match_id)
                             ->select('match_id','title','short_title','status_note','format_str')->first();
                     $pd_user = \DB::table('prize_distributions')
                         ->where('match_id',$match_id)
@@ -357,7 +393,7 @@ class MatchController extends Controller {
      * Dashboard
      * */
 
-    public function index(Match $match, Request $request) 
+    public function index(Matches $match, Request $request) 
     {  
         $page_title = 'Match';
         $sub_page_title = 'View Match';
@@ -367,7 +403,7 @@ class MatchController extends Controller {
         if ($request->ajax()) {
             $id = $request->get('id');
             $status = $request->get('status');
-            $match = Match::find($id);
+            $match = Matches::find($id);
             $ss = $match->is_cancelled;
             $s = ($status == 1) ? ($status = 0) : ($status = 1);
             $match->is_cancelled = $s;
@@ -441,7 +477,7 @@ class MatchController extends Controller {
         if ((isset($search) || isset($status) || isset($match_start_date))) {
              
             $search = isset($search) ? Input::get('search') : '';
-            $match = Match::with('teama','teamb')->where(function($query) use($search,$status,$match_start_date) {
+            $match = Matches::with('teama','teamb')->where(function($query) use($search,$status,$match_start_date) {
                         if($match_start_date){
                             $query->where('date_start','LIKE',"%$match_start_date%");  
                         }
@@ -552,7 +588,7 @@ class MatchController extends Controller {
             });  
              
         } else { 
-            $match = Match::with('teama','teamb')
+            $match = Matches::with('teama','teamb')
                 ->where('status','1')
                // ->WhereMonth('date_start',date('m'))
                 ->whereDate('date_start','>=',\Carbon\Carbon::yesterday())
@@ -641,7 +677,7 @@ class MatchController extends Controller {
         return view('packages::match.index', compact('match','page_title', 'page_action','sub_page_title'));
     }
 
-    public function create(Match $match)
+    public function create(Matches $match)
     {
         $page_title     = 'Match';
         $page_action    = 'Create Match';
@@ -663,7 +699,7 @@ class MatchController extends Controller {
      * Save Group method
      * */
 
-    public function store(Request $request, Match $program) 
+    public function store(Request $request, Matches $program) 
     {   
         $program->fill(Input::all()); 
         $program->save();   
@@ -680,7 +716,7 @@ class MatchController extends Controller {
      * */
 
    public function edit($id) {
-        $match = Match::find($id);
+        $match = Matches::find($id);
         $page_title = 'Match';
         $page_action = 'Match';
 
@@ -699,7 +735,7 @@ class MatchController extends Controller {
 
      public function update(Request $request, $id) {
 
-        $match = Match::find($id);
+        $match = Matches::find($id);
         $data = [];
         $table_cname = \Schema::getColumnListing('matches');
         $except = ['id','created_at','updated_at','_token','_method','match_id','pid'];
@@ -733,11 +769,11 @@ class MatchController extends Controller {
     }
 
     public function show($id) {
-        $matches = Match::find($id);
+        $matches = Matches::find($id);
         $page_title     = 'Match';
         $page_action    = 'Show Match'; 
         $result = $matches;
-        $match = Match::where('id',$matches->id)
+        $match = Matches::where('id',$matches->id)
             ->select('match_id','title','short_title','status_str','status_note','date_start','timestamp_start')->first()->toArray(); 
 
         $conetst = \DB::table('create_contests')->where('match_id',$matches->match_id)->get();    

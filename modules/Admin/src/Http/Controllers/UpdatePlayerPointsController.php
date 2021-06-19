@@ -15,7 +15,7 @@ use Illuminate\Http\Dispatcher;
 use App\Helpers\Helper;
 use Modules\Admin\Models\Roles;
 use Modules\Admin\Models\Menu;
-use App\Models\Matches as Match;
+use App\Models\Matches;
 use Modules\Admin\Models\UpdatePlayerPoints;
 
 /**
@@ -90,7 +90,7 @@ class UpdatePlayerPointsController extends Controller {
 
                     })->Paginate($this->record_per_page);
             $updatePlayerPoints->transform(function($item,$key){
-                $match =  Match::where('match_id',$item->match_id)->first();
+                $match =  Matches::where('match_id',$item->match_id)->first();
                 if($match){
                     $item->match_title = $match->short_title??null;    
                 }
@@ -100,7 +100,7 @@ class UpdatePlayerPointsController extends Controller {
         } else {
             $updatePlayerPoints = UpdatePlayerPoints::Paginate($this->record_per_page);
             $updatePlayerPoints->transform(function($item,$key){
-                $match =  Match::where('match_id',$item->match_id)->first();
+                $match =  Matches::where('match_id',$item->match_id)->first();
 
                 if($match){
                     $item->match_title = $match->short_title??null;    

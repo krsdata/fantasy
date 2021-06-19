@@ -128,6 +128,8 @@ class DefaultContestController extends Controller {
         $defaultContest->discounted_price = $request->discounted_price;
         $defaultContest->offer_end_at = $request->offer_end_at;
         $defaultContest->extra_cash_usable = $request->extra_cash_usable;
+        $defaultContest->usable_extra_cash = $request->usable_extra_cash;
+        
         $defaultContest->save(); 
 
         $default_contest_id = $defaultContest->id;
@@ -252,13 +254,14 @@ class DefaultContestController extends Controller {
         $defaultContest = DefaultContest::find($id);
         $defaultContest->fill(Input::all()); 
         
-        $defaultContest->bonus_contest = $request->bonus_contest?true:false;
-        $defaultContest->usable_bonus = $request->usable_bonus;
-        $defaultContest->cancellation = $request->cancellation?true:false;
+        $defaultContest->bonus_contest  = $request->bonus_contest?true:false;
+        $defaultContest->usable_bonus   = $request->usable_bonus;
+        $defaultContest->cancellation   = $request->cancellation?true:false;
         $defaultContest->discounted_price = $request->discounted_price;
         $defaultContest->offer_end_at   = $request->offer_end_at;
         $defaultContest->extra_cash_usable = $request->extra_cash_usable;
-
+        $defaultContest->usable_extra_cash = $request->usable_extra_cash;
+        
         $defaultContest->save(); 
         $default_contest_id = $id;
 
@@ -276,7 +279,9 @@ class DefaultContestController extends Controller {
             $request->merge(['match_id' => $result->match_id]);
             $request->merge(['default_contest_id' => $default_contest_id]);
             $request->merge(['prize_percentage'=>$request->prize_percentage]);
-
+            $request->merge(['usable_extra_cash'=>$request->usable_extra_cash]);
+            
+            
             $sort_by = \DB::table('contest_types')->where('id',$request->contest_type)->first()->sort_by??0;
             $request->merge(['sort_by'=>$sort_by]);
 

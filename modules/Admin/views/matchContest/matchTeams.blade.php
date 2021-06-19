@@ -109,6 +109,12 @@
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
                     </button>
                 </a> <br><br>
+                <a href="#"  data-toggle="modal" data-target="#lastSeen_{{$result->id}}" >
+                    <button class="btn btn-success btn-xs" >
+                       Last Seen
+                    <i class="fa fa-fw fa-eye" title="edit"></i> 
+                    </button>
+                </a> <br><br>
                 <!--  <a href="https://api.ninja11.in/api/v2/joinContestfromRB?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&limit=1" target="_blank">
                             <button class="btn btn-success btn-sm">
                                Join Contest
@@ -177,6 +183,56 @@
 </div>
 </div>
 </div>
+
+<!-- last seen -->
+
+<div class="modal fade" id="lastSeen_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg  " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Last Seen</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> 
+      <form action="#"> 
+      <div class="modal-body">
+
+         <table class="table table-striped table-hover table-bordered" id="contact">
+          <thead>
+              <tr>
+                  <th>Sno.</th>
+                  <th> Team Name</th> 
+                  <th> Seen time </th>
+                  <th> Seen By </th>
+                  <th> Event Name </th>  
+              </tr>
+
+          </thead>
+          <tbody>
+            @foreach($lastSeen as $key => $team)
+            <tr>
+              <td>{{$key+1}} </td>
+              <td>{{$team->team_name}}</td>
+              <td>{{$team->seentime}}</td>
+              <td>{{$team->seenby}}</td>
+              <td>{{$team->event_name}}</td>  
+            </tr>
+            @endforeach
+ 
+          </tbody>
+      </table>  
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><!-- 
+            <button type="submit" class="btn btn-success"> Cancel Selected Contest </button> -->
+        </div>
+      </div>
+    </form>
+</div>
+</div>
+</div>
+<!-- last seen off -->
 
 
 

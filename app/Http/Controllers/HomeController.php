@@ -177,7 +177,7 @@ class HomeController extends BaseController
         $match_id = $request->match_id;
         
         if($match_id){
-            $url = "https://rest.entitysport.com/v2/matches/".$match_id."/scorecard?token=927192a7efcfb0e8d321a41412012af9";
+            $url = "https://rest.entitysport.com/v2/matches/".$match_id."/scorecard?token=46b8fd6384083ee959d20e1734119cec";
         
         $mt = \DB::table('live_scores')->where('match_id',$match_id)->first();
         

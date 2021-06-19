@@ -18,7 +18,7 @@ use Modules\Admin\Models\Menu;
 use Modules\Admin\Models\Wallets;
 use Modules\Admin\Models\MatchContest;
 use Modules\Admin\Models\MatchTeams;
-use App\Models\Matches as Match;
+use App\Models\Matches;
 use App\Models\JoinContest;
 use App\Models\WalletTransaction;
 use App\Models\CreateContest;
@@ -71,7 +71,7 @@ class MatchContestController extends Controller {
                     ->get();                                  
             $matchTeams->transform(function($item,$key)use($contest_id){ 
                 
-                    $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
+                    $match = Matches::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                     $item->status = $match->status_str??null;
                     $item->match_name = $match->short_title??null;
 
@@ -141,6 +141,7 @@ class MatchContestController extends Controller {
 
     public function matchTeams(MatchTeams $matchTeams, Request $request)
     {   
+
         $page_title = 'Users Team';
         $sub_page_title = 'User Teams';
         $page_action = 'View user Teams'; 
@@ -199,7 +200,7 @@ class MatchContestController extends Controller {
                     $item->prize_amount = 0;   
                 }
 
-                $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
+                $match = Matches::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                 $item->status = $match->status_str??null;
                 $item->match_name = $match->short_title??null;
 
@@ -230,7 +231,7 @@ class MatchContestController extends Controller {
 
                     
 
-                    $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
+                    $match = Matches::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                     $item->status = $match->status_str??null;
                     $item->match_name = $match->short_title??null;
 
@@ -291,8 +292,27 @@ class MatchContestController extends Controller {
             $tables[] = $value;
         }
         $contest_id = $request->contest_id;
+        $match_id   = $request->search;
 
-        return view('packages::matchContest.matchTeams', compact('matchTeams', 'page_title', 'page_action','sub_page_title','tables','contest_id'));
+        $lastSeen = \DB::table('eventLogs')
+                    ->where('match_id',$match_id)
+                    ->where('contest_id',$contest_id)
+                    ->limit(10)->orderBy('id','desc')
+                    ->get()
+                    ->transform(function($item,$key)use($contest_id) { 
+                    $td = \DB::table('join_contests')
+                        ->where('created_team_id',$item->team_id)
+                        ->where('contest_id',$contest_id)
+                        ->first();
+                    
+                    $item->team_name =  $td->team_name.'-'.$td->team_count;
+                    //.'('.$td->team_count.')';
+                    $item->seentime =  $item->date_time;
+                    $item->seenby   =  $item->email;
+                    return $item;
+                }); 
+
+        return view('packages::matchContest.matchTeams', compact('matchTeams', 'page_title', 'page_action','sub_page_title','tables','contest_id','lastSeen'));
     }
 
     /*
@@ -381,7 +401,7 @@ class MatchContestController extends Controller {
             $matchContest->transform(function($item,$key){ 
                     $contest_name = \DB::table('contest_types')->where('id',$item->contest_type)->first();
                     $item->contest_name = $contest_name->contest_type??null;
-                    $match = Match::where('match_id',$item->match_id)->select('short_title','status_str')->first();
+                    $match = Matches::where('match_id',$item->match_id)->select('short_title','status_str')->first();
                     $item->status = $match->status_str??'Cancel';  
                     return $item; 
             });

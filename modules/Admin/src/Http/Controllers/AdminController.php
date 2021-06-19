@@ -78,7 +78,7 @@ class AdminController extends Controller {
 
         $prize = WalletTransaction::where('payment_type','4')->sum('amount');
 
-        $refunded = WalletTransaction::where('payment_type_string','Refunded')->sum('amount');
+        $refunded = round(WalletTransaction::where('payment_type_string','Refunded')->sum('amount'),2);
 
         $referral = WalletTransaction::where('payment_type_string','referral')->sum('amount');
 

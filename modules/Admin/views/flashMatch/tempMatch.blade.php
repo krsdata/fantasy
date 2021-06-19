@@ -114,11 +114,11 @@
                                             </td>
                                                 <td> {{$result->match_id}} </td>
                                                  <td> {{$result->title}} </td>
-                                                 <td> <a class="btn btn-success" href="{{url('api/v2/saveMatchDataByMatchId/'.$result->match_id)}}"  data-target="#saveMatch" data-toggle="modal" >
+                                                 <td> <a class="btn btn-success" href="https://rest.fancode11.com/api/v3/saveMatchDataByMatchId/{{$result->match_id}}"  data-target="#saveMatch" data-toggle="modal" >
                                                   Save This Match
                                                  </a> 
                                                 </td>
-                                                <td> <a class="btn btn-success" href="{{url('api/v2/saveMatchDataByMatchId/'.$result->match_id.'?Playing11=true')}}"  data-target="#saveMatch" data-toggle="modal" >
+                                                <td> <a class="btn btn-success" href="https://rest.fancode11.com/api/v3/saveMatchDataByMatchId/{{$result->match_id}}?Playing11=true"  data-target="#saveMatch" data-toggle="modal" >
                                                   Enable Playing 11
                                                  </a> 
                                                 </td>
@@ -136,7 +136,7 @@
                             </table>
                             Showing {{($match->currentpage()-1)*$match->perpage()+1}} to {{$match->currentpage()*$match->perpage()}}
                                     of  {{$match->total()}} entries <br><br>
-
+                                    
                              <span id="error_msg"></span>
                               <button class="btn btn-danger" onclick="SaveAllMatch('{{url('admin')}}','pages')">Save selected Match</button>
                         <div class="center" align="center">  {!! $match->appends(['search' => isset($_GET['search'])?$_GET['search']:''])->render() !!}

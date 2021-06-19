@@ -819,10 +819,18 @@ class FlashMatchController extends Controller {
 
             $date   = $date_start.'_'.$date_end; 
         }  
+
+        if($status==1){
+            $date   = $date_start;
+        }
+
         $paged      = $request->paged??1;
         $format     = $request->format??6;
 
-        $data =    file_get_contents('https://rest.entitysport.com/v2/matches/?status='.$status.'&token='.$token.'&per_page='.$per_page.'&date='.$date.'&format='.$format.'&paged='.$paged);
+        $api_url = 'https://rest.entitysport.com/v2/matches/?status='.$status.'&token='.$token.'&per_page='.$per_page.'&date='.$date.'&format='.$format.'&paged='.$paged;
+       // dd($api_url);
+
+        $data =    file_get_contents($api_url);
         
      //   echo 'https://rest.entitysport.com/v2/matches/?status='.$status.'&token='.$token.'&per_page='.$per_page.'&date='.$date.'&format='.$format.'&paged='.$paged;
         $page_title = 'Match';

@@ -551,7 +551,7 @@
                                             <span data-counter="counterup" data-value="567">
                                                 <a class="btn btn-primary" data-toggle="modal" 
                                                 data-target="#UpcomingMatch" 
-                                                href="{{url('api/v2/updateMatchDataByStatus/1')}}" 
+                                                href="{{env('api_base_url')}}/updateMatchDataByStatus/1?allow=ninja11"
                                                 target="_blank">Update Upcoming Matches </a>
                                             </span>
                                         </h3>
@@ -577,7 +577,7 @@
                                             <span data-counter="counterup" data-value="567">
                                                 <a class="btn btn-primary" data-toggle="modal" 
                                                 data-target="#UpcomingMatch" 
-                                                href="{{url('api/v2/updateMatchDataByStatus/2')}}" 
+                                                href="{{env('api_base_url')}}/updateMatchDataByStatus/2?allow=ninja11" 
                                                 target="_blank">Update Completed Matches </a>
                                             </span>
                                         </h3>
@@ -605,7 +605,7 @@
                                             <span data-counter="counterup" data-value="567">
                                                 <a class="btn btn-primary" data-toggle="modal" 
                                                 data-target="#UpcomingMatch" 
-                                                href="{{url('api/v2/updateMatchDataByStatus/3')}}" 
+                                                href="{{env('api_base_url')}}/updateMatchDataByStatus/3?allow=ninja11" 
                                                 target="_blank">Update Live Matches </a>
 
                                             </span>

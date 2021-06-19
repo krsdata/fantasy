@@ -9,7 +9,7 @@
         <img src="{{URL::asset('assets/img/logo.png')}}" width="150px"  style="
 			    border: 0px solid #fff;
 			    border-radius: 5px;
-			" align="center">
+			" align="center" alt="ninja11">
 		</div>
       <div class="overlay"></div>
       <div class="container">
@@ -21,7 +21,7 @@
                     <div class="row" align="center">
                         <div class="col-lg align-items-end">
                              <a href="{{env('apk_url')}}">
-                            <img  src="{{ URL::asset('webmedia/images/download-android-new.png')}}" alt="android-new" style="width: 200px;">
+                            <img  src="{{ URL::asset('webmedia/images/download-android-new.png')}}" alt="Ninja11 Fantasy App" style="width: 200px;"  >
                         </a>
                         </div>
                     </div>
