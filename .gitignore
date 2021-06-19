@@ -5,7 +5,7 @@ storage/uploads/banner
 /storage/framework/views
 /storage/framework/sessions
 /storage/framework/cache
-/storage/logs/
+/storage/logs
 /vendor
 .env
 .env.backup
