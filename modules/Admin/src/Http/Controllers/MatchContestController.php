@@ -375,9 +375,12 @@ class MatchContestController extends Controller {
                     ->where('contest_id',$item->id)
                     ->orderBy('winning_amount','desc')->limit(1)->first();
                  $item->cancel_status = 'No';  
+                 if(!isset($joinContest->user_id)){
+                  // dd($item->id);
+                 }
                  $user = User::find($joinContest->user_id);
                       
-                if($joinContest && $user){
+                if($joinContest && isset($user->id)){
                     
 
                     $link1 = '<a target="_blank" href="'.url('admin/matchContest?match_id='.$item->match_id.'&email='.$user->email??null).'">'.$user->team_name??$user->name.'</a>';

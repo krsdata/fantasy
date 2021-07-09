@@ -86,9 +86,10 @@ class MatchController extends Controller {
                         $da = $amont_deduction->deposit_amount??0;
                         $wa = $amont_deduction->winning_amount??0;
                         $ba = $amont_deduction->bonus_amount??0;
+                        $ef = $amont_deduction->entry_fees??0;
                        
-                        $aa = $ec + $da +  $wa + $ba;
-                        $amount = $cancel_contest->entry_fees-$bonus_amount;
+                        $aa = $ef;
+                        $amount = $ef-$bonus_amount-$ec;
                         
                         if($item->cancel_contest==0){
 

@@ -38,12 +38,10 @@
                                         <h3 class="font-purple-soft">
                                             <span data-counter="counterup" data-value="276">{{$users_count}}</span>
                                         </h3>
-                                        <small>Total User</small>
+                                        <small>Total Signup</small> | <span>Monthly : {{$musers_count}}</span>
                                     </div>
                                 </a>
-                                    <div class="icon">
-                                        <i class="icon-user"></i>
-                                    </div>
+                                    
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
@@ -146,11 +144,10 @@
                                         <h3 class="font-blue-sharp">
                                             <span data-counter="counterup" data-value="567">{{$revenue}} INR</span>
                                         </h3>
-                                        <small> Revenue </small>
+                                        <small> Revenue   </small>
+                                        <span>| Monthly : {{round($monthly_revenue,2)}} INR</span>
                                     </div>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
+                                    
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
@@ -198,11 +195,10 @@
                                             <span data-counter="counterup" data-value="567">{{round($deposit,2)}} INR  </span>
                                         </h3>
                                         <small> Total Deposit </small>
+                                        <span>| Monthly : {{round($monthly_deposit,2)}} </span>
                                     </div>
                                 </a>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
+                                   
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
@@ -403,11 +399,11 @@
                                             <span data-counter="counterup" data-value="567">{{$today_withdrawal}} INR  </span>
                                         </h3>
                                         <small> Total Withdrawal  </small>
+                                        <br>
+                                        <span>Monthly Withdrawal : {{$monthly_withdrawal}}</span>
                                     </div>
                                 </a>
-                                    <div class="icon">
-                                        <i class="fa fa-folder-open-o"></i>
-                                    </div>
+                                     
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
@@ -452,9 +448,9 @@
                                    <a href="{{url('admin')}}/payments">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{round($prize,2)}} INR  </span>
+                                            <span data-counter="counterup" data-value="567">{{$extra_income??0}} INR  </span>
                                         </h3>
-                                        <small>  Prize Given  </small>
+                                        <small>  Monthly Extra Income  </small>
                                     </div>
                                 </a>
                                     <div class="icon">

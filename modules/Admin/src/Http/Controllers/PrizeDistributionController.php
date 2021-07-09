@@ -87,8 +87,7 @@ class PrizeDistributionController extends Controller {
                 
                 
                 $palyer_id[]  = $item->captain;
-                $palyer_id[]  = $item->vice_captain;
-                $palyer_id[]  = $item->trump;
+                $palyer_id[]  = $item->vice_captain; 
                  
                 $user_teams  = array_merge($palyer_id, json_decode($item->user_teams,true));
 
@@ -97,11 +96,11 @@ class PrizeDistributionController extends Controller {
                                         ->where('match_id',$item->match_id)
                                         ->whereIn('pid',$user_teams) 
                                         ->get();
-                
-                $item->captain = $palyer->where('pid',$item->captain)->first()->name;
+                 
+                $item->captain = ($palyer->where('pid',$item->captain)->first()->name)??'';
                
-                $item->trump = ($palyer->where('pid',$item->trump)->first())->name;
-                $item->vice_captain = ($palyer->where('pid',$item->vice_captain))->first()->name;
+               
+                $item->vice_captain = (($palyer->where('pid',$item->vice_captain))->first()->name)??'';
                 
 
                 $palyer_name = "";
@@ -125,8 +124,7 @@ class PrizeDistributionController extends Controller {
                 
                 
                 $palyer_id[]  = $item->captain;
-                $palyer_id[]  = $item->vice_captain;
-                $palyer_id[]  = $item->trump;
+                $palyer_id[]  = $item->vice_captain; 
                  
                 $user_teams  = array_merge($palyer_id, json_decode($item->user_teams,true));
 
@@ -135,11 +133,11 @@ class PrizeDistributionController extends Controller {
                                         ->where('match_id',$item->match_id)
                                         ->whereIn('pid',$user_teams) 
                                         ->get();
-                
-                $item->captain = $palyer->where('pid',$item->captain)->first()->name;
+                 
+                $item->captain = ($palyer->where('pid',$item->captain)->first()->name)??'';
                
-                $item->trump = ($palyer->where('pid',$item->trump)->first())->name;
-                $item->vice_captain = ($palyer->where('pid',$item->vice_captain))->first()->name;
+                 
+                $item->vice_captain = (($palyer->where('pid',$item->vice_captain))->first()->name)??'';
                 
 
                 $palyer_name = "";
@@ -155,7 +153,7 @@ class PrizeDistributionController extends Controller {
             });
         } 
         $table_cname = \Schema::getColumnListing('prize_distributions');
-        $except = ['user_teams','id','updated_at','device_id','contest_type_id','default_contest_id','user_id','contest_id','created_team_id','match_team_id','email_trigger','user_name','email','first_prize'];
+        $except = ['user_teams','id','updated_at','device_id','contest_type_id','default_contest_id','user_id','contest_id','created_team_id','match_team_id','email_trigger','user_name','email','first_prize','captain','vice_captain','trump','mobile'];
         $data = [];
         foreach ($table_cname as $key => $value) {
 
@@ -164,7 +162,7 @@ class PrizeDistributionController extends Controller {
            }
              $tables[] = $value;
         }
-
+        //dd($prizeDistribution);
         return view('packages::prizeDistribution.index', compact('prizeDistribution', 'page_title', 'page_action','sub_page_title','tables'));
     }
 
