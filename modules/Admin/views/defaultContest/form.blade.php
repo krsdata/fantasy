@@ -56,7 +56,7 @@
          <div class="form-group {{ $errors->first('entry_fees', ' has-error') }}">
             <label class="control-label col-md-3">Entry fees </label>
             <div class="col-md-4"> 
-                {!! Form::text('entry_fees',null, ['class' => 'form-control'])  !!} 
+                {!! Form::text('entry_fees',null, ['class' => 'form-control','placeholder'=>'Contest entry fees'])  !!} 
                 
                 <span class="help-block">{{ $errors->first('entry_fees', ':message') }}</span>
             </div>
@@ -64,7 +64,7 @@
          <div class="form-group {{ $errors->first('total_spots', ' has-error') }}">
             <label class="control-label col-md-3">Total spots </label>
             <div class="col-md-4"> 
-                {!! Form::text('total_spots',null, ['class' => 'form-control'])  !!} 
+                {!! Form::text('total_spots',null, ['class' => 'form-control','placeholder'=>'Total Spot Size'])  !!} 
                 
                 <span class="help-block">{{ $errors->first('total_spots', ':message') }}</span>
             </div>
@@ -74,7 +74,7 @@
         <div class="form-group {{ $errors->first('prize_percentage', ' has-error') }}">
             <label class="control-label col-md-3">Total Winner </label>
             <div class="col-md-4">
-                {!! Form::text('prize_percentage',null, ['class' => 'form-control'])  !!} 
+                {!! Form::text('prize_percentage',null, ['class' => 'form-control','placeholder'=>'Total Winner in this contest'])  !!} 
                 
                 <span class="help-block">{{ $errors->first('prize_percentage', ':message') }}</span>
             </div>
@@ -83,7 +83,7 @@
         <div class="form-group {{ $errors->first('first_prize', ' has-error') }}">
             <label class="control-label col-md-3">First Prize </label>
             <div class="col-md-4"> 
-                {!! Form::text('first_prize',null, ['class' => 'form-control'])  !!} 
+                {!! Form::text('first_prize',null, ['class' => 'form-control','placeholder'=>'Enter First Ranker Prize'])  !!} 
                 
                 <span class="help-block">{{ $errors->first('first_prize', ':message') }}</span>
             </div>
@@ -108,8 +108,8 @@
                 <select name="cancellation" class="form-control">
                      <!-- {{$defaultContest->cancellation?'selected':''}} -->
 
-                    <option value="0" >False</option>
-                    <option value="1">True</option>
+                    <option value="0" @if($defaultContest->cancellation==0) selected @endif>False</option>
+                    <option value="1" @if($defaultContest->cancellation==1) selected @endif>True</option>
                 </select>
                 
                 <span class="help-block">{{ $errors->first('cancellation', ':message') }}</span>
@@ -120,7 +120,7 @@
         <div class="form-group {{ $errors->first('total_winning_prize', ' has-error') }}">
             <label class="control-label col-md-3">Total Winning Prize</label>
             <div class="col-md-4"> 
-                {!! Form::text('total_winning_prize',null, ['class' => 'form-control'])  !!} 
+                {!! Form::text('total_winning_prize',null, ['class' => 'form-control','placeholder'=>'Total amount to be  distribute'])  !!} 
                 <span class="help-block">{{ $errors->first('total_winning_prize', ':message') }}</span>
             </div>
         </div>
@@ -128,7 +128,7 @@
          <div class="form-group {{ $errors->first('discounted_price', ' has-error') }}">
             <label class="control-label col-md-3">Discount Price</label>
             <div class="col-md-4"> 
-                {!! Form::text('discounted_price',null, ['class' => 'form-control'])  !!} 
+                {!! Form::text('discounted_price',null, ['class' => 'form-control','placeholder'=>'Entry fees on which amount is discounted'])  !!} 
                 <span class="help-block">{{ $errors->first('discounted_price', ':message') }}</span>
             </div>
         </div>
@@ -136,7 +136,7 @@
         <div class="form-group {{ $errors->first('extra_cash_usable', ' has-error') }}">
             <label class="control-label col-md-3">Extra cash usable</label>
             <div class="col-md-4"> 
-                {!! Form::text('extra_cash_usable',null, ['class' => 'form-control','value'=>'0'])  !!} 
+                {!! Form::text('extra_cash_usable',null, ['class' => 'form-control','value'=>'0' ,'placeholder' => 'Extra cash % usable'])  !!} 
                 <span class="help-block">{{ $errors->first('extra_cash_usable', ':message') }}</span>
                 Keep value 0 or 1
             </div>
@@ -146,7 +146,7 @@
         <div class="form-group {{ $errors->first('offer_end_at', ' has-error') }}">
             <label class="control-label col-md-3">Offer end at</label>
             <div class="col-md-4"> 
-                {!! Form::text('offer_end_at',null, ['class' => 'form-control','value'=>'0'])  !!} 
+                {!! Form::text('offer_end_at',null, ['class' => 'form-control','value'=>'0' , 'placeholder'=>'Enter Epoch datetime'])  !!} 
                 <span class="help-block">{{ $errors->first('offer_end_at', ':message') }}</span>
                 Keep value 0 or 1
             </div>
@@ -156,7 +156,7 @@
         <div class="form-group {{ $errors->first('usable_bonus', ' has-error') }}">
             <label class="control-label col-md-3">Usable Bonus %</label>
             <div class="col-md-4"> 
-                {!! Form::text('usable_bonus',$defaultContest->usable_bonus??10, ['class' => 'form-control','placeholder'=>'10'])  !!} 
+                {!! Form::text('usable_bonus',$defaultContest->usable_bonus??0, ['class' => 'form-control','placeholder'=>'Enter Bonus % to used'])  !!} 
                 <span class="help-block">{{ $errors->first('usable_bonus', ':message') }}</span>
             </div>
         </div>
@@ -164,8 +164,16 @@
         <div class="form-group {{ $errors->first('usable_extra_cash', ' has-error') }}">
             <label class="control-label col-md-3">Usable Extra Cash %</label>
             <div class="col-md-4"> 
-                {!! Form::text('usable_extra_cash',$defaultContest->usable_extra_cash??5, ['class' => 'form-control','placeholder'=>'10'])  !!} 
+                {!! Form::text('usable_extra_cash',$defaultContest->usable_extra_cash??0, ['class' => 'form-control','placeholder'=>'Enter Extra cash % to used'])  !!} 
                 <span class="help-block">{{ $errors->first('usable_extra_cash', ':message') }}</span>
+            </div>
+        </div>
+
+        <div class="form-group {{ $errors->first('referral_code', ' has-error') }}">
+            <label class="control-label col-md-3">Referral Code</label>
+            <div class="col-md-4"> 
+                {!! Form::text('referral_code',$defaultContest->referral_code??'', ['class' => 'form-control','placeholder'=>'Enter Promoter Code'])  !!} 
+                <span class="help-block">{{ $errors->first('referral_code', ':message') }}</span>
             </div>
         </div>
 

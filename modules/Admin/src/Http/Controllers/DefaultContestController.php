@@ -124,12 +124,13 @@ class DefaultContestController extends Controller {
         $defaultContest->fill(Input::all()); 
         $defaultContest->cancellation = $request->cancellation?true:false;
         $defaultContest->bonus_contest = $request->bonus_contest?true:false;
-        $defaultContest->usable_bonus = $request->usable_bonus;
-        $defaultContest->discounted_price = $request->discounted_price;
-        $defaultContest->offer_end_at = $request->offer_end_at;
-        $defaultContest->extra_cash_usable = $request->extra_cash_usable;
-        $defaultContest->usable_extra_cash = $request->usable_extra_cash;
-        
+        $defaultContest->usable_bonus = $request->usable_bonus??0;
+        $defaultContest->discounted_price = $request->discounted_price??0;
+        $defaultContest->offer_end_at = $request->offer_end_at??0;
+        $defaultContest->extra_cash_usable = $request->extra_cash_usable??0;
+        $defaultContest->usable_extra_cash = $request->usable_extra_cash??0;
+        $defaultContest->referral_code = $request->referral_code;
+
         $defaultContest->save(); 
 
         $default_contest_id = $defaultContest->id;
@@ -257,10 +258,11 @@ class DefaultContestController extends Controller {
         $defaultContest->bonus_contest  = $request->bonus_contest?true:false;
         $defaultContest->usable_bonus   = $request->usable_bonus;
         $defaultContest->cancellation   = $request->cancellation?true:false;
-        $defaultContest->discounted_price = $request->discounted_price;
-        $defaultContest->offer_end_at   = $request->offer_end_at;
-        $defaultContest->extra_cash_usable = $request->extra_cash_usable;
-        $defaultContest->usable_extra_cash = $request->usable_extra_cash;
+        $defaultContest->discounted_price = $request->discounted_price??0;
+        $defaultContest->offer_end_at   = $request->offer_end_at??0;
+        $defaultContest->extra_cash_usable = $request->extra_cash_usable??0;
+        $defaultContest->usable_extra_cash = $request->usable_extra_cash??0;
+        $defaultContest->referral_code = $request->referral_code;
         
         $defaultContest->save(); 
         $default_contest_id = $id;

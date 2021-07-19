@@ -96,6 +96,12 @@ class MatchController extends Controller {
                             \DB::beginTransaction();
                             $cancel_contest->is_cancelled = 1;
                             $cancel_contest->save();
+
+                             $user_wallets =  Wallet::where('user_id',$item->user_id)->get();
+                                $in_deposit = $user_wallets->where('payment_type',3)
+                                        ->sum('amount');
+                                $in_winning = $user_wallets->where('payment_type',4)
+                                        ->sum('amount');
                             
                             if(isset($item->contest) && $item->contest->entry_fees){   
                                 $transaction_id = $item->match_id.'N'.$item->contest_id.'N'.$item->created_team_id.'N'.$item->user_id;
@@ -115,7 +121,12 @@ class MatchController extends Controller {
                                 $wt->debit_credit_status = "+"; 
                                 $wt->match_id  = $item->match_id;
                                 $wt->contest_id =  $item->contest_id;  
-                                //dd($wt);
+                                
+                                $dawa = $da+$wa;
+                                $wt->in_deposit = $in_deposit;
+                                $wt->remaining_amount = $in_deposit+$in_winning;
+                                $wt->in_winning = $in_winning;
+                                $wt->total_amount = $in_deposit+$in_winning+$dawa;
 
                                 $wt->save();
 

@@ -89,25 +89,24 @@ class AdminController extends Controller {
                     ->pluck('match_id')
                     ->toArray();
         
-        $notinc =CreateContest::where('total_spots','>',6)
+        $notinc = CreateContest::where('total_spots','>',25)
                 ->pluck('id');
         
                     
-        $tinc =   JoinContest::whereIn('user_id',$hero)
+        $tinc   =   JoinContest::whereIn('user_id',$hero)
                             ->where('winning_amount','>',0)
                             ->whereMonth('created_at', '=', date('m'))
                             ->whereYear('created_at', date('Y'))
                             ->whereNotIn('contest_id',$notinc)
                             ->sum('winning_amount'); 
 
-        $ccid =CreateContest::where('total_spots','<=',6)
+        $ccid   =   CreateContest::where('total_spots','<=',25)
                                 ->whereMonth('created_at', '=', date('m'))
                                 ->whereYear('created_at', date('Y'))
                                 ->where('is_cancelled',1)
                                 ->pluck('id');
                                 
-
-        $cj =   JoinContest::whereIn('user_id',$hero)
+        $cj     =   JoinContest::whereIn('user_id',$hero)
                             ->where('winning_amount',0)
                             ->whereMonth('join_contests.created_at', '=', date('m'))
                             ->whereYear('join_contests.created_at', date('Y'))
@@ -115,7 +114,9 @@ class AdminController extends Controller {
                             ->whereNotIn('contest_id',$notinc)
                             ->sum('create_contests.entry_fees');
 
-        $ccj =   JoinContest::whereIn('user_id',$hero) 
+
+
+        $ccj    =   JoinContest::whereIn('user_id',$hero) 
                             ->whereMonth('join_contests.created_at', '=', date('m'))
                             ->whereYear('join_contests.created_at', date('Y'))
                             ->join('create_contests', 'join_contests.contest_id', '=', 'create_contests.id')
@@ -123,7 +124,7 @@ class AdminController extends Controller {
                             ->sum('create_contests.entry_fees');
          
 
-        $extra_income = ((int)$tinc- (int)$cj)+$ccj;  
+        $extra_income = (int)$tinc - ((int)$cj-$ccj);  
 
         $match_2 = Matches::where('status',2)->count();
         $match_3 = Matches::where('status',3)->count();
@@ -202,7 +203,7 @@ class AdminController extends Controller {
                             ->where('status',1)
                             ->count(); 
 
-        $monthly_revenue = ($monthly_deposit-$monthly_withdrawal)+$extra_income;
+        $monthly_revenue = ($monthly_deposit-$monthly_withdrawal);
 
 
         return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg','today_deposit_paytm','today_deposit_razorpay','revenue','affiliate','today_withdrawal2','pending_doc','extra_income','monthly_withdrawal','monthly_deposit','monthly_revenue','musers_count','tinc','cj')); 

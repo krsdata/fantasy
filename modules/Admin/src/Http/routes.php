@@ -315,6 +315,26 @@ if (App::environment('prod')) {
                     ]
         );
 
+        Route::bind('bannerOffer', function ($value, $route) {
+            return Modules\Admin\Models\BannerOffer::find($value);
+        });
+
+        Route::resource(
+            'admin/bannerOffer',
+            'Modules\Admin\Http\Controllers\BannerOffersController',
+            [
+                'names' => [
+                    'edit'      => 'bannerOffer.edit',
+                    'show'      => 'bannerOffer.show',
+                    'destroy'   => 'bannerOffer.destroy',
+                    'update'    => 'bannerOffer.update',
+                    'store'     => 'bannerOffer.store',
+                    'index'     => 'bannerOffer',
+                    'create'    => 'bannerOffer.create',
+                ]
+                    ]
+        );
+
 
         /*---------Contact Route ---------*/
 
