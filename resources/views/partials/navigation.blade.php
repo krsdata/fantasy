@@ -1,6 +1,6 @@
 <header id="main-header" class="main-header"> 
     <!--topbar-->
-    <div class="topbar" style="background: #33D5AC; color:#fff">
+    <div class="topbar">
       <div class="container">
         <div class="row">
           <div class="col-md-6 col-sm-6">
