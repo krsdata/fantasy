@@ -132,19 +132,19 @@
                                                  </a>
                                                   </td>
                                                  <td> 
-<!-- 
-                                                  <a class="btn btn-success" href="{{route('match.show',$result->id)}}?player={{$result->match_id}}">
+ 
+                                                <!--   <a class="btn btn-success" href="{{route('match.show',$result->id)}}?player={{$result->match_id}}">
                                                     View Players
 
-                                                 </a> -->
+                                                 </a>  -->
 
-<a class=" btn btn-success" data-toggle="modal" data-target="#Players_{{$result->id}}" href="https://rest.fancode11.com/api/v3/addMegaExtraCash?match_id={{$result->match_id}}">Add Extra Cash</a>
+<a class=" btn btn-success" data-toggle="modal" data-target="#Players_{{$result->id}}" href="https://rest.fancode11.com/api/v3/updatePoints?match_id={{$result->match_id}}">Update Points</a>
 
 <div class="modal fade" id="Players_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-sm" role="document" style="width: 50%">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="Players">Extra Cash Added</h2>
+        <h2 class="modal-title" id="Players">Points is getting update</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -405,9 +405,13 @@
         <div class="dropdown-divider"></div>
         <a class="dropdown-item btn btn-danger" data-toggle="modal" data-target="#playing11_{{$result->id}}" href="#">Playing 11 Squad</a>
 
+
         <a class="dropdown-item btn btn-info" href="{{route('triggerEmail','match_id='.$result->match_id)}}">Prize Email Trigger</a>
         <a class="dropdown-item btn btn-success" href="{{env('api_base_url')}}/affiliateProgram?match_id={{$result->match_id}}&allowme=1" target="_blank">Add Affiliate Commission</a>
            
+
+        <a class="dropdown-item btn btn-primary" href="{{env('api_base_url')}}/generateReportByMatch?match_id={{$result->match_id}}"  data-target="#Players_{{$result->id}}"  data-toggle="modal">Generate Report</a>
+
           <a class="dropdown-item btn btn-danger" data-toggle="modal" data-target="#cancelContest_{{$result->id}}" href="#">Cancel Match Contest</a>
 
 
@@ -558,11 +562,14 @@
                                             @if($result->current_status==1) 
                                            <p class="btn btn-xs btn-success">  Prize Distributed  </p>
                                             @else
-                                             NA
+                                            <p> NA </p>
                                             @endif
                                              @if($result->affiliate_winning==1) 
                                             <p class="btn btn-xs btn-success">  Affiliate Distributed  </p>
                                             @endif
+                                            <p class="btn btn-xs btn-primary">Deposit: ₹{{$result->total_collection}}</p>
+                                            <p class="btn btn-xs btn-success">Total Profit: ₹{{$result->profit}}</p>
+                                             <p class="btn btn-xs btn-danger">Total Loss: -₹{{$result->loss}}</p>
                                             </td> 
                         <td> 
                             <a href="{{ route('match.edit',$result->id)}}">

@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,15 +10,47 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+if (App::environment('prod')) {
+    \URL::forceScheme('https');
+}
 
-Route::get('apkDownload',function(){
-   return redirect(env('apk_url'));
-});
 Route::get('apk',function(){
-   return \Response::download('public/upload/apk/Ninja11.apk'); 
-   // return redirect(env('apk_url'));
+    sleep(1);
+    $request =new Request();
+    $request->headers->set('Content-Type', 'application/vnd.android.package-archive');
+    // write here code to capture previous url
+    $url = URL::previous();
+    $ip = $_SERVER['HTTP_CF_CONNECTING_IP']; //\Request::ip() ;
+
+    \DB::table('source_urls')->updateOrInsert(
+                ['source_url' => $url,'ip'=>$ip],
+                [
+                    'source_url' => $url,
+                    'ip' =>$ip
+                ]
+        );
+
+    $path= public_path(). "/upload/apk/Ninja11.apk";
+
+    $headers = array(
+              'Content-Type: application/vnd.android.package-archive',
+            );
+
+  //  return Response::download($file, 'Ninja11.apk', $headers);
+
+    return response()->file($path , [
+            'Content-Type'=>'application/vnd.android.package-archive',
+            'Content-Disposition'=> 'attachment; filename="ninja-release.apk"',
+        ]); 
 });
 
+Route::get('ip',function(\Request $request){
+    // write here code to capture previous url
+    
+    echo '<p><center>'.('My IP Address:'.$_SERVER['HTTP_CF_CONNECTING_IP']).'</center></p>';
+    
+    
+});
 
 Route::get('liveScore',function(){
     echo "Coming Soon!!";
@@ -34,10 +66,6 @@ Route::get('liveChat','HomeController@liveChat');
 Route::get('chart-line', 'ChartController@chartLine');
 Route::get('chart-line-ajax', 'ChartController@chartLineAjax');
 Route::get('charts', 'ChartController@index');
-
-if (App::environment('prod')) {
-    \URL::forceScheme('https');
-}
 
 Route::match(['post','get'], 'changePassword', 'UserController@changePassword');
 

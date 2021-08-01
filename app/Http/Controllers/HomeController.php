@@ -177,31 +177,20 @@ class HomeController extends BaseController
         $match_id = $request->match_id;
         
         if($match_id){
-            $url = "https://rest.entitysport.com/v2/matches/".$match_id."/scorecard?token=46b8fd6384083ee959d20e1734119cec";
+            $url = "https://rest.entitysport.com/v2/matches/".$match_id."/scorecard?token=".env('CRIC_API_KEY');
         
-        $mt = \DB::table('live_scores')->where('match_id',$match_id)->first();
-        
-       /* if($mt){
-           // return  json_decode($mt->response,true);    
-        }
-        $r = json_decode($mt->response);    
-        foreach ($r->innings as $key => $value) {
+            $mt = \DB::table('live_scores')->where('match_id',$match_id)->first();
             
-           foreach ($value->batsmen as $key => $value) {
-              dd($value);
-           }
-        } */
-
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => $url,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => "GET",
-          CURLOPT_HTTPHEADER => array(
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => $url,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => "",
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => "GET",
+              CURLOPT_HTTPHEADER => array(
             "cache-control: no-cache",
             "content-type: application/json"
           ),
@@ -216,7 +205,7 @@ class HomeController extends BaseController
             $rs = [];
         } else {
             $data = json_decode($response);
-            $rs = $data->response;
+            $rs = $data->response??[];
              
             \DB::table('live_scores')->updateOrInsert(
                 ['match_id'=>$match_id],
@@ -230,14 +219,40 @@ class HomeController extends BaseController
         }
         }
         $rs = $rs??[];
-        $liveMatch = \DB::table('matches')->where('status',3)->get();
+        $notes = false;
+        if(isset($rs->innings)){
+            foreach($rs->innings as $key => $value ){
+         //  foreach($innings as $key => $value ){
+                
+                  $status = $value->status;
+                  if($status==3){
+                        $batsmen = $value->batsmen;
+                      
+                        $batsmen1 = $batsmen[0]->name.':'.$batsmen[0]->runs.'('.$batsmen[0]->balls_faced.')';
+                         $batsmen2 = $batsmen[1]->name.':'.$batsmen[1]->runs.'('.$batsmen[1]->balls_faced.')';
+                        $notes =   $batsmen1.', '.$batsmen2;
+
+
+                        \DB::table('matches')
+                                ->where('match_id',$match_id)
+                                ->update(['status_note' => $notes]);
+                  }  
+            } 
+        } 
          
 
+        if($request->match_id){
+            $liveMatch = Matches::with('teama','teamb')->where('match_id',$request->match_id)->get();
+        
+        }else{
+            $liveMatch = Matches::with('teama','teamb')->where('status',3)->get();
+            
+        }
+        
         $remove_header = false;
         if($request->get('request')=='mobile'){
-
             $remove_header = true;
         }
-        return view('liveScore',compact('remove_header','rs','liveMatch'));
+        return view('liveScore',compact('remove_header','rs','liveMatch','notes'));
     }
 }

@@ -54,7 +54,6 @@ class AdminController extends Controller {
     **/
     public function index(Request $request) 
     { 
-       // dd(Session::getId());
         $page_title = "";
         $page_action = "";
        
@@ -83,48 +82,23 @@ class AdminController extends Controller {
         $hero[] = 361;
         $hero[] = 11556;
         $hero[] = 9112;
- 
-
-        $mid = Matches::where('status',1)
-                    ->pluck('match_id')
-                    ->toArray();
         
-        $notinc = CreateContest::where('total_spots','>',25)
-                ->pluck('id');
-        
-                    
-        $tinc   =   JoinContest::whereIn('user_id',$hero)
-                            ->where('winning_amount','>',0)
-                            ->whereMonth('created_at', '=', date('m'))
-                            ->whereYear('created_at', date('Y'))
-                            ->whereNotIn('contest_id',$notinc)
-                            ->sum('winning_amount'); 
+        $cj = 0;
+        $tinc = 0;
+        $mid = Matches::whereMonth('date_start',date('m'))
+                        ->whereYear('date_start',date('Y'))
+                        ->whereIn('status',[2])
+                        ->get();
 
-        $ccid   =   CreateContest::where('total_spots','<=',25)
-                                ->whereMonth('created_at', '=', date('m'))
-                                ->whereYear('created_at', date('Y'))
-                                ->where('is_cancelled',1)
-                                ->pluck('id');
-                                
-        $cj     =   JoinContest::whereIn('user_id',$hero)
-                            ->where('winning_amount',0)
-                            ->whereMonth('join_contests.created_at', '=', date('m'))
-                            ->whereYear('join_contests.created_at', date('Y'))
-                            ->join('create_contests', 'join_contests.contest_id', '=', 'create_contests.id')
-                            ->whereNotIn('contest_id',$notinc)
-                            ->sum('create_contests.entry_fees');
+        $today_profits = Matches::
+                        whereDate('date_start',\Carbon\Carbon::today())
+                        ->select('profit','loss') 
+                        ->whereIn('status',[2,3])
+                        ->get(); 
+                        
+        $today_profit = $today_profits->sum('profit') - $today_profits->sum('loss'); 
 
-
-
-        $ccj    =   JoinContest::whereIn('user_id',$hero) 
-                            ->whereMonth('join_contests.created_at', '=', date('m'))
-                            ->whereYear('join_contests.created_at', date('Y'))
-                            ->join('create_contests', 'join_contests.contest_id', '=', 'create_contests.id')
-                            ->whereIn('contest_id',$ccid)
-                            ->sum('create_contests.entry_fees');
-         
-
-        $extra_income = (int)$tinc - ((int)$cj-$ccj);  
+        $extra_income = $mid->sum('profit')-$mid->sum('loss'); 
 
         $match_2 = Matches::where('status',2)->count();
         $match_3 = Matches::where('status',3)->count();
@@ -206,7 +180,7 @@ class AdminController extends Controller {
         $monthly_revenue = ($monthly_deposit-$monthly_withdrawal);
 
 
-        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg','today_deposit_paytm','today_deposit_razorpay','revenue','affiliate','today_withdrawal2','pending_doc','extra_income','monthly_withdrawal','monthly_deposit','monthly_revenue','musers_count','tinc','cj')); 
+        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg','today_deposit_paytm','today_deposit_razorpay','revenue','affiliate','today_withdrawal2','pending_doc','extra_income','monthly_withdrawal','monthly_deposit','monthly_revenue','musers_count','tinc','cj','today_profit')); 
     }
 
    public function profile(Request $request,Admin $users)

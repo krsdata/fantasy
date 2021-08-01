@@ -217,9 +217,9 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
-                                            <span data-counter="counterup" data-value="567">{{$refunded}} INR  </span>
+                                            <span data-counter="counterup" data-value="567">{{$today_profit}} INR  </span>
                                         </h3>
-                                        <small> Total Refunded </small>
+                                        <small> Today Profit </small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-folder-open-o"></i>
@@ -227,8 +227,8 @@
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
-                                        <span style="width: {{$refunded}}%;" class="progress-bar progress-bar-success blue-sharp">
-                                            <span class="sr-only">{{$refunded}}% grow</span>
+                                        <span style="width: {{$today_profit}}%;" class="progress-bar progress-bar-success blue-sharp">
+                                            <span class="sr-only">{{$today_profit}}% grow</span>
                                         </span>
                                     </div>
                                     

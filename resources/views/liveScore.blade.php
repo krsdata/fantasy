@@ -21,26 +21,110 @@
   </head>
 <body> 
     <div class="row"> 
-      
+        <style type="text/css">
+          
+          .imgRound {
+            background: #fff;
+            border: 1px solid;
+            border-radius: 25px;
+          }
+        </style>
         <div class="col-md-12"> 
           @if($liveMatch->count()==0)
-            No Match Live
+          <div>  No Match Live </div>
           @endif
           @foreach($liveMatch as $key => $val)
-         <a class="btn btn-success"  href="https://ninja11.in/liveScore?match_id={{$val->match_id}}"  style="margin: 10px" >
+       <!--   <a class="btn btn-success"  href="https://ninja11.in/liveScore?match_id={{$val->match_id}}"  style="margin: 10px" >
              {{$val->short_title}}-{{$val->format_str}}
-          </a>
-              
+          </a> -->
+          <a  href="https://ninja11.in/liveScore?match_id={{$val->match_id}}"  >
+
+          <div class="container px-4">
+          <div class="row gx-5">
+            <div class="col">
+             <div class="p-3 border bg-light col-md-12" 
+             style="
+   
+                width: 100%;
+                height: fit-content;
+                float: left;
+                margin-top: 10px;
+                border-radius: 10px;
+
+            ">
+                
+                <div class="" style="float:left;"> <img class="imgRound" src="  {{$val->teama->logo_url}}" width="50px">
+                  <br>
+                  <span style="font-size: 10px;">
+                      <?php 
+                      $ta = $val->teama->scores_full;
+                      if($ta==""){
+                        $ta = "Yet to Bat";
+                      }
+
+                      ?>
+                      {{
+                        $val->teama->short_name.'('.$ta.')'
+                      }}
+
+                  </span> 
+                </div>
+                <div class="" style="float:left;margin-left: 10%;text-align: center;font-family:fantasy; margin-top: -10px;">
+                  <br>
+                  <span>
+                    
+                  {{ $val->short_title }}
+                </span>  
+                  
+                </div>
+                <div class="" style="float:right"> <img src="{{$val->teamb->logo_url}}" class="imgRound"  width="50px">
+                  <br>
+                    <span style="
+                      position: absolute;
+                      font-size: 10px;
+                      margin-top: 10px;
+                      margin-right: 19px;
+                      float: left;
+                      margin-left: -35px;
+                  ">
+                  
+                     <?php 
+                      $tb = $val->teamb->scores_full;
+                      if($tb==""){
+                        $tb = "Yet to Bat";
+                      }
+                      ?>
+                      {{
+                        $val->teamb->short_name.'('.$tb.')'
+                      }}
+                  </span>
+                </div>
+             </div>
+             <div style="
+        
+    font-size: 10px;
+    text-align: center; 
+    background-color: #008b4f;
+    float: left;
+    width: 90%;
+    align-items: center;
+    margin-left: 5%;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    color: #fff;
+    font-family: system-ui;
+
+">               {{ $notes?$notes:$val->status_note }}
+                
+             </div>
+            </div>
+          </div>
+        </div>
+              </a>
           @endforeach
           @if($rs) 
-              <div align="left">
-                 
-                <img src="{{$rs->teama->logo_url}}" width="50px">  {{$rs->teama->short_name}}-{{$rs->teama->scores_full??''}}
-                <br>
-                <img src="{{$rs->teamb->logo_url}}" width="50px">
-                {{$rs->teamb->short_name}}-{{$rs->teamb->scores_full??''}}           
-              </div>
-              <table class="table">
+              
+              <table class="table" style="font-size: 12px; text-align: center;">
                 @foreach ($rs->innings as $key => $rst)
                 <thead> 
                   <tr>

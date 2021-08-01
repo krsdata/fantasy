@@ -141,7 +141,14 @@ are getting rewarded based on their ranks.</p>
     
     <div class="jumbotron jumbotron-fluid" style="margin: 0px">
           <div class="container center">
-            <h1>Reach us at {{env('company_email')}} </h1>
-            
+            <h1>Reach us at {{env('company_email')}} <span  style="
+    background: burlywood;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 25px;
+">
+                <a href="{{url('apk')}}" target="_blank">
+            Download Official App</span> </h1>
+                </a>
           </div>
       </div> 
