@@ -91,7 +91,7 @@ class HomeController extends BaseController
                     ->where('timestamp_start','>',time())
                     ->where('order_by',2)
                     ->limit(2)
-                    ->orderBy('timestamp_start','desc')
+                    ->orderBy('timestamp_start','asc')
                     ->get();
        
                     
