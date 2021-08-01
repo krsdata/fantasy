@@ -91,7 +91,7 @@
                  </tr>
                  @foreach($myAffiliate as $key => $result)
                   <tr>
-                   <td>{{++$key}}. {{$result->name}}</td> 
+                   <td>{{++$key}}. {{$result->team_name}}</td> 
                    <td>{{$result->deposit}}</td>
                    <td>{{$result->winning}}</td>
                      
