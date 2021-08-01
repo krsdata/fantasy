@@ -57,15 +57,14 @@ class HomeController extends BaseController
                     ->where('payment_type',3)
                     ->sum('amount');
                  $item->deposit = round($wt,2);   
-
-                 $winning = WalletTransaction::where('user_id',$item->id)
+                 if($item->deposit>0){
+                    $winning = WalletTransaction::where('user_id',$item->id)
                     ->where('payment_type',4)
                     ->sum('amount');
-                 $item->winning = round($winning,2);
-
-
-
-                 return $item;
+                     $item->winning = round($winning,2); 
+                     return $item;
+                 }
+                 
         });  
         $commission = \DB::table('affiliate_programs')
                                 ->where('user_id',$user->id)
