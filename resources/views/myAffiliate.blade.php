@@ -72,7 +72,7 @@
                    
                   <button type="button" class="form-group btn btn-info">Total Commission: {{round($commission,2)}} INR</button>
                    
-                  <button type="button" class="form-group btn btn-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">View All User</button>
+                  <button type="button" class="form-group btn btn-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">View All Active User</button>
                  
               </div>
  
