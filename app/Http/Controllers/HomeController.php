@@ -86,7 +86,8 @@ class HomeController extends BaseController
                     ->limit(10)->orderBy('timestamp_start','asc')
                     ->get();
 
-        $next_matches = Matches::with('teama','teamb')->where('status',2)
+        $next_matches = Matches::with('teama','teamb')
+                    ->whereIn('status',[1,3])
                     ->where('timestamp_start','>',time())
                     ->where('order_by',2)
                     ->limit(2)
