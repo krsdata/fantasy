@@ -25,7 +25,7 @@ fan base by keeping a watch over shared posts in the feed.</p>
       <!--Footer Widget Start-->
       <div class="col-lg-3 col-md-6">
         <div class="footer-widget">
-          <h4>About Soccer</h4>
+          <h4>About Ninja11</h4>
           <ul class="footer-links">
             
            
