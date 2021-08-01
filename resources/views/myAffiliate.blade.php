@@ -1,48 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>{{env('company_name')}} | The Fantasy World</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" type="image/png" href="{{env('fevicon_url')}}" /> 
-
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/open-iconic-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/animate.css')}}">
+@extends('layouts.master') 
+    @section('header')
+    <h1>Dashboard</h1>
+    @stop
+    @section('content') 
+     @if($remove_header==false)
+      @include('partials.navigation')
+      <!-- Left side column. contains the logo and sidebar -->
     
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/owl.carousel.min.css')}}">
-    <!-- <link rel="stylesheet" href="{{ URL::asset('webmedia/css/owl.theme.default.min.css')}}"> -->
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/magnific-popup.css')}}">
+   
+    @endif
+<style type="text/css">
+  .page_title{
+    margin-top: -110px;right: 10px;position: absolute;background: #fff;padding: 10px;border-radius: 10px;
+    font-family: 'Raleway', sans-serif;
     
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/aos.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/style2.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/ionicons.min.css')}}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/flaticon.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/icomoon.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('webmedia/css/style.css')}}">
-     <link rel="stylesheet" href="{{ URL::asset('webmedia/css/util.css')}}">
-     <link rel="stylesheet" href="{{ URL::asset('webmedia/css/main.css')}}">
-    
-  </head>
-  <!-- Start of LiveChat (www.livechatinc.com) code -->
-  <style>
-    .bs-example{
-        margin: 20px;
-    }
-    .accordion .fa{
-        margin-right: 0.5rem;
-    }
+  }
+  .divider-left{
+    height: 4px;
+    width: 70px;
+    background: #dd2342;
+    display: block;
+    margin-top: 1px; 
+  }
+  .divider{
+    background: #151515;
+    height: 1px;
+    width: 70px !important;
+    margin-left: 0px;
+    position: absolute;
+    left: 70px;
+    top: 50px;
+  }
 </style>
-<body> 
-    <div class="row">
-       
-    <div class="col-md-12 wow fadeInRight animated animated" data-aos="fade-right" data-wow-delay="450ms" style="visibility: visible; animation-delay: 450ms; animation-name: fadeInRight;">
-        <h2 class="heading heading_space" style="background:azure">   <span class="divider-left"><center>My Affiliate:</center></span></h2>
+
+  <!--Section: Content-->
+  <section  id="termscondition" data-aos="fade-up">
+      <div class="container my-5">
+           <div class="row justify-content-end">
+        @if($remove_header==false)
+        
+        @endif
+          <div class="col-md-12">     
+            <div class="faq_content wow fadeIn animated" data-wow-delay="400ms">
+              
+              <h2 class="heading heading_space wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+                <span>My Affiliate Details</span>
+                <span class="divider-left">
+                  
+                </span>
+                <span class="divider">
+                  
+                </span>
+            </h2>       
+          </div>
+          <div class="heading heading_space wow fadeInDown animated" style="padding: 10px">
+            <div class="col-md-12 wow fadeInRight animated animated" data-aos="fade-right" data-wow-delay="450ms" style="visibility: visible; animation-delay: 450ms; animation-name: fadeInRight;"> 
                 
         <form method="POST" action="contactus" accept-charset="UTF-8" class="form-inline findus" id="contact-form"> 
-                                  
-          
           <div class="row">
             <div class="col-md-4 col-sm-4">
               <div class="form-group ">
@@ -66,9 +80,7 @@
               </div>
  
 
-            </div>
-             
-            
+            </div> 
           </div>
         </form>
 
@@ -93,54 +105,10 @@
           </div>
         
     </div>
-    
-  </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
 
-
-  <script src="{{ URL::asset('webmedia/js/jquery.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery-migrate-3.0.1.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/popper.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/bootstrap.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.easing.1.3.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.waypoints.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.stellar.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/owl.carousel.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.magnific-popup.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/aos.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.animateNumber.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/scrollax.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/plugins.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/main.js')}}"></script><!-- 
-  <script src="{{ URL::asset('webmedia/js/main1.js')}}"></script> -->
-
-  <script>
-    $(document).ready(function(){
-        // Add minus icon for collapse element which is open by default
-        $(".collapse.show").each(function(){
-          $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-        });
-        
-        // Toggle plus minus icon on show hide of collapse element
-        $(".collapse").on('show.bs.collapse', function(){
-          $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-        }).on('hide.bs.collapse', function(){
-          $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-        });
-    });
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-    $('.owl-carousel').owlCarousel({
-        loop:true,
-        autoplay:true,
-        autoplayTimeout:1000,
-        autoplayHoverPause:true,
-        autoplaySpeed:5000 
-        
-        
-    });
-  });
-  </script> 
-  </body>
-</html>
- 
+@stop

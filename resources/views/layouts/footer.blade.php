@@ -1,4 +1,4 @@
-
+@if(isset($remove_header))
 <!--Main Footer Start-->
 <footer class="wf100 main-footer">
   <div class="container">
@@ -99,6 +99,7 @@ fan base by keeping a watch over shared posts in the feed.</p>
     </div>
   </div>
 </footer>
+@endif
 <!--Main Footer End-->
 </div>
 <!--Wrapper End--> 
