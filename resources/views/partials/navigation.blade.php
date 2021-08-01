@@ -1,33 +1,77 @@
-   <style type="text/css">
-     .btn-success{
-      background: #063350 !important;
-      height: 45px;
-
-     }
-   </style>
-   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark
-   ftco-navbar-light site-navbar-target" id="ftco-navbar" style="padding:
-   0px"> <div class="container"> <a class="navbar-brand" href="{{URL::asset('/')}}"
-   style="padding: 0px"> <img src="{{URL::asset('assets/img/logo.png')}}"
-   width="200px" height="90px">
-
-          </a>
-          <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
-          </button>
-
-          <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav nav ml-auto">
-              <li class="nav-item"><a href="{{URL::asset('/')}}#home-section" class="nav-link"><span>Home</span></a></li>
-              
-              
-
-              <li class="nav-item"><a href="{{URL::asset('apk')}}" class="nav-link"><button class="btn btn-success"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down-circle-fill" fill="currentColor" xmlns="https://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 5a.5.5 0 0 0-1 0v4.793L5.354 7.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 9.793V5z"/>
-</svg> Download  App</button></a></li>
+<header id="main-header" class="main-header"> 
+    <!--topbar-->
+    <div class="topbar" style="background: #33D5AC; color:#fff">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <ul class="topsocial" style="  color:#fff">
+              <li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
+              <li><a href="#" class="insta"><i class="fab fa-instagram"></i></a></li>
+              <li><a href="#" class="in"><i class="fab fa-linkedin-in"></i></a></li>
+              <li><a href="#" class="yt"><i class="fab fa-youtube"></i></a></li>
             </ul>
           </div>
+          <div class="col-md-6 col-sm-6">
+            <ul class="toplinks">
+              <li class="lang-btn">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ENG </button>
+                  
+                </div>
+              </li>
+              
+              <li class="acctount-btn"> <a href="#">My Account</a> </li>
+              <li class="search-btn"> <a class="search-icon" href="#search"><i class="fas fa-search"></i></a> </li>
+            </ul>
+            
+            <div id="search">
+                  <button type="button" class="close">×</button>
+                  <form class="search-overlay-form">
+                    <input type="search" value="" placeholder="type keyword(s) here">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                  </form>
+                </div>
+            
+          </div>
         </div>
-
-      </nav>
-
+      </div>
+    </div>
+    <!--topbar end--> 
+    <!--Logo + Navbar Start-->
+    <div class="logo-navbar">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2 col-sm-5">
+            <div class="logo"><a href="{{url('/')}}"><img src="https://ninja11.in/assets/img/logo.png" alt="" width="100%"></a></div>
+          </div>
+          <div class="col-md-10 col-sm-7">
+            <nav class="main-nav">
+              <ul>
+                <li class="nav-item drop-down"> <a href="">Home</a>
+                  
+                </li>
+                <li class="nav-item drop-down"> <a href="{{url('about-us')}}">About Us</a>
+                  
+                </li>
+                <li class="nav-item drop-down"> <a href="">Matches</a>
+                  <ul>
+                    <li><a href="{{url('comming-soon')}}">Upcoming Match</a></li>
+                    <li><a href="{{url('comming-soon')}}">Live</a></li>
+                    <li><a href="{{url('comming-soon')}}">Completed</a></li>
+                     
+                  </ul>
+                </li> 
+                 
+                <li class="nav-item drop-down"> <a href="{{url('comming-soon')}}">Reach Us</a>
+                 
+                </li>
+                <li class="nav-item buy-ticket"> <a href="{{'apk'}}">Download Now</a> </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Logo + Navbar End--> 
+  </header>

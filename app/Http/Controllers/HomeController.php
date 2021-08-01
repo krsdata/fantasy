@@ -80,7 +80,13 @@ class HomeController extends BaseController
          return view('404');
     }
     public function home(Request $request){
-         return view('home');
+
+        $matches = Matches::with('teama','teamb')->where('status',1)
+                    ->where('timestamp_start','>',time())
+                    ->limit(10)->orderBy('timestamp_start','asc')
+                    ->get();
+                     
+         return view('home',compact('matches'));
     }
 
     public function liveChat(Request $request){

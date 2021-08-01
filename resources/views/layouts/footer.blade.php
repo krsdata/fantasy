@@ -1,125 +1,133 @@
-@if(!isset($remove_header))
 
-<footer class="ftco-footer">
-          <div class="footer-top">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-3 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
-                  <h3 style="border-bottom: 2px solid #fff;">About us</h3>
-                  <span style="width: 200px;display: block;border-bottom: 2px solid #fff;margin-top: -4px;"></span>
-                  <p class="mt-20">
-                    We drive one of the biggest virtual yet fantasy  sports platform. Also, we help you set-up your
-fan base by keeping a watch over shared posts in the feed. <a href="{{url('about-us')}}" class="btn"> Read More...</a>
-                  </p>  
-                      </div>
-                <div class="col-md-4 offset-md-1 footer-contact wow fadeInDown animated footpara " style="visibility: visible; animation-name: fadeInDown;">
-                  <h3 style="border-bottom: 2px solid #fff;">Contact</h3>
-                  <span style="width: 98px;display: block;border-bottom: 2px solid #fff;margin-top: -4px;"></span>
-                      <p><i class="fa fa-map-marker"></i> Address: {{env('company_address')}}</p>
-                      <p><i class="fa fa-envelope"></i> Email: <a href="mailto:{{env('company_email')}}">{{env('company_email')}}</a></p>
-                      <p><i class="fa fa-skype"></i> Skype: {{env('company_email')}}</p>
-                      </div>
-                      <div class="col-md-4 footer-links wow fadeInUp animated footpara" style="visibility: visible; animation-name: fadeInUp;">
-                        <div class="row">
-                          <div class="col">
-                            <h3 style="border-bottom: 2px solid #fff;">Links</h3>
-                            <span style="width: 70px;display: block;border-bottom: 2px solid #fff;margin-top: -4px;">
-                              
-                            </span>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
+<!--Main Footer Start-->
+<footer class="wf100 main-footer">
+  <div class="container">
+    <div class="row"> 
+      <!--Footer Widget Start-->
+      <div class="col-lg-3 col-md-6">
+        <div class="footer-widget about-widget"> <img src="https://www.ninja11.in/assets/img/logo.png" alt="" style="
 
-                            @foreach($static_page as $key =>  $result)
-                            @if($key > 5)
-                            <?php continue; ?>
-                            @endif
-                            <p><a class="scroll-link" href="{{url($result->slug)}}">{{$result->title}}</a></p>
-                            @endforeach
-                            
-                          </div>
-                          <div class="col-md-6">
-                            @foreach($static_page as $key =>  $result)
-                            @if($key < 4)
-                            <?php continue; ?>
-                            @endif
-                            <p><a class="scroll-link" href="{{url($result->slug)}}">{{$result->title}}</a></p>
-                            @endforeach
-                            
-                          </div>
-                        </div>
-                      </div>
-                </div>
-            </div>
-          </div>
-          <div class="footer-bottom">
-            <div class="container">
-              <div class="row">
-                  <div class="col footer-social">
-                        <a href="#"><i class="fa fa-facebook-f"></i></a> 
-              <a href="#"><i class="fa fa-twitter"></i></a> 
-              <a href="#"><i class="fa fa-google-plus-g"></i></a> 
-              <a href="#"><i class="fa fa-instagram"></i></a> 
-              <a href="#"><i class="fa fa-pinterest"></i></a>
-                      </div>
-                </div>
-            </div>
-          </div></footer>
-      
-
-<div class="container-fluid">
-          <div class="copyrights">
-            <div class="container text-center">
-              <p class="mb-0 py-2">{{env('company_name')}} © All rights reserved {{date('Y')}}. </p>
-            </div>
-            </div>
+    width: 200px;
+">
+    <p>We drive one of the biggest virtual yet fantasy  sports platform. Also, we help you set-up your
+fan base by keeping a watch over shared posts in the feed.</p>
+          <address>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i>{{env('company_address')}}
+            </li>
+            <li><i class="fas fa-phone"></i> +91-8103194076</li>
+            <li><i class="fas fa-envelope"></i>{{env('company_email')}}</li>
+          </ul>
+          </address>
         </div>
+      </div>
+      <!--Footer Widget End--> 
+      <!--Footer Widget Start-->
+      <div class="col-lg-3 col-md-6">
+        <div class="footer-widget">
+          <h4>About Soccer</h4>
+          <ul class="footer-links">
+            
+           
+            @foreach($static_page as $key =>  $result)
+                           
+                
+                <li> 
+                  <a class="scroll-link" href="{{url($result->slug)}}">
+                    <i class="fas fa-angle-double-right"></i>
+                    {{$result->title}}</a>
+                  </li>
+                @endforeach
 
-@endif
-  <script src="{{ URL::asset('webmedia/js/jquery.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery-migrate-3.0.1.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/popper.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/bootstrap.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.easing.1.3.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.waypoints.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.stellar.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/owl.carousel.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.magnific-popup.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/aos.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/jquery.animateNumber.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/scrollax.min.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/plugins.js')}}"></script>
-  <script src="{{ URL::asset('webmedia/js/main.js')}}"></script><!-- 
-  <script src="{{ URL::asset('webmedia/js/main1.js')}}"></script> -->
 
-  <script>
-    $(document).ready(function(){
-        // Add minus icon for collapse element which is open by default
-        $(".collapse.show").each(function(){
-          $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-        });
-        
-        // Toggle plus minus icon on show hide of collapse element
-        $(".collapse").on('show.bs.collapse', function(){
-          $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-        }).on('hide.bs.collapse', function(){
-          $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-        });
-    });
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-    $('.owl-carousel').owlCarousel({
-        loop:true,
-        autoplay:true,
-        autoplayTimeout:1000,
-        autoplayHoverPause:true,
-        autoplaySpeed:5000 
-        
-        
-    });
-  });
-  </script> 
-  </body>
+            
+          </ul>
+        </div>
+      </div>
+      <!--Footer Widget End--> 
+      <!--Footer Widget Start-->
+      <div class="col-lg-3 col-md-6">
+        <div class="footer-widget">
+          <h4>Recent Instagram</h4>
+          <ul class="instagram">
+            <li><img src="images/insta1.jpg" alt=""></li>
+            <li><img src="images/insta2.jpg" alt=""></li>
+            <li><img src="images/insta3.jpg" alt=""></li>
+            <li><img src="images/insta4.jpg" alt=""></li>
+            <li><img src="images/insta5.jpg" alt=""></li>
+            <li><img src="images/insta6.jpg" alt=""></li>
+          </ul>
+        </div>
+      </div>
+      <!--Footer Widget End--> 
+      <!--Footer Widget Start-->
+      <div class="col-lg-3 col-md-6">
+        <div class="footer-widget">
+          <h4>Get Updated</h4>
+          <p> Sign up to Get Updated & latest offers with our Newsletter. </p>
+          <ul class="newsletter">
+            <li>
+              <input type="text" class="form-control" placeholder="Your Name">
+            </li>
+            <li>
+              <input type="text" class="form-control" placeholder="Your Emaill Address">
+            </li>
+            <li> <strong>We respect your privacy</strong>
+              <button><span>Subscribe</span></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--Footer Widget End--> 
+    </div>
+  </div>
+  <div class="container brtop">
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <p class="copyr"> All Rights Reserved of <a href="#">Ninja11 Gaming Techno</a> </p>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <ul class="quick-links">
+          <li><a href="{{url('/')}}">Home</a></li>
+          <li><a href="{{url('about-us')}}">About Us</a></li>
+          <li><a href="{{url('comming-soon')}}">Fixtures</a></li>
+          <li><a href="{{url('comming-soon')}}">Completed</a></li>
+          <li><a href="{{url('comming-soon')}}">Live</a></li>
+          <li><a href="{{url('comming-soon')}}">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+<!--Main Footer End-->
+</div>
+<!--Wrapper End--> 
+
+
+
+<!-- Optional JavaScript --> 
+<script src="{{ URL::asset('webmedia/js/jquery-3.3.1.min.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/jquery-migrate-3.0.1.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/popper.min.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/bootstrap.min.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/mobile-nav.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/owl.carousel.min.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/isotope.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/jquery.prettyPhoto.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/jquery.countdown.js')}}"></script> 
+<script src="{{ URL::asset('webmedia/js/custom.js')}}"></script> 
+<!--Rev Slider Start--> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/jquery.themepunch.tools.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/jquery.themepunch.revolution.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.actions.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.carousel.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.kenburn.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.layeranimation.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.migration.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.navigation.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.parallax.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.slideanims.min.js')}}"></script> 
+<script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.video.min.js')}}"></script>
+</body>
 </html>

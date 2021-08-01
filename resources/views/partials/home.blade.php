@@ -1,154 +1,297 @@
-     <?php $bgUrl =  'https://ninja11.in/bg1.jpg';
-
-     //env('main_slider_image','https://ninja11.in/webmedia/images/main.jpg'); ?>
-      <section class="hero-wrap js-fullheight" style="background-image: url('<?php echo $bgUrl; ?>')" data-section="home" data-stellar-background-ratio="0.5" id="home-section">
-      	<div style="position: absolute;
-	  	        text-align: center;
-	  	        width: 100%;
-			    top: 90px;">
-        <img src="{{URL::asset('assets/img/logo.png')}}" width="150px"  style="
-			    border: 0px solid #fff;
-			    border-radius: 5px;
-			" align="center" alt="ninja11">
-		</div>
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" >
-            <h1 class="mb-5" data-scrollax="properties: { translateY: '60%', opacity: 1.6 }" align="center" style="color: #FFC103">{{env('company_name')}} Fantasy League</h1>
+<!--Wrapper Start-->
+<div class="wrapper"> 
+  <!--Header Start-->
+  @include('partials.navigation')
+  <!--Header End--> 
+  <!--Main Slider Start-->
+  <div class="main-slider">
+    <div class="home2-slider rev_slider_wrapper"> 
+      <!-- START REVOLUTION SLIDER -->
+      <div class="rev_slider_wrapper fullwidthbanner-container">
+        <div id="rev-slider2" class="rev_slider fullwidthabanner">
+          <ul>
+            <li data-transition="fade"> <img src="{{url('webmedia/images/slide1-bg.jpg')}}" alt="" width="1920" height="750" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
+              <div class="tp-caption  tp-resizeme" data-x="right" data-hoffset="350" data-y="top" data-voffset="0" data-transform_idle="o:1;" data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box"> <img src="{{url('webmedia/images/slide1-player.png')}}" alt=""> </div>
+              </div>
+              <div class="tp-caption  tp-resizeme" data-x="right" data-hoffset="850" data-y="bottom" data-voffset="100" data-transform_idle="o:1;" data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box"> <img src="{{url('webmedia/images/ball.png')}}" alt="">
+                 </div>
+              </div>
+              <div class="tp-caption  tp-resizeme" data-x="left" data-hoffset="400" data-y="top" data-voffset="205" data-transform_idle="o:1;" data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box">
+                  <h1 style="font-size:80px"><span>Create Your Team</span><br>
+                    No Credit Issues </h1>
+                </div>
+              </div>
+              <div class="tp-caption  tp-resizeme" data-x="left" data-hoffset="400" data-y="top" data-voffset="430" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box"> <a href="{{url('apk')}}">Download Now</a> </div>
+              </div>
+            </li>       
             
-            <p class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" align="center">Create Team | Join Contest | Win Cash</p>
-                    <div class="row" align="center">
-                        <div class="col-lg align-items-end">
-                             <a href="{{env('apk_url')}}">
-                            <img  src="{{ URL::asset('webmedia/images/download-android-new.png')}}" alt="Ninja11 Fantasy App" style="width: 200px;"  >
-                        </a>
-                        </div>
-                    </div>
+            <li data-transition="fade"> <img src="{{url('webmedia/images/slide3bg.jpg')}}" alt="" width="1920" height="750" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
+              <div class="tp-caption  tp-resizeme" data-x="right" data-hoffset="350" data-y="top" data-voffset="0" data-transform_idle="o:1;" data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box"> <img src="{{url('webmedia/images/p3.png')}}" alt=""> </div>
+              </div>
+              <div class="tp-caption  tp-resizeme" data-x="left" data-hoffset="400" data-y="top" data-voffset="205" data-transform_idle="o:1;" data-transform_in="x:[-75%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box">
+                  <h1><span>Join Contest</span><br>
+                    Lowest Entry </h1>
+                </div>
+              </div>
+              <div class="tp-caption  tp-resizeme" data-x="left" data-hoffset="400" data-y="top" data-voffset="430" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                <div class="slide-content-box"> <a href="#">Download Now</a> </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- END REVOLUTION SLIDER --> 
+    </div>
+  </div>
+  <!--Main Slider Start--> 
+  <!--Main Content Start-->
+  <div class="main-content wf100"> 
+    <!--Slide tabs start-->
+    <div class="slider-tabs wf100">
+      <div class="container">
+        <div class="row">
+          <ul>
+            <li class="col-lg-4">
+              <div class="slidetab-box"> <span>01</span>
+                <h6><a href="#">Create Your Team</a></h6>
+                <strong>No Credit Issues</strong> </div>
+            </li>
+            <li class="col-lg-4">
+              <div class="slidetab-box"> <span>02</span>
+                <h6><a href="#">Join Contest</a></h6>
+                <strong>Lowest Entry Fee</strong> </div>
+            </li>
+            <li class="col-lg-4">
+              <div class="slidetab-box"> <span>03</span>
+                <h6><a href="#">WIN Real Cash</a> </h6>
+                <strong>Instant Withdrawal</strong> </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--Slide tabs end--> 
+    <!--Sports Widgets Start-->
+    <section class="wf100 p80">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6"> 
+            <!--Next Match Widget Start-->
+            <div class="next-match-widget">
+              <h5 class="title">Next Match</h5>
+              <div class="nmw-wrap">
+                <ul class="match-teams-vs" style="padding-bottom: 0px;">
+                  <li class="team-logo"><img src="images/mlogo1.png" alt=""> <strong>FC Champs</strong> </li>
+                  <li class="mvs"> <strong class="vs">VS</strong> </li>
+                  <li class="team-logo"><img src="images/mlogo2.png" alt=""> <strong>Tigers</strong> </li>
+                </ul>
+                <ul class="nmw-txt">
+                  <li><strong>Super Euro League</strong></li>
+                  <li>20 December, 2020</li>
+                  <li>04:00 PM GMT+</li>
+                  <li><span>New Expo Stadium, NYK</span></li>
+                </ul>
+                <div class="defaultCountdown"></div>
+                <div class="buy-ticket"><a href="#">Buy Your Ticket</a></div>
+              </div>
+            </div>
+            <!--Next Match Widget End--> 
+          </div>
+          <div class="col-lg-4 col-md-6"> 
+            <!--Next Match Fixtures Width Start  -->
+           
+            @foreach($matches as $key => $match)
+            <?php if($key>2) { continue; } ?>
+            <div class="next-match-fixtures">
+              <ul class="match-teams-vs" style="padding-bottom:0px">
+                <li class="team-logo"><img src="{{$match->teama->logo_url}}" alt="" height="50px"> <strong>{{
+                  $match->teama->short_name
+                }}</strong> </li>
+                <li class="mvs"> 
+                  <strong class="vs">VS</strong> </li>
+                <li class="team-logo"><img src="{{$match->teamb->logo_url}}" alt="" height="50px"> <strong>{{
+                  $match->teamb->short_name
+                }}</strong> </li>
+              </ul>
+              <ul class="nmf-loc">
+                <li><i class="fas fa-location-arrow"></i> {{
+                    date('d M Y, h:iA',$match->timestamp_start)
+                  }}</li>
+                <li><a href="#"><i class="fas fa-ticket-alt"></i> Join Contest</a></li>
+              </ul>
+            </div>
+           @endforeach
+          </div>
+          <div class="col-lg-4">
+            <div class="point-table-widget">
+              <table>
+                <thead>
+                  <tr> 
+                    <th colspan="3">Upcoming MatchES</th>  
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  @foreach($matches as  $key => $all)
+                  <tr>
+                    <td>{{++$key}}</td>
+                    <td><img src="images/tl-logo1.png" alt=""> <strong>{{
+                      $all->short_title
+                    }}</strong></td>
+                    <td> {{
+                    date('d M y, h:iA',$all->timestamp_start)
+                  }}</td> 
+                  </tr>
+                  @endforeach
+                  
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <div>
-        
-              <input type="text" name="link" style="">
-              <span style="float: right;">Get Download Link</span>
-      </div> -->
     </section>
-
-    
-
-       <!-- about works -->
-
-    <section class="ftco-section ftco-services-2" style="background:linear-gradient(to right,#ffffff,#00bade); margin-top:0px">
-            <div class="container">
-                <div class="row">
-          <div class="col-md-4 heading-section ftco-animate">
-            <span class="subheading">Steps</span>
-            <h2 class="mb-4">Our Steps</h2>
-           
-            <div class="media block-6 services text-center d-block pt-md-5 mt-md-5">
-              <div class="icon justify-content-center align-items-center d-flex"><span>1</span></div>
-              <div class="media-body p-md-3">
-                <h3 class="heading mb-3">Check Out Contest For the League</h3>
-                <p class="mb-5">You are allowed to check over the participating teams based on the previous match
-listings, and you can also check the entry ticket amount.</p>
-                <hr>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate mt-lg-5">
-            <div class="media block-6 services text-center d-block mt-lg-5 pt-md-5 pt-lg-4">
-              <div class="icon justify-content-center align-items-center d-flex"><span>2</span></div>
-              <div class="media-body p-md-3">
-                <h3 class="heading mb-3">Create your Best Team</h3>
-                <p class="mb-5"  style="color: #000">{{env('company_name')}} gives you an opportunity to organize the best team, choosing from real-life
-players and get paid for your knowledge & expertise by winning the cash rewards.
-</p>
-                <hr>
-              </div>
-            </div>      
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services text-center d-block">
-              <div class="icon justify-content-center align-items-center d-flex"><span>3</span></div>
-              <div class="media-body p-md-3">
-                <h3 class="heading mb-3">Pay Small And Win Big</h3>
-                <p class="mb-5" style="color: #000">Pay small and win big is the concept of winning a considerable amount by taking part in
-the contest with a small token of entry amount. Not just this, but also all the participants
-are getting rewarded based on their ranks.</p>
-                <hr>
-              </div>
-            </div>      
+    <!--Sports Widgets End--> 
+    <!--Banner Size 920 x 100 Start-->
+    <div class="banner-wrap text-center wf100 mb-80"> <img src="https://www.ninja11.in/storage/uploads/banner/1627770326re3%20(3).png" alt="" width="75%" height="200px"> </div>
+    <!--Banner Size 920 x 100 End--> 
+    <!--News & Media Gallery Start-->
+     
+    <!--News & Media Gallery End--> 
+    <!--Team Squad Start-->
+    <section class="team-squad wf100 p80-50">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-title white">
+              <h2>How to Play Fantasy Cricket at Ninja11?</h2>
+              <a class="full-team" href="#">Walkthough</a> </div>
           </div>
         </div>
+        <div class="row"> 
+          <!--Player Box Start-->
+          <div class="col-md-6">
+            <div class="player-box">
+              <div class="player-thumb"><img src="{{url('webmedia/screenshots/1.jpeg')}}" alt="" width="100%"></div>
+              <div class="player-txt"> <span class="star-tag"><i class="fas fa-star"></i></span>
+                <h3>Choose Match</h3>
+                <strong class="player-desi">Your Favourite Match</strong>
+                <p> Here, You will get list of all upcoming matches. Select Match you want to play. </p>
+                
+                <a class="playerbio" href="#">Your best Squad <i class="far fa-arrow-alt-circle-right"></i></a> <a href="#" class="follow">Follow</a> </div>
             </div>
-            
-        </section>  
-        <!-- Screenshot -->
-
-        
-    
-        <section class="service-area " id="howork-section" style="margin-top: 50px">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="section-tittle text-center heading-section">
-                            <span class="subheading">Help with NINJA11</span>
-                            <h2>How Can We Help with</h2>
-                        </div>
-                    </div>
-                </div>
-                <!-- Section caption -->
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                                <span class="flaticon-businessman"></span>
-                            </div> 
-                            <div class="service-cap">
-                                <h4><a href="#">Easily Manage</a></h4>
-                                <p></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption active text-center mb-30">
-                            <div class="service-icon">
-                                <span class="flaticon-pay"></span>
-                            </div> 
-                            <div class="service-cap">
-                                <h4><a href="#">Get Payments Easily</a></h4>
-                                <p></p>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                                <span class="flaticon-plane"></span>
-                            </div> 
-                            <div class="service-cap">
-                                <h4><a href="#">Quick Messaging</a></h4>
-                                <p></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> 
-   
-    
-    <div class="jumbotron jumbotron-fluid" style="margin: 0px">
-          <div class="container center">
-            <h1>Reach us at {{env('company_email')}} <span  style="
-    background: burlywood;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 25px;
-">
-                <a href="{{url('apk')}}" target="_blank">
-            Download Official App</span> </h1>
-                </a>
           </div>
-      </div> 
+          <!--Player Box End--> 
+          <!--Player Box Start-->
+          <div class="col-md-6">
+            <div class="player-box">
+              <div class="player-thumb"><img src="{{url('webmedia/screenshots/2.jpeg')}}" alt="" width="100%"></div>
+              <div class="player-txt"> <span class="star-tag"><i class="fas fa-star"></i></span>
+                <h3>Create Team</h3>
+                <strong class="player-desi">Your Squad Is Here</strong>
+                <p>Select your best squad without any credit issues, no limit on player selection</p>
+               
+                <a class="playerbio" href="#">Now Save Your Team <i class="far fa-arrow-alt-circle-right"></i></a> <a href="#" class="follow">Follow</a> </div>
+            </div>
+          </div>
+          <!--Player Box End--> 
+          <!--Player Box Start-->
+          <div class="col-md-6">
+            <div class="player-box">
+              <div class="player-thumb"><img src="{{url('webmedia/screenshots/3.jpeg')}}" alt="" width="100%"></div>
+              <div class="player-txt"> <span class="star-tag"><i class="fas fa-star"></i></span>
+                <h3>Join Contest</h3>
+                <strong class="player-desi">All Contest</strong>
+                <p>Here, You will get list all contest including Mega Contest, Bonus Contest, Small League and Free GiveAway.</p>
+                 
+                <a class="playerbio" href="#">Join Contest Here <i class="far fa-arrow-alt-circle-right"></i></a> <a href="#" class="follow">Follow</a> </div>
+            </div>
+          </div>
+          <!--Player Box End--> 
+          <!--Player Box Start-->
+          <div class="col-md-6">
+            <div class="player-box">
+              <div class="player-thumb"><img src="{{url('webmedia/screenshots/4.jpeg')}}" alt="" width="100%"></div>
+              <div class="player-txt"> <span class="star-tag"><i class="fas fa-star"></i></span>
+                <h3>Withdrawl Money</h3>
+                <strong class="player-desi">Your Wallet</strong>
+                <p> Here, You will get your account details. Your Deposit, Bonus and Your Winning. You can take money in Paytm, BANK and UPI </p>
+                 
+                <a class="playerbio" href="#">Instant Withdrawal <i class="far fa-arrow-alt-circle-right"></i></a> <a href="#" class="follow">Follow</a> </div>
+            </div>
+          </div>
+          <!--Player Box End--> 
+        </div>
+      </div>
+    </section>
+    <!--Team Squad End--> 
+    <!--Shop Products Start-->
+    
+    <!--Shop Products End--> 
+    
+   
+  <!--Sponsor Logos Start-->
+  <section class="sponsor-logos wf100">
+    <div class="container">
+      <ul class="row">
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos1.png" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos2.png" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos3.png" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos4.png" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos5.png" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos6.png" alt=""></a> </li>
+      </ul>
+    </div>
+  </section>
+  <!--Sponsor Logos End--> 
+  <!--Tweets + Banner Start-->
+  <section class="tweets-banner wf100">
+    <div class="container">
+      <div class="row">
+      <div class="col-md-12"><div class="section-title white">
+            <h2>Recent Comments</h2>
+          </div></div>
+      </div>    
+          
+          <ul class="row">
+            <li class="col-md-4">
+              <div class="tweet-box"> <a href="#" class="tshare"><i class="fas fa-share"></i></a>
+                <h5>Yuvraj</h5>
+                <p>Best Fantasy App</p>
+                <div class="tw-foot"> @yuvraj<br>
+                  03 Dec, 2020 <i class="fab fa-twitter"></i> </div>
+              </div>
+            </li>
+            <li class="col-md-4">
+              <div class="tweet-box active"> <a href="#" class="tshare"><i class="fas fa-share"></i></a>
+                <h5>Fancode</h5>
+                <p>My favorite Fantasy App </p>
+                <div class="tw-foot"> @fancode11<br>
+                  05 Jan, 2021 <i class="fab fa-twitter"></i> </div>
+              </div>
+            </li>
+            
+            <li class="col-md-4">
+              <div class="tweet-box"> <a href="#" class="tshare"><i class="fas fa-share"></i></a>
+                <h5>Pankaj</h5>
+                <p>Best Customer Support ever seen!! </p>
+                <div class="tw-foot"> @pankaj<br>
+                  10 April, 2021 <i class="fab fa-twitter"></i> </div>
+              </div>
+            </li>
+            
+          </ul>
+      
+        
+    </div>
+    
+  </section>
+  <!--Tweets + Banner End--> 
+</div>
+<!--Main Content End--> 
