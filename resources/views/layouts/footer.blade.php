@@ -1,4 +1,4 @@
-@if($remove_header===false)
+@if(!isset($remove_header) || $remove_header===false)
 <!--Main Footer Start-->
 <footer class="wf100 main-footer">
   <div class="container">

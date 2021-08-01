@@ -21,6 +21,7 @@ use App\Models\ReferralCode;
 use Session;
 use App\User;
 use App\Models\WalletTransaction;
+use App\Models\Wallet;
 
 
 class HomeController extends BaseController
@@ -48,7 +49,12 @@ class HomeController extends BaseController
             ->where('reference_code',$user->referal_code)
             ->get();
 
-      
+        $myAffiliate = User::select('id','name','team_name')
+            ->where('reference_code',$user->referal_code)
+            ->whereIn('id', WalletTransaction::where('payment_type',3)
+                    ->pluck('user_id')
+                    ->toArray())
+            ->get();
 
         $total_user = $myAffiliate->count();
 
@@ -76,9 +82,7 @@ class HomeController extends BaseController
 
         $remove_header = true;
         if($request->get('request')=='mobile'){
-
             $remove_header = true;
-
         }
             
          return view('myAffiliate',compact('myAffiliate','total_deposit','total_winning','total_user','user','commission','remove_header'));
