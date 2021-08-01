@@ -37,7 +37,7 @@
         @if($remove_header==false)
         
         @endif
-          <div class="col-md-12">     
+          <div class="col-md-12" style="margin-top:10px">     
             <div class="faq_content wow fadeIn animated" data-wow-delay="400ms">
               
               <h2 class="heading heading_space wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
@@ -83,7 +83,7 @@
 
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
-               <table class="table-striped" cellpadding="10" cellspacing="2">
+               <table class="table table-striped" cellpadding="5" cellspacing="2">
                  <tr align="center">
                    <td><b>Name</b></td> 
                      <td><b>Deposit</b></td>
