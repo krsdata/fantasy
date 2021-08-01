@@ -15,7 +15,7 @@ fan base by keeping a watch over shared posts in the feed.</p>
           <ul>
             <li><i class="fas fa-map-marker-alt"></i>{{env('company_address')}}
             </li>
-            <li><i class="fas fa-phone"></i> +91-8103194076</li>
+            <li><i class="fas fa-phone"></i> +91-{{env('company_phone')}}</li>
             <li><i class="fas fa-envelope"></i>{{env('company_email')}}</li>
           </ul>
           </address>
