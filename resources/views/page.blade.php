@@ -8,9 +8,7 @@
       <!-- Left side column. contains the logo and sidebar -->
     
     <section class="content-wrap" style="" data-section="home" data-stellar-background-ratio="0.5" id="home-section">
-      <img src="{{URL::asset('webmedia/images/cricg.jpg')}}">
-      
-      
+      <img src="{{URL::asset('webmedia/images/cricg.jpg')}}" width="100%"> 
     </section>
     @endif
 <style type="text/css">
@@ -62,11 +60,7 @@
             </h2>       
           </div>
           <div class="heading heading_space wow fadeInDown animated" style="padding: 10px">
-            {!!$content->page_content!!}
-
-            @if($content->slug=="digital-marketing")
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfWr7M8gwErWn9JVu6y6UmjcNwveRfgX35GchKJp_A1kypGcg/viewform?embedded=true" width="100%" height="1000px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-            @endif
+            {!!$content->page_content!!} 
           </div>
         </div>
 		  </div>
