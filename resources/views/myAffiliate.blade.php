@@ -33,7 +33,7 @@
   <!--Section: Content-->
   <section  id="termscondition" data-aos="fade-up">
       <div class="container">
-           <div class="row">
+           <div class="row justify-content-end">
         @if($remove_header==false)
         
         @endif
