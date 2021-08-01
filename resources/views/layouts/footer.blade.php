@@ -90,10 +90,10 @@ fan base by keeping a watch over shared posts in the feed.</p>
         <ul class="quick-links">
           <li><a href="{{url('/')}}">Home</a></li>
           <li><a href="{{url('about-us')}}">About Us</a></li>
-          <li><a href="{{url('comming-soon')}}">Fixtures</a></li>
-          <li><a href="{{url('comming-soon')}}">Completed</a></li>
-          <li><a href="{{url('comming-soon')}}">Live</a></li>
-          <li><a href="{{url('comming-soon')}}">Contact</a></li>
+          <li><a href="{{url('coming-soon')}}">Fixtures</a></li>
+          <li><a href="{{url('coming-soon')}}">Completed</a></li>
+          <li><a href="{{url('coming-soon')}}">Live</a></li>
+          <li><a href="{{url('coming-soon')}}">Contact</a></li>
         </ul>
       </div>
     </div>

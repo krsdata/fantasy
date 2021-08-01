@@ -56,14 +56,14 @@
                 </li>
                 <li class="nav-item drop-down"> <a href="">Matches</a>
                   <ul>
-                    <li><a href="{{url('comming-soon')}}">Upcoming Match</a></li>
-                    <li><a href="{{url('comming-soon')}}">Live</a></li>
-                    <li><a href="{{url('comming-soon')}}">Completed</a></li>
+                    <li><a href="{{url('coming-soon')}}">Upcoming Match</a></li>
+                    <li><a href="{{url('coming-soon')}}">Live</a></li>
+                    <li><a href="{{url('coming-soon')}}">Completed</a></li>
                      
                   </ul>
                 </li> 
                  
-                <li class="nav-item drop-down"> <a href="{{url('comming-soon')}}">Reach Us</a>
+                <li class="nav-item drop-down"> <a href="{{url('coming-soon')}}">Reach Us</a>
                  
                 </li>
                 <li class="nav-item buy-ticket"> <a href="{{'apk'}}">Download Now</a> </li>
