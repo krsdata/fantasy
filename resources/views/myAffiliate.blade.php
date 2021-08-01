@@ -82,7 +82,7 @@
         </form>
 
         <div class="collapse" id="collapseExample">
-            <div class="card card-body">
+            <div class="card">
                <table class="table table-striped" cellpadding="5" cellspacing="2">
                  <tr align="center">
                    <td><b>Name</b></td> 
