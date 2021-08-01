@@ -32,8 +32,8 @@
 
   <!--Section: Content-->
   <section  id="termscondition" data-aos="fade-up">
-      <div class="container my-5">
-           <div class="row justify-content-end">
+      <div class="container">
+           <div class="row">
         @if($remove_header==false)
         
         @endif
