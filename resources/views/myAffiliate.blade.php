@@ -63,7 +63,7 @@
                   }
                 </style>
                 <button type="button" class="form-group btn btn-primary">Referral Code: {{$user->referal_code??null}} </button>
-                  
+                  <button type="button" class="form-group btn btn-purple">My Total  Users: {{$total_registered??0}} </button>
                   <button type="button" class="form-group btn btn-secondary">My Active  Users: {{$total_user??0}} </button>
                   
                   <button type="button" class="form-group btn btn-success">Total User Deposit: {{$total_deposit??0}} INR</button>

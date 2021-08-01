@@ -45,9 +45,9 @@ class HomeController extends BaseController
         $referral = $request->user_id??'MAAHI11';
         $user = User::where('user_name',$referral)->first();
 
-        $myAffiliate = User::select('id','name','team_name')
+        $total_registered = User::select('id','name','team_name')
             ->where('reference_code',$user->referal_code)
-            ->get();
+            ->count();
 
         $myAffiliate = User::select('id','name','team_name')
             ->where('reference_code',$user->referal_code)
@@ -85,7 +85,7 @@ class HomeController extends BaseController
             $remove_header = true;
         }
             
-         return view('myAffiliate',compact('myAffiliate','total_deposit','total_winning','total_user','user','commission','remove_header'));
+         return view('myAffiliate',compact('myAffiliate','total_deposit','total_winning','total_user','user','commission','remove_header','total_registered'));
     }
 
     public function page404(Request $request){
