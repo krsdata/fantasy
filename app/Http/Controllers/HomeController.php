@@ -85,8 +85,16 @@ class HomeController extends BaseController
                     ->where('timestamp_start','>',time())
                     ->limit(10)->orderBy('timestamp_start','asc')
                     ->get();
-                     
-         return view('home',compact('matches'));
+
+        $next_matches = Matches::with('teama','teamb')->where('status',2)
+                    ->where('timestamp_start','>',time())
+                    ->where('order_by',2)
+                    ->limit(2)
+                    ->orderBy('timestamp_start','desc')
+                    ->get();
+       
+                    
+        return view('home',compact('matches','next_matches'));
     }
 
     public function liveChat(Request $request){

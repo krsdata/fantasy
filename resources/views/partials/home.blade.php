@@ -84,22 +84,31 @@
           <div class="col-lg-4 col-md-6"> 
             <!--Next Match Widget Start-->
             <div class="next-match-widget">
-              <h5 class="title">Next Match</h5>
-              <div class="nmw-wrap">
+              <h5 class="title">Next Top Match</h5>
+             
+              @foreach($next_matches as $key => $next_match)
+              
+              <div class="nmw-wrap" style="margin-bottom:10px">
                 <ul class="match-teams-vs" style="padding-bottom: 0px;">
-                  <li class="team-logo"><img src="images/mlogo1.png" alt=""> <strong>FC Champs</strong> </li>
+                  <li class="team-logo"><img src="{{$next_match->teama->logo_url}}" alt="{{$next_match->teama->short_name}}" width="70px"> <strong>{{$next_match->teama->short_name}}</strong> </li>
                   <li class="mvs"> <strong class="vs">VS</strong> </li>
-                  <li class="team-logo"><img src="images/mlogo2.png" alt=""> <strong>Tigers</strong> </li>
+                  <li class="team-logo"><img src="{{$next_match->teamb->logo_url}}" alt="{{$next_match->teamb->short_name}}"  width="70px"> <strong>{{$next_match->teamb->short_name}}</strong> </li>
                 </ul>
                 <ul class="nmw-txt">
-                  <li><strong>Super Euro League</strong></li>
-                  <li>20 December, 2020</li>
-                  <li>04:00 PM GMT+</li>
-                  <li><span>New Expo Stadium, NYK</span></li>
+                <!--   <li><strong>{{$next_match->title}}</strong></li> -->
+                  <li>{{
+                    date('d M Y',$next_match->timestamp_start)
+                  }} 
+                  {{
+                    date('h:i A',$next_match->timestamp_start)
+                  }}</li>
+                 <!--  <li><span>New Expo Stadium, NYK</span></li> -->
                 </ul>
-                <div class="defaultCountdown"></div>
-                <div class="buy-ticket"><a href="#">Buy Your Ticket</a></div>
+               <!--  <div class="defaultCountdown"></div> -->
+              <!--   <div class="buy-ticket"><a href="{{'apk'}}">Download App</a></div> -->
               </div>
+               @endforeach
+
             </div>
             <!--Next Match Widget End--> 
           </div>

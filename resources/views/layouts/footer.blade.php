@@ -129,5 +129,21 @@ fan base by keeping a watch over shared posts in the feed.</p>
 <script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.parallax.min.js')}}"></script> 
 <script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.slideanims.min.js')}}"></script> 
 <script type="text/javascript" src="{{ URL::asset('webmedia/js/rev-slider/js/extensions/revolution.extension.video.min.js')}}"></script>
+
+<script type="text/javascript">
+  $(function(){
+    
+
+    // ------- countdown ------- //
+    if ($('.defaultCountdown').length) {
+        var austDay = new Date();
+        austDay = new Date(1, - 1, 21);
+        $('.defaultCountdown').countdown({
+            until: austDay
+        });
+        $('#year').text(austDay.getFullYear());
+    }
+});
+</script>
 </body>
 </html>
