@@ -4,10 +4,7 @@
     @stop
     @section('content') 
      @if($remove_header==false)
-      @include('partials.navigation')
-      <!-- Left side column. contains the logo and sidebar -->
-    
-   
+      @include('partials.navigation') 
     @endif
 <style type="text/css">
   .page_title{

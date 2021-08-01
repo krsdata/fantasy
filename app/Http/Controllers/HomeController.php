@@ -48,12 +48,7 @@ class HomeController extends BaseController
             ->where('reference_code',$user->referal_code)
             ->get();
 
-        $remove_header = false;
-        if($request->get('request')=='mobile'){
-
-            $remove_header = true;
-
-        }
+      
 
         $total_user = $myAffiliate->count();
 
@@ -79,6 +74,13 @@ class HomeController extends BaseController
 
         $total_deposit =  $myAffiliate->sum('deposit');
         $total_winning =  $myAffiliate->sum('winning'); 
+
+        $remove_header = true;
+        if($request->get('request')=='mobile'){
+
+            $remove_header = true;
+
+        }
             
          return view('myAffiliate',compact('myAffiliate','total_deposit','total_winning','total_user','user','commission','remove_header'));
     }
