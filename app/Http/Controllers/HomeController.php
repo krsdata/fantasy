@@ -95,7 +95,7 @@ class HomeController extends BaseController
 
         $matches = Matches::with('teama','teamb')->where('status',1)
                     ->where('timestamp_start','>',time())
-                    ->limit(10)->orderBy('timestamp_start','asc')
+                    ->limit(9)->orderBy('timestamp_start','asc')
                     ->get();
 
         $next_matches = Matches::with('teama','teamb')

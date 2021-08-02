@@ -142,19 +142,23 @@
               <table>
                 <thead>
                   <tr> 
-                    <th colspan="3">Upcoming MatchES</th>  
+                    <th colspan="3">Upcoming MatchesS</th>  
                   </tr>
                 </thead>
                 <tbody>
                   
                   @foreach($matches as  $key => $all)
                   <tr>
-                    <td>{{++$key}}</td>
-                    <td><img src="images/tl-logo1.png" alt=""> <strong>{{
+                     
+                    <td>
+                      <span style="margin-right: 3px">{{++$key}}</span>
+                      <img src="{{ $all->teama->logo_url }}" width="25px" alt=""> {{
                       $all->short_title
-                    }}</strong></td>
+                    }} 
+                    <img src="{{$all->teamb->logo_url}}"  width="25px" alt="" style="float: right;">
+                  </td>
                     <td> {{
-                    date('d M y, h:iA',$all->timestamp_start)
+                    date('d M, h:iA',$all->timestamp_start)
                   }}</td> 
                   </tr>
                   @endforeach
@@ -249,12 +253,12 @@
   <section class="sponsor-logos wf100">
     <div class="container">
       <ul class="row">
-        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos1.png" alt=""></a> </li>
-        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos2.png" alt=""></a> </li>
-        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos3.png" alt=""></a> </li>
-        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos4.png" alt=""></a> </li>
-        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos5.png" alt=""></a> </li>
-        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="images/sitelogos6.png" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="{{ url('webmedia/images/paytm.png')}}" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="{{ url('webmedia/images/upi.png')}}" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="{{ url('webmedia/images/phonepe.png')}}" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="{{ url('webmedia/images/visa.png')}}" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="{{ url('webmedia/images/rupay.png')}}" alt=""></a> </li>
+        <li class="col-md-2 col-4 col-sm-2"> <a href="#"><img src="{{ url('webmedia/images/internet-banking.png')}}" alt=""></a> </li>
       </ul>
     </div>
   </section>
