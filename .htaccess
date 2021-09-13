@@ -1,10 +1,10 @@
-#RewriteEngine On
-#RewriteCond %{HTTP_HOST} !^www.ninja11.in$
-#RewriteRule ^(.*)$ https://www.ninja11.in/$1 [R=301,L]
+RewriteEngine On
+RewriteCond %{HTTP_HOST} !^www.ninja11.in$
+RewriteRule ^(.*)$ https://www.ninja11.in/$1 [R=301,L]
 
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-      #  Options -MultiViews -Indexes
+        Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On

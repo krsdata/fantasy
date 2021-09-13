@@ -612,6 +612,28 @@
                                  
                             </div>
                     </div>
+                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="dashboard-stat2 bordered">
+                                <div class="display">
+                                      <div class="icon">
+                                        <i class="fa fa-folder-open-o"></i>
+                                    </div>
+                                    <div class="number">
+                                        <h3 class="font-blue-sharp">
+                                            <span data-counter="counterup" data-value="567">
+                                                <a class="btn btn-primary" data-toggle="modal" 
+                                                data-target="#UpcomingMatch" 
+                                                href="{{env('api_base_url')}}/updatePoints" 
+                                                target="_blank">Update Points </a>
+
+                                            </span>
+                                        </h3>
+                                    </div>
+                                     
+                                </div>
+                                 
+                            </div>
+                    </div>
 
                     
                 </div>

@@ -34,7 +34,20 @@ ninja 11 app download, ninja11 app, ninja 11 fantasy app ,ninja 11 fantasy app d
     <link rel="stylesheet" href="{{ URL::asset('webmedia/js/rev-slider/css/layers.css')}}" type='text/css' media='all'>
     <link rel="stylesheet" href="{{ URL::asset('webmedia/js/rev-slider/css/navigation.css')}}" type='text/css' media='all'>
     
-   
+     <!-- Global site tag (gtag.js) - Google Ads: 870996041 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-870996041"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    	gtag('js', new Date());
+
+    	gtag('config', 'AW-870996041');
+    </script>
+    <!-- Event snippet for Sign-up conversion page -->
+    <script>
+	gtag('event', 'conversion', {'send_to': 'AW-870996041/1aUZCKGjx-kCEMmwqZ8D'});
+    </script>
+
     <amp-analytics>
     <script type="application/ld+json">
        {

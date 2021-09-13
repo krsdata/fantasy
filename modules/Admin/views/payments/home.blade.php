@@ -109,6 +109,36 @@
                                                   <p class="btn @if($result->payment_type==5) btn-success @else btn-danger @endif"> 
                                                   {{$result->withdraw_status}}
                                                  </p>
+                                                 <br> <br>
+       
+                                                 <!-- Button trigger modal -->
+<a  href="https://rest.fancode11.com/api/v3/releaseFund"  class="btn btn-primary" data-toggle="modal" data-target="#releaseFund">
+  Release Fund
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="releaseFund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Release Fund</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="">
+        <button type="button" class="btn btn-primary">Send Amount</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
                                                  </td>                     
                                                 <td>  
                                                    

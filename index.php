@@ -1,10 +1,8 @@
 <?php
-if (
-    isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) &&
-    $_SERVER["HTTP_X_FORWARDED_PROTO"] == "https"
-) {
-    $_SERVER["HTTPS"] = "on";
+if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ) {
+    $_SERVER['HTTPS'] = 'on';
 }
+
 
 /**
  * Laravel - A PHP Framework For Web Artisans
