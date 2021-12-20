@@ -89,11 +89,14 @@ class AdminController extends Controller {
                         ->whereYear('date_start',date('Y'))
                         ->whereIn('status',[2])
                         ->get();
+        $timestamp = strtotime('today midnight');
 
         $today_profits = Matches::
-                        whereDate('date_start',\Carbon\Carbon::today())
+                        //
+                        where('timestamp_start','>=',$timestamp)
+                        ->orwhereDate('date_start',\Carbon\Carbon::today())
                         ->select('profit','loss') 
-                        ->whereIn('status',[2,3])
+                        ->whereIn('status',[2])
                         ->get(); 
                         
         $today_profit = $today_profits->sum('profit') - $today_profits->sum('loss'); 
@@ -179,8 +182,14 @@ class AdminController extends Controller {
 
         $monthly_revenue = ($monthly_deposit-$monthly_withdrawal);
 
+        $live_user = count(\DB::table('live_users')->select('user_id')
+                ->whereRaw('created_at >= now() - interval 30 minute')
+                ->whereNotIn('user_id',['API'])
+                ->whereNotNull('user_id')
+                ->groupBy('user_id')
+                ->get());
 
-        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg','today_deposit_paytm','today_deposit_razorpay','revenue','affiliate','today_withdrawal2','pending_doc','extra_income','monthly_withdrawal','monthly_deposit','monthly_revenue','musers_count','tinc','cj','today_profit')); 
+        return view('packages::dashboard.index',compact('joinContest_count','create_count','today_deposit','category_count','users_count','category_grp_count','page_title','page_action','viewPage','match_1','match_2','match_3','match','contest_types','banner','deposit','prize','refunded','referral','join_contest_amt','total_user','today_withdrawal','total_bonus','total_bonus_used','total_reg','today_deposit_paytm','today_deposit_razorpay','revenue','affiliate','today_withdrawal2','pending_doc','extra_income','monthly_withdrawal','monthly_deposit','monthly_revenue','musers_count','tinc','cj','today_profit','live_user')); 
     }
 
    public function profile(Request $request,Admin $users)

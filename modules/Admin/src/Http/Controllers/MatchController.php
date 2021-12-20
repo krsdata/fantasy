@@ -31,6 +31,7 @@ use App\Models\JoinContest;
 use App\Models\WalletTransaction;
 use App\Models\CreateContest;
 use App\Models\CreateTeam;
+use App\Models\Player;
 use Response; 
 /**
  * Class AdminController
@@ -713,11 +714,30 @@ class MatchController extends Controller {
 
     public function store(Request $request, Matches $program) 
     {   
-        $program->fill(Input::all()); 
-        $program->save();   
+        
+        $player_id =  $request->player_id;
+        $players   =  $request->players;
+        
+
+        if(count($players))
+        {
+            foreach($players as  $pid){
+
+                Player::where('match_id',$request->match_id)
+                        ->where('pid',$pid)
+                        ->update([
+                            'playing11' => "true"
+                        ]);
+            }
+        }elseif(count($player_id)){
+
+        }
+
+      //  $program->fill(Input::all()); 
+       // $program->save();   
          
         return Redirect::to(route('match'))
-                            ->with('flash_alert_notice', 'New Match  successfully created!');
+                            ->with('flash_alert_notice', 'Squad11 updated  successfully!');
     }
 
 

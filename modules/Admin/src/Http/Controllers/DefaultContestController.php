@@ -84,10 +84,11 @@ class DefaultContestController extends Controller {
         }
 
         $contest_type   = ContestType::pluck('contest_type','id')->toArray();
-        //dd($contest_type);
+         $contest_type[0] = "Select Contest from Drop down";
+        (ksort($contest_type));
 
-        array_unshift($contest_type,"Select Contest from Drop down");
-
+       // array_unshift($contest_type,"Select Contest from Drop down");
+      //  dd($contest_type);
         
         return view('packages::defaultContest.index', compact('defaultContest','page_title', 'page_action','sub_page_title','contest_type'));
     }

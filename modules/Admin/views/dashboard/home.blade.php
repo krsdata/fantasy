@@ -8,7 +8,8 @@
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
                             <h1>My Dashboard
-                                <small>Dashboard</small>
+                                <small>Dashboard </small>
+                                (Live users : <b>{{$live_user}})</b>
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->

@@ -112,9 +112,12 @@
                                                  <br> <br>
        
                                                  <!-- Button trigger modal -->
-<a  href="https://rest.fancode11.com/api/v3/releaseFund"  class="btn btn-primary" data-toggle="modal" data-target="#releaseFund">
+
+@if($result->payment_taken_in=="paytm" && $result->status==1 || $result->status==2 )
+<!-- <a  href="https://rest.fancode11.com/api/v3/releaseFund?user_id={{$result->user_id}}&paytm_no={{$result->paytm_num}}&withdrawal_amount={{$result->amount}}"  class="btn btn-danger" data-toggle="modal" data-target="#releaseFund">
   Release Fund
-</a>
+</a> -->
+
 
 <!-- Modal -->
 <div class="modal fade" id="releaseFund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -138,7 +141,7 @@
     </div>
   </div>
 </div>
-
+@endif
                                                  </td>                     
                                                 <td>  
                                                    
@@ -209,7 +212,7 @@
          <label>Amount</label>
          <input type="number" class="form-control" required="" readonly="" name="amount" id="amount">
          <label>Remarks</label>
-         <textarea class="form-control"  required="" name="remarks" id="service_charge"></textarea>
+         <textarea class="form-control"  required="" name="remarks" id="service_charge">Released</textarea>
       </div>
 
       <div class="modal-footer">

@@ -268,9 +268,10 @@ th, td {
 </div></td>
 
 <td>
-	
-<img src="{{$result->bankAccount->bank_passbook_url??'#'}}" width="100px" height="50px;"  data-toggle="modal" data-target="#Passbook_{{$result->id}}"> 
 
+ <img src="{{$result->bankAccount->bank_passbook_url??'#'}}" width="100px" height="50px;"  data-toggle="modal" data-target="#Passbook_{{$result->id}}"> 
+
+ 
 <!-- Modal -->
 <div class="modal fade" id="Passbook_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -282,7 +283,7 @@ th, td {
         </button>
       </div>
       <div class="modal-body">
-        <img src="{{$result->bankAccount->bank_passbook_url??'#'}}" style="width: 100%">
+        <img src="{{$result->bankAccount->bank_passbook_url??''}}" width="100%">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -313,7 +314,7 @@ Front Adhar<br>
           <h4 class="modal-title">{{$result->doc_type}}</h4>
         </div>
         <div class="modal-body">
-          <img src="{{ $result->doc_url_front }}" width="100%" height="500px" >
+          <img src="{{ $result->doc_url_front }}" width="100px" height="500px" >
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -341,7 +342,7 @@ Front Adhar<br>
           <h4 class="modal-title">{{$result->doc_type}}</h4>
         </div>
         <div class="modal-body">
-          <img src="{{ $result->doc_url_back }}" width="100%" height="500px" >
+          <img src="{{ $result->doc_url_back }}" width="100px" height="500px" >
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

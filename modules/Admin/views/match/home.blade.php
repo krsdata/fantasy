@@ -119,26 +119,24 @@
 
                                                  </td>
 
-                                                 <td> <!-- <a class="btn btn-success" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">
-                                                    update Squad
-                                                 </a> -->
+                                                 <td> 
 
-                                                 <a class="btn btn-success" data-toggle="modal" data-target="#updatesqd_{{$result->id}}" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">update Squad</a>
+                                                 <a class="btn btn-xs  btn-success" data-toggle="modal" data-target="#updatesqd_{{$result->id}}" href="{{env('api_base_url')}}/getSquadByMatch/{{$result->match_id}}?allowme=1">update Squad</a>
 
 
                                                   </td>
-                                                 <td> <a class="btn btn-success" href="{{route('defaultContest.create')}}?match_id={{$result->match_id}}">
+                                                 <td> <a class="btn btn-xs  btn-success" href="{{route('defaultContest.create')}}?match_id={{$result->match_id}}">
                                                     Add Contest
                                                  </a>
                                                   </td>
                                                  <td> 
  
-                                                <!--   <a class="btn btn-success" href="{{route('match.show',$result->id)}}?player={{$result->match_id}}">
+                                                 <!-- <a class="btn btn-success" href="{{route('match.show',$result->id)}}?player={{$result->match_id}}">
                                                     View Players
 
                                                  </a>  -->
 
-<a class=" btn btn-success" data-toggle="modal" data-target="#Players_{{$result->id}}" href="https://rest.fancode11.com/api/v3/updatePoints?match_id={{$result->match_id}}">Update Points</a>
+<a class=" btn btn-xs btn-success" data-toggle="modal" data-target="#Players_{{$result->id}}" href="https://rest.fancode11.com/api/v3/updatePoints?match_id={{$result->match_id}}">Update Points</a>
 
 <div class="modal fade" id="Players_{{$result->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-sm" role="document" style="width: 50%">
@@ -181,18 +179,21 @@
         </button>
       </div> 
       <div class="modal-body portlet-body table-responsive">
-        
+    
+    <form method="POST" action="{{url('admin/match')}}" accept-charset="UTF-8" class="form-horizontal user-form" id="user-form" enctype="multipart/form-data" novalidate="novalidate">
+      <input name="_token" type="hidden" value="{{csrf_token()}}">
+
   <table class="table table-bordered" width="100%">
-  <thead>
+    <thead>
     <tr> 
       <th scope="col">Wicket Keeper</th>
       <th scope="col">Bats Men</th>
       <th scope="col">All Rounder</th>
-      <th scope="col">Bowler</th>
-      <th scope="col"> Trump | Captain | Vice Cap </th> 
+      <th scope="col">Bowler</th><!-- 
+      <th scope="col"> Trump | Captain | Vice Cap </th> --> 
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <tr>
 
        <td> 
@@ -206,9 +207,9 @@
         @foreach($result->players['wk'] as $key => $wk)
           <tr>
             <td>
-            <input type="hidden" name="match_id" value="{{$result->match_id}}">          
+            <input type="hidden" name="player_id[]" value="{{$wk->pid}}">          
               <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="players[]" id="players_{{$result->match_id}}" value="#">  
+                <input type="checkbox" name="players[]" id="players_{{$wk->pid}}" value="{{$wk->pid}}">  
                 <span></span>
             </label>
               {{  $wk->short_name }}
@@ -241,9 +242,9 @@
         @foreach($result->players['bat'] as $key => $bat)
           <tr>
             <td>
-            <input type="hidden" name="match_id" value="{{$result->match_id}}">          
+            <input type="hidden" name="player_id[]" value="{{$bat->pid}}">          
               <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="players[]" id="players_{{$result->match_id}}" value="#">  
+                <input type="checkbox" name="players[]" id="players_{{$bat->pid}}" value="{{$bat->pid}}">  
                 <span></span>
             </label>
             {{$bat->short_name}}  <br>
@@ -274,9 +275,9 @@
         @foreach($result->players['all'] as $key => $all)
           <tr>
             <td>
-            <input type="hidden" name="match_id" value="{{$result->match_id}}">          
+            <input type="hidden" name="player_id[]" value="{{$all->pid}}">          
               <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="players[]" id="players_{{$result->match_id}}" value="#">  
+                <input type="checkbox" name="players[]" id="players_{{$all->pid}}" value="{{$all->pid}}">  
                 <span></span>
             </label>
             {{$all->short_name}} <br>
@@ -308,9 +309,9 @@
         @foreach($result->players['bowl'] as $key => $bowl)
           <tr>
             <td>
-            <input type="hidden" name="match_id" value="{{$result->match_id}}">          
+            <input type="hidden" name="player_id[]" value="{{$bowl->pid}}">          
               <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="players[]" id="players_{{$result->match_id}}" value="#">  
+                <input type="checkbox" name="players[]" id="players_{{$bowl->pid}}" value="{{$bowl->pid}}">  
                 <span></span>
             </label>
             {{$bowl->short_name}} <br>
@@ -328,51 +329,16 @@
         </table>
        @endif
       </td>   
-      
-      <td> 
-         @if(isset($result->players['bowl']))
-         <table class="table table-bordered" width="100%">
-          <tr>
-            <td>Name</td>
-            <td>T</td>
-            <td>C</td>
-            <td>VC</td>
-          </tr>
-        @foreach($result->players['bowl'] as $key => $bowl)
-          <tr>
-            <td> 
-            {{$bowl->short_name}}
-            </td>
-            <td><input type="hidden" name="match_id" value="{{$result->match_id}}">          
-              <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="t" id="t" value="{{$bowl->pid}}">
-                <span></span>
-            </label></td>
-            <td><input type="hidden" name="match_id" value="{{$result->match_id}}">          
-              <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="c" id="c" value="#">  
-                <span></span>
-            </label></td>
-            <td><input type="hidden" name="match_id" value="{{$result->match_id}}">          
-              <label class="mt-checkbox mt-checkbox-outline">
-                <input type="checkbox" name="vc" id="vc" value="#">  
-                <span></span>
-            </label></td>
-          </tr>
-              @endforeach
-        </table>
-       @endif
-      </td> 
-
-    </tr>
-     
-  </tbody>
-</table>
+    </tr> 
+    </tbody>
+  </table>
 
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Save</button>
         </div>
       </div>
+  </form>
 </div>
 </div>
 </div>
@@ -572,15 +538,19 @@
                                              <p class="btn btn-xs btn-danger">Total Loss: -₹{{$result->loss}}</p>
                                             </td> 
                         <td> 
-                            <a href="{{ route('match.edit',$result->id)}}">
-                              <button class="btn btn-success btn-xs">
+
+                          <a class="btn btn-xs btn-danger" data-toggle="modal" data-target="#Players1_{{$result->id}}">Add Playing11</a>
+                                                  <br>
+
+                            <a  href="{{ route('match.edit',$result->id)}}">
+                              <button style="margin-top: 5px;" class="btn btn-success btn-xs">
                                 <i class="fa fa-fw fa-edit" title="edit"></i>
-                                Edit 
+                                Edit Match
                               </button>
                             </a>
                             <br>
     <span style="margin-top: 5px; float: left" class="label label-{{ ($result->is_cancelled==0)?'success':'warning'}} status" id="{{$result->id}}"  data="{{$result->is_cancelled}}"  onclick="changeStatus({{$result->id}},'match')" >
-                                            {{ ($result->is_cancelled==0)?'Active':'Inactive'}}
+                              {{ ($result->is_cancelled==0)?'Active Match':'Inactive Match'}}
                                         </span>
                         </td>
                   </tr>

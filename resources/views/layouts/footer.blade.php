@@ -48,14 +48,19 @@ fan base by keeping a watch over shared posts in the feed.</p>
       <!--Footer Widget Start-->
       <div class="col-lg-3 col-md-6">
         <div class="footer-widget">
-          <h4>Recent Instagram</h4>
+          <h4>Android App Link</h4>
           <ul class="instagram">
-            <li><img src="images/insta1.jpg" alt=""></li>
+            <a href="https://ninja11.in/apk">
+              <button class="btn btn-danger"><span>Download Now</span></button>
+            </a>
+            </li>
+
+            <!-- 
             <li><img src="images/insta2.jpg" alt=""></li>
             <li><img src="images/insta3.jpg" alt=""></li>
             <li><img src="images/insta4.jpg" alt=""></li>
             <li><img src="images/insta5.jpg" alt=""></li>
-            <li><img src="images/insta6.jpg" alt=""></li>
+            <li><img src="images/insta6.jpg" alt=""></li> -->
           </ul>
         </div>
       </div>

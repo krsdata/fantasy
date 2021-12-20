@@ -86,7 +86,7 @@
             <td>  
               
                  @if($admin_email=='admin@ninja11.in')
-                <a href="https://app.ninja11.in/api/v2/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
+                <a href="{{env('api_base_url')}}/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
                     <button class="btn btn-success btn-xs">
                        Rail Logic T
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
@@ -95,7 +95,7 @@
                 @endif
                 
                 @if($admin_email=='admin@ninja11.in')
-                 <a href="https://app.ninja11.in/api/v2/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}&with_edit=1"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
+                 <a href="{{env('api_base_url')}}/railLogic?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&team_id={{$result->created_team_id}}&with_edit=1"  data-toggle="modal" data-target="#railLogic_{{$result->id}}">
                     <button class="btn btn-success btn-xs" >
                        Rail Logic E
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
@@ -115,7 +115,7 @@
                     <i class="fa fa-fw fa-eye" title="edit"></i> 
                     </button>
                 </a> <br><br>
-                <!--  <a href="https://api.ninja11.in/api/v2/joinContestfromRB?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&limit=1" target="_blank">
+                <!--  <a href="{{env('api_base_url')}}/joinContestfromRB?match_id={{$result->match_id}}&contest_id={{$result->contest_id}}&limit=1" target="_blank">
                             <button class="btn btn-success btn-sm">
                                Join Contest
                             <i class="fa fa-fw fa-eye" title="edit"></i> 

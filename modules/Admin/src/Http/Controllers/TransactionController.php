@@ -63,7 +63,6 @@ class TransactionController extends Controller {
 
     public function index(WalletTransaction $transaction, Request $request) 
     { 
-
         $page_title = 'Payment Withdraw';
         $page_action = 'View Transaction'; 
         $msg = null;
@@ -136,10 +135,27 @@ class TransactionController extends Controller {
                         END) AS withdraw_status'))
             ->orderBy('id','desc')->Paginate($this->record_per_page);
             $transaction->transform(function($item, $Key){
-                            $item->withdraw_amount = WalletTransaction::where('withdraw_status',1)
+                            /*$item->withdraw_amount = WalletTransaction::where('withdraw_status',1)
                                 ->where('payment_type',5)
                                 ->where('user_id',$item->user_id)
-                                ->sum('amount');
+                                ->sum('amount')*/;
+
+                            $amt = WalletTransaction::where('withdraw_status',1)
+                                ->where('payment_type',5)
+                                ->where('user_id',$item->user_id)
+                                ->first();
+
+                            $item->withdraw_amount =  $amt->amount??0;
+                            $item->status =  $amt->withdraw_status??0;
+
+                            $verify_documents = \DB::table('verify_documents')
+                                            ->where('user_id',$item->user_id)
+                                            ->where('doc_type','paytm')
+                                            ->first();
+
+                            $item->paytm_num = $verify_documents->doc_number??null;
+                            $item->doc_type  = $verify_documents->doc_type??null;
+                            
 
                             $item->total_balance = round(Wallet::whereIn('payment_type',[2,3,4])
                                 ->where('user_id',$item->user_id)
@@ -161,7 +177,6 @@ class TransactionController extends Controller {
 
                         
         } else {   
-
             $transaction = WalletTransaction::where('payment_type',5)
                         ->orderBy('id','desc')
                         ->select("*",
@@ -179,10 +194,22 @@ class TransactionController extends Controller {
                         ->Paginate($this->record_per_page);
                         
                         $transaction->transform(function($item, $Key){
-                            $item->withdraw_amount = WalletTransaction::where('withdraw_status',1)
+                            $amt = WalletTransaction::where('withdraw_status',1)
                                 ->where('payment_type',5)
                                 ->where('user_id',$item->user_id)
-                                ->sum('amount');
+                                ->first();
+
+                            $item->withdraw_amount =  $amt->amount??0;
+                            $item->status =  $amt->withdraw_status??0;
+
+
+                            $verify_documents = \DB::table('verify_documents')
+                                            ->where('user_id',$item->user_id)
+                                            ->where('doc_type','paytm')
+                                            ->first();
+
+                            $item->paytm_num = $verify_documents->doc_number??null;
+                            $item->doc_type  = $verify_documents->doc_type??null;
 
                             $item->total_balance = round(Wallet::whereIn('payment_type',[2,3,4])
                                 ->where('user_id',$item->user_id)
@@ -203,7 +230,8 @@ class TransactionController extends Controller {
                         });
 
         }
-        //return $transaction;
+      // return $transaction;
+
         return view('packages::payments.index', compact('transaction', 'page_title', 'page_action','msg'));
    
     }
