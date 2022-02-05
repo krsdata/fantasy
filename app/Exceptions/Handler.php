@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Throwable $exception)
-    { 
+    {
        // dd($exception);   
        if ($exception instanceof \BadMethodCallException) {
  
