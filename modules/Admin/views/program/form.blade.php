@@ -52,14 +52,23 @@
             </div> 
         </div>
 
-         <div class="form-group {{ $errors->first('amount', ' has-error') }}">
+        <div class="form-group {{ $errors->first('amount', ' has-error') }}">
+            <label class="control-label col-md-4">Deposit Required. <span class="required"> * </span></label>
+            <div class="col-md-7"> 
+                {!! Form::text('deposit',0, ['class' => 'form-control','onkeypress'=>'return isNumberKey(event)'])  !!} 
+                 
+                <span class="help-block">{{ $errors->first('deposit', ':message') }}</span>
+            </div>
+        </div>
+
+        <div class="form-group {{ $errors->first('amount', ' has-error') }}">
             <label class="control-label col-md-4">Fixed/Percentage Amt. <span class="required"> * </span></label>
             <div class="col-md-7"> 
                 {!! Form::text('amount',null, ['class' => 'form-control','data-required'=>1,'onkeypress'=>'return isNumberKey(event)'])  !!} 
                  
                 <span class="help-block">{{ $errors->first('amount', ':message') }}</span>
             </div>
-    </div>
+        </div>
 
 
 </div>
@@ -72,7 +81,7 @@
             </label>
             <div class="col-md-7"> 
 
-                {{ Form::select('promotion_type' , ['0'=>'Select Type','1'=>'Referral',2=>'Bonus'], $program->promotion_type,['class' => 'form-control']) }}
+                {{ Form::select('promotion_type' , ['0'=>'Select Type','1'=>'Referral',2=>'Bonus','Deposit'], $program->promotion_type,['class' => 'form-control']) }}
                 <span class="help-block">{{ $errors->first('promotion_type', ':message') }}</span>
             </div> 
         </div>
@@ -83,7 +92,7 @@
             </label>
             <div class="col-md-7"> 
 
-                {{ Form::select('trigger_condition', [0=>'Select Condition','1'=>'Sign Up',2=>'First Transaction'], $program->trigger_condition,['class' => 'form-control']) }}
+                {{ Form::select('trigger_condition', [0=>'Select Condition','1'=>'Sign Up',2=>'First Transaction','3'=>'Deposit'], $program->trigger_condition,['class' => 'form-control']) }}
                 <span class="help-block">{{ $errors->first('trigger_condition', ':message') }}</span>
             </div> 
         </div>

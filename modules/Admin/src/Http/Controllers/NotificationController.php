@@ -128,22 +128,33 @@ class NotificationController extends Controller {
 
     public function notifyToAll($title=null,$message=null){ 
         
-        $count =User::count();
-        $j=1;
-        for($i=1; $j<=$count; $i++) {
+        $count = \DB::table('wallet_transactions')->where('payment_type',3)
+                    ->pluck('user_id')
+                    ->toArray();
+
+        $u = User::whereIn('id',$count)
+                    ->pluck('id')->toArray();
+
+        $j=0;
+        for($i=1; $j<count($u); $i++) {
             $offset = $j;
             $j = $i*1000; 
-            $device_id = User::whereNotNull('device_id')
+
+            $uid = array_slice($u, $offset, $j, true);
+
+            $device_id = User::whereIn('id',$uid)->whereNotNull('device_id')
                   ->skip($offset)
                   ->take(1000)
                   ->pluck('device_id')
                   ->toArray();
-           
+            
+
           $data = [
               'action' => 'notify' ,
               'title' => $title ,
               'message' => $message
           ];
+
           $this->sendNotification($device_id,$data);
         } 
     }

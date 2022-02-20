@@ -494,6 +494,27 @@ if (App::environment('prod')) {
                 ]
         );
 
+	Route::bind('depositOffer', function ($value, $route) {
+            return Modules\Admin\Models\DepositOffer::find($value);
+        });
+
+        Route::resource(
+            'admin/depositOffer',
+            'Modules\Admin\Http\Controllers\DepositOfferController',
+            [
+            'names' => [
+                'edit' => 'depositOffer.edit',
+                'show' => 'depositOffer.show',
+                'destroy' => 'depositOffer.destroy',
+                'update' => 'depositOffer.update',
+                'store' => 'depositOffer.store',
+                'index' => 'depositOffer',
+                'create' => 'depositOffer.create',
+            ]
+                ]
+        );
+
+
 
         // programs
         Route::bind('reason', function ($value, $route) {
